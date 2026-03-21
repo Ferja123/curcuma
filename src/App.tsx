@@ -3,7 +3,6 @@ import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageC
 import FAQ from './components/FAQ';
 import CommentsSection from './components/CommentsSection';
 import BiologicalAnalysis from './components/BiologicalAnalysis';
-import LocationPicker from './components/LocationPicker';
 import { motion, AnimatePresence } from "motion/react";
 
 export default function LandingPage() {
@@ -33,7 +32,6 @@ export default function LandingPage() {
     hora: false,
   });
   const [paquete, setPaquete] = useState('Tratamiento Intensivo - 2 Frascos + Caja Premium (S/ 149.00)');
-  const [location, setLocation] = useState<{lat: number, lng: number} | null>(null);
 
   const [isMobile, setIsMobile] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
@@ -138,17 +136,11 @@ export default function LandingPage() {
       return;
     }
 
-    if (!location) {
-      alert('📍 Por favor, selecciona tu ubicación en el mapa. Es obligatorio para coordinar la entrega exacta.');
-      return;
-    }
-
     setIsConfirmModalOpen(true);
   };
 
   const confirmOrder = () => {
     const phoneNumber = "51919749480";
-    const mapsLink = `https://www.google.com/maps?q=${location?.lat},${location?.lng}`;
     const message = `*NUEVO PEDIDO - CÚRCUMA PREMIUM* 🌿\n\n` +
       `*Paquete:* ${paquete}\n` +
       `*Nombre:* ${formData.nombre}\n` +
@@ -157,8 +149,7 @@ export default function LandingPage() {
       (formData.ciudad !== 'Provincias' ? `*Distrito:* ${formData.distrito}\n` : '') +
       `*Dirección:* ${formData.direccion}\n` +
       `*Referencia:* ${formData.referencia}\n` +
-      `*Hora sugerida:* ${formData.hora}\n` +
-      `*Ubicación GPS:* ${mapsLink}\n\n` +
+      `*Hora sugerida:* ${formData.hora}\n\n` +
       `*Pago Contraentrega* 🚚`;
 
     const encodedMessage = encodeURIComponent(message);
@@ -747,33 +738,19 @@ export default function LandingPage() {
                 )}
               </motion.div>
               
-              {/* Ubicación */}
+              {/* Nota de Ubicación */}
               <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="md:col-span-2 pt-4">
-                <div className="space-y-4">
-                  <label className="block text-sm font-bold text-slate-700">Selecciona tu ubicación en el mapa (Obligatorio)</label>
-                  
-                  <LocationPicker location={location} setLocation={setLocation} />
-                  
-                  {location && (
-                    <p className="text-xs text-amber-600 font-bold text-center mt-1">
-                      💡 Tip: Puedes arrastrar el marcador rojo para ajustar tu ubicación exacta.
-                    </p>
-                  )}
-                </div>
-
-                {location && (
-                  <div className="w-full rounded-2xl overflow-hidden border border-green-200 bg-green-50 p-4 mt-4 flex items-center justify-between shadow-sm">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-                        <MapPin className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-green-800">Ubicación seleccionada</p>
-                        <p className="text-xs text-green-600">Lista para envío exacto</p>
-                      </div>
-                    </div>
+                <div className="w-full rounded-2xl border border-amber-200 bg-amber-50 p-5 flex items-start gap-4 shadow-sm">
+                  <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shrink-0">
+                    <MapPin className="w-6 h-6" />
                   </div>
-                )}
+                  <div>
+                    <h4 className="text-sm font-bold text-amber-900 mb-1">Paso final de confirmación</h4>
+                    <p className="text-sm text-amber-800 leading-relaxed">
+                      Como último paso, un asesor se comunicará contigo y te pedirá tu <strong>ubicación exacta en el mapa</strong> para generar la guía del transportista y asegurar que tu pedido llegue sin problemas.
+                    </p>
+                  </div>
+                </div>
               </motion.div>
             </div>
 
