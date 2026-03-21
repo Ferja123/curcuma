@@ -1,0 +1,5 @@
+{
+  "name": "Cúrcuma Premium Landing Page",
+  "description": "A premium landing page for an anti-inflammatory turmeric supplement.",
+  "requestFramePermissions": ["geolocation"]
+}
