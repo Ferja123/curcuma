@@ -3,6 +3,7 @@ import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageC
 import FAQ from './components/FAQ';
 import CommentsSection from './components/CommentsSection';
 import BiologicalAnalysis from './components/BiologicalAnalysis';
+import LocationPicker from './components/LocationPicker';
 import { motion, AnimatePresence } from "motion/react";
 
 export default function LandingPage() {
@@ -192,7 +193,7 @@ export default function LandingPage() {
     }
 
     if (!location) {
-      alert('📍 Por favor, haz clic en "Compartir mi ubicación actual". Es obligatorio para coordinar la entrega exacta.');
+      alert('📍 Por favor, selecciona tu ubicación en el mapa. Es obligatorio para coordinar la entrega exacta.');
       return;
     }
 
@@ -814,54 +815,54 @@ export default function LandingPage() {
 
               {/* Ubicación */}
               <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="md:col-span-2 pt-4">
-                <div className="space-y-3">
-                  <button 
-                    type="button" 
-                    onClick={handleGetLocation}
-                    className={`w-full py-5 rounded-xl font-bold flex items-center justify-center gap-3 transition-all border-2 shadow-sm ${
-                      locationStatus === 'success' 
-                        ? 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100' 
-                        : locationStatus === 'error'
-                        ? 'bg-red-50 text-red-700 border-red-300 hover:bg-red-100'
-                        : 'bg-slate-900 text-white hover:bg-slate-800 border-slate-900'
-                    }`}
-                  >
-                    {locationStatus === 'success' ? (
-                      <CheckCircle2 className="w-6 h-6" />
-                    ) : (
-                      <MapPin className="w-6 h-6" />
-                    )}
-                    {locationStatus === 'loading' ? 'Obteniendo ubicación...' : 
-                     locationStatus === 'success' ? 'Ubicación capturada correctamente' : 
-                     'Compartir mi ubicación actual (Obligatorio)'}
-                  </button>
+                <div className="space-y-4">
+                  <label className="block text-sm font-bold text-slate-700">Selecciona tu ubicación en el mapa (Obligatorio)</label>
+                  
+                  <LocationPicker location={location} setLocation={setLocation} />
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-500">O si prefieres, usa tu GPS:</span>
+                    <button 
+                      type="button" 
+                      onClick={handleGetLocation}
+                      className={`py-2 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all border text-sm ${
+                        locationStatus === 'success' 
+                          ? 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100' 
+                          : locationStatus === 'error'
+                          ? 'bg-red-50 text-red-700 border-red-300 hover:bg-red-100'
+                          : 'bg-white text-slate-700 hover:bg-slate-50 border-slate-300'
+                      }`}
+                    >
+                      {locationStatus === 'success' ? (
+                        <CheckCircle2 className="w-4 h-4" />
+                      ) : (
+                        <MapPin className="w-4 h-4" />
+                      )}
+                      {locationStatus === 'loading' ? 'Obteniendo...' : 
+                       locationStatus === 'success' ? 'GPS Capturado' : 
+                       'Usar mi GPS'}
+                    </button>
+                  </div>
+
                   {locationStatus === 'error' && locationFeedback?.type === 'error' && (
-                    <p className="text-red-500 text-sm font-bold flex items-center gap-1 justify-center"><Ban className="w-4 h-4"/> {locationFeedback.message}</p>
+                    <p className="text-red-500 text-sm font-bold flex items-center gap-1"><Ban className="w-4 h-4"/> {locationFeedback.message}</p>
                   )}
                   {locationStatus === 'success' && locationFeedback?.type === 'success' && (
-                    <p className="text-amber-600 text-sm font-bold flex items-center gap-1 justify-center"><CheckCircle2 className="w-4 h-4"/> {locationFeedback.message}</p>
+                    <p className="text-amber-600 text-sm font-bold flex items-center gap-1"><CheckCircle2 className="w-4 h-4"/> {locationFeedback.message}</p>
                   )}
                 </div>
 
-                {locationStatus === 'success' && location && (
-                  <div className="w-full rounded-2xl overflow-hidden border border-green-200 bg-green-50 p-4 mt-6 flex items-center justify-between shadow-sm">
+                {location && (
+                  <div className="w-full rounded-2xl overflow-hidden border border-green-200 bg-green-50 p-4 mt-4 flex items-center justify-between shadow-sm">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
                         <MapPin className="w-5 h-5" />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-green-800">Ubicación capturada</p>
+                        <p className="text-sm font-bold text-green-800">Ubicación seleccionada</p>
                         <p className="text-xs text-green-600">Lista para envío exacto</p>
                       </div>
                     </div>
-                    <a 
-                      href={`https://www.google.com/maps?q=${location.lat},${location.lng}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-bold text-green-700 underline hover:text-green-800"
-                    >
-                      Ver mapa
-                    </a>
                   </div>
                 )}
               </motion.div>
