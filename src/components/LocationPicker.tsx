@@ -27,12 +27,22 @@ function LocationMarker({ location, setLocation }: LocationPickerProps) {
 
   useEffect(() => {
     if (location) {
-      map.flyTo([location.lat, location.lng], 15);
+      map.flyTo([location.lat, location.lng], 17);
     }
   }, [location, map]);
 
   return location === null ? null : (
-    <Marker position={[location.lat, location.lng]}></Marker>
+    <Marker 
+      position={[location.lat, location.lng]}
+      draggable={true}
+      eventHandlers={{
+        dragend: (e) => {
+          const marker = e.target;
+          const position = marker.getLatLng();
+          setLocation({ lat: position.lat, lng: position.lng });
+        },
+      }}
+    ></Marker>
   );
 }
 

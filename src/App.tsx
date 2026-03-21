@@ -14,7 +14,7 @@ export default function LandingPage() {
     distrito: '',
     direccion: '',
     referencia: '',
-    fechaHora: '',
+    hora: '',
   });
   const [formErrors, setFormErrors] = useState({
     nombre: '',
@@ -22,7 +22,7 @@ export default function LandingPage() {
     distrito: '',
     direccion: '',
     referencia: '',
-    fechaHora: '',
+    hora: '',
   });
   const [touched, setTouched] = useState({
     nombre: false,
@@ -30,15 +30,13 @@ export default function LandingPage() {
     distrito: false,
     direccion: false,
     referencia: false,
-    fechaHora: false,
+    hora: false,
   });
   const [paquete, setPaquete] = useState('Tratamiento Intensivo - 2 Frascos + Caja Premium (S/ 149.00)');
   const [location, setLocation] = useState<{lat: number, lng: number} | null>(null);
-  const [locationStatus, setLocationStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const [isMobile, setIsMobile] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [locationFeedback, setLocationFeedback] = useState<{show: boolean, type: 'success' | 'error', message: string} | null>(null);
   const [timeLeft, setTimeLeft] = useState(23 * 60); // 23 minutes countdown
   const [stock, setStock] = useState(14); // Initial stock
 
@@ -84,52 +82,6 @@ export default function LandingPage() {
     }
   };
 
-  const handleGetLocation = () => {
-    setLocationStatus('loading');
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          });
-          setLocationStatus('success');
-          setLocationFeedback({
-            show: true,
-            type: 'success',
-            message: '¡Coordenadas obtenidas con éxito!'
-          });
-          setTimeout(() => setLocationFeedback(null), 3500);
-        },
-        (error) => {
-          console.error(error);
-          setLocationStatus('error');
-          let errorMessage = 'No pudimos obtener tu ubicación. Por favor, asegúrate de darle permisos de ubicación a tu navegador.';
-          if (error.code === 1) {
-            errorMessage = 'Permiso denegado. Por favor, habilita el acceso a la ubicación en tu navegador para continuar.';
-          } else if (error.code === 2) {
-            errorMessage = 'La información de ubicación no está disponible en este momento.';
-          } else if (error.code === 3) {
-            errorMessage = 'Se agotó el tiempo de espera para obtener la ubicación. Inténtalo de nuevo.';
-          }
-          setLocationFeedback({
-            show: true,
-            type: 'error',
-            message: errorMessage
-          });
-        },
-        { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
-      );
-    } else {
-      setLocationStatus('error');
-      setLocationFeedback({
-        show: true,
-        type: 'error',
-        message: 'Tu navegador no soporta geolocalización.'
-      });
-    }
-  };
-
   const validateField = (name: string, value: string) => {
     let error = '';
     if (!value.trim()) {
@@ -142,12 +94,6 @@ export default function LandingPage() {
     } else if (name === 'distrito' && formData.ciudad !== 'Provincias') {
       if (!value.trim()) {
         error = 'Selecciona un distrito';
-      }
-    } else if (name === 'fechaHora') {
-      const selectedDate = new Date(value);
-      const now = new Date();
-      if (selectedDate <= now) {
-        error = 'La fecha y hora sugerida debe ser en el futuro';
       }
     }
     setFormErrors(prev => ({ ...prev, [name]: error }));
@@ -176,7 +122,7 @@ export default function LandingPage() {
     const isDistritoValid = formData.ciudad === 'Provincias' ? true : validateField('distrito', formData.distrito);
     const isDireccionValid = validateField('direccion', formData.direccion);
     const isReferenciaValid = validateField('referencia', formData.referencia);
-    const isFechaHoraValid = validateField('fechaHora', formData.fechaHora);
+    const isHoraValid = validateField('hora', formData.hora);
 
     setTouched({
       nombre: true,
@@ -184,10 +130,10 @@ export default function LandingPage() {
       distrito: true,
       direccion: true,
       referencia: true,
-      fechaHora: true,
+      hora: true,
     });
 
-    if (!isNombreValid || !isTelefonoValid || !isDistritoValid || !isDireccionValid || !isReferenciaValid || !isFechaHoraValid) {
+    if (!isNombreValid || !isTelefonoValid || !isDistritoValid || !isDireccionValid || !isReferenciaValid || !isHoraValid) {
       alert('⚠️ Por favor, corrige los errores en el formulario.');
       return;
     }
@@ -211,7 +157,7 @@ export default function LandingPage() {
       (formData.ciudad !== 'Provincias' ? `*Distrito:* ${formData.distrito}\n` : '') +
       `*Dirección:* ${formData.direccion}\n` +
       `*Referencia:* ${formData.referencia}\n` +
-      `*Fecha y Hora sugerida:* ${formData.fechaHora}\n` +
+      `*Hora sugerida:* ${formData.hora}\n` +
       `*Ubicación GPS:* ${mapsLink}\n\n` +
       `*Pago Contraentrega* 🚚`;
 
@@ -219,16 +165,6 @@ export default function LandingPage() {
     window.open(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`, '_blank');
     setIsConfirmModalOpen(false);
   };
-
-  const now = new Date();
-  const pad = (n: number) => n.toString().padStart(2, '0');
-  const formatDateTime = (date: Date) => {
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
-  };
-  const minDateTime = formatDateTime(now);
-  const maxDate = new Date(now);
-  maxDate.setDate(maxDate.getDate() + 3);
-  const maxDateTime = formatDateTime(maxDate);
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-gray-900">
@@ -788,67 +724,40 @@ export default function LandingPage() {
                 )}
               </motion.div>
               
-              {/* Día y hora */}
+              {/* Hora */}
               <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 mb-2">Día y hora que quiere recibir</label>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Hora que quiere recibir</label>
                 <input 
-                  type="datetime-local" 
-                  name="fechaHora"
-                  value={formData.fechaHora}
+                  type="time" 
+                  name="hora"
+                  value={formData.hora}
                   onChange={handleInputChange}
                   onBlur={handleBlur}
-                  min={minDateTime}
-                  max={maxDateTime}
                   className={`w-full px-5 py-4 rounded-xl border focus:ring-2 focus:outline-none transition-all text-slate-900 bg-white ${
-                    touched.fechaHora && formErrors.fechaHora 
+                    touched.hora && formErrors.hora 
                       ? 'border-red-500 focus:ring-red-500 bg-red-50' 
-                      : touched.fechaHora && !formErrors.fechaHora
+                      : touched.hora && !formErrors.hora
                       ? 'border-amber-500 focus:ring-amber-500 bg-amber-50'
                       : 'border-amber-400 focus:ring-amber-500 focus:border-amber-500'
                   }`}
                   required
                 />
-                {touched.fechaHora && formErrors.fechaHora && (
-                  <p className="text-red-500 text-xs mt-2 font-bold flex items-center gap-1"><Ban className="w-3 h-3"/> {formErrors.fechaHora}</p>
+                {touched.hora && formErrors.hora && (
+                  <p className="text-red-500 text-xs mt-2 font-bold flex items-center gap-1"><Ban className="w-3 h-3"/> {formErrors.hora}</p>
                 )}
               </motion.div>
-
+              
               {/* Ubicación */}
               <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="md:col-span-2 pt-4">
                 <div className="space-y-4">
                   <label className="block text-sm font-bold text-slate-700">Selecciona tu ubicación en el mapa (Obligatorio)</label>
                   
                   <LocationPicker location={location} setLocation={setLocation} />
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500">O si prefieres, usa tu GPS:</span>
-                    <button 
-                      type="button" 
-                      onClick={handleGetLocation}
-                      className={`py-2 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all border text-sm ${
-                        locationStatus === 'success' 
-                          ? 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100' 
-                          : locationStatus === 'error'
-                          ? 'bg-red-50 text-red-700 border-red-300 hover:bg-red-100'
-                          : 'bg-white text-slate-700 hover:bg-slate-50 border-slate-300'
-                      }`}
-                    >
-                      {locationStatus === 'success' ? (
-                        <CheckCircle2 className="w-4 h-4" />
-                      ) : (
-                        <MapPin className="w-4 h-4" />
-                      )}
-                      {locationStatus === 'loading' ? 'Obteniendo...' : 
-                       locationStatus === 'success' ? 'GPS Capturado' : 
-                       'Usar mi GPS'}
-                    </button>
-                  </div>
-
-                  {locationStatus === 'error' && locationFeedback?.type === 'error' && (
-                    <p className="text-red-500 text-sm font-bold flex items-center gap-1"><Ban className="w-4 h-4"/> {locationFeedback.message}</p>
-                  )}
-                  {locationStatus === 'success' && locationFeedback?.type === 'success' && (
-                    <p className="text-amber-600 text-sm font-bold flex items-center gap-1"><CheckCircle2 className="w-4 h-4"/> {locationFeedback.message}</p>
+                  
+                  {location && (
+                    <p className="text-xs text-amber-600 font-bold text-center mt-1">
+                      💡 Tip: Puedes arrastrar el marcador rojo para ajustar tu ubicación exacta.
+                    </p>
                   )}
                 </div>
 
@@ -918,8 +827,8 @@ export default function LandingPage() {
                 <span className="font-medium text-gray-900">{formData.direccion}</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Fecha y Hora</span>
-                <span className="font-medium text-gray-900">{new Date(formData.fechaHora).toLocaleString('es-PE')}</span>
+                <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Hora</span>
+                <span className="font-medium text-gray-900">{formData.hora}</span>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
                 <span className="font-bold text-gray-900">Total a Pagar (Contraentrega):</span>
@@ -945,46 +854,6 @@ export default function LandingPage() {
                 CONFIRMAR MI COMPRA
               </button>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* 9. Location Feedback Modal */}
-      {locationFeedback?.show && (
-        <div className="fixed inset-0 bg-black/60 z-[110] flex items-center justify-center p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl w-full max-w-sm p-8 relative shadow-2xl animate-in fade-in zoom-in duration-300 text-center">
-            {locationFeedback.type === 'error' && (
-              <button 
-                onClick={() => setLocationFeedback(null)} 
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            )}
-            <div className="flex justify-center mb-4">
-              {locationFeedback.type === 'success' ? (
-                <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center">
-                  <MapPin className="w-8 h-8" />
-                </div>
-              ) : (
-                <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
-                  <Ban className="w-8 h-8" />
-                </div>
-              )}
-            </div>
-            <h3 className={`text-xl font-bold mb-2 ${locationFeedback.type === 'success' ? 'text-amber-600' : 'text-red-600'}`}>
-              {locationFeedback.type === 'success' ? '¡Ubicación Exitosa!' : 'Error de Ubicación'}
-            </h3>
-            <p className="text-gray-600 mb-6">{locationFeedback.message}</p>
-            
-            {locationFeedback.type === 'error' && (
-              <button
-                onClick={() => setLocationFeedback(null)}
-                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 rounded-xl transition-colors"
-              >
-                Entendido
-              </button>
-            )}
           </div>
         </div>
       )}
