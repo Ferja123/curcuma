@@ -57,7 +57,7 @@ export default function LocationPicker({ location, setLocation }: LocationPicker
       
       {!location && (
         <div className="absolute inset-0 z-[400] pointer-events-none flex items-center justify-center bg-white/30 backdrop-blur-[1px]">
-          <div className="bg-slate-900 text-white px-5 py-3 rounded-full font-bold text-sm shadow-xl pointer-events-auto flex items-center gap-2 animate-bounce">
+          <div className="bg-slate-900 text-white px-5 py-3 rounded-full font-bold text-sm shadow-xl flex items-center gap-2 animate-bounce">
             <MapPin className="w-5 h-5" />
             Toca el mapa para elegir tu ubicación
           </div>
