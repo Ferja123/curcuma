@@ -3,13 +3,17 @@ import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageC
 import FAQ from './components/FAQ';
 import CommentsSection from './components/CommentsSection';
 import BiologicalAnalysis from './components/BiologicalAnalysis';
-import { motion, AnimatePresence } from "motion/react";
+import EditableImage from './components/EditableImage';
+import EditableCarousel from './components/EditableCarousel';
+import { IMAGES } from './config/images';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function LandingPage() {
   const [formData, setFormData] = useState({
     nombre: '',
     telefono: '',
-    ciudad: 'Lima Metropolitana',
+    ciudad: '',
     distrito: '',
     direccion: '',
     referencia: '',
@@ -18,6 +22,7 @@ export default function LandingPage() {
   const [formErrors, setFormErrors] = useState({
     nombre: '',
     telefono: '',
+    ciudad: '',
     distrito: '',
     direccion: '',
     referencia: '',
@@ -26,6 +31,7 @@ export default function LandingPage() {
   const [touched, setTouched] = useState({
     nombre: false,
     telefono: false,
+    ciudad: false,
     distrito: false,
     direccion: false,
     referencia: false,
@@ -39,6 +45,12 @@ export default function LandingPage() {
   const [stock, setStock] = useState(14); // Initial stock
 
   useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 100,
+    });
+
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -89,10 +101,6 @@ export default function LandingPage() {
       if (!phoneRegex.test(value)) {
         error = 'Ingresa un número válido de 9 dígitos (ej. 999888777)';
       }
-    } else if (name === 'distrito' && formData.ciudad !== 'Provincias') {
-      if (!value.trim()) {
-        error = 'Selecciona un distrito';
-      }
     }
     setFormErrors(prev => ({ ...prev, [name]: error }));
     return error === '';
@@ -117,7 +125,8 @@ export default function LandingPage() {
     
     const isNombreValid = validateField('nombre', formData.nombre);
     const isTelefonoValid = validateField('telefono', formData.telefono);
-    const isDistritoValid = formData.ciudad === 'Provincias' ? true : validateField('distrito', formData.distrito);
+    const isCiudadValid = validateField('ciudad', formData.ciudad);
+    const isDistritoValid = validateField('distrito', formData.distrito);
     const isDireccionValid = validateField('direccion', formData.direccion);
     const isReferenciaValid = validateField('referencia', formData.referencia);
     const isHoraValid = validateField('hora', formData.hora);
@@ -125,13 +134,14 @@ export default function LandingPage() {
     setTouched({
       nombre: true,
       telefono: true,
+      ciudad: true,
       distrito: true,
       direccion: true,
       referencia: true,
       hora: true,
     });
 
-    if (!isNombreValid || !isTelefonoValid || !isDistritoValid || !isDireccionValid || !isReferenciaValid || !isHoraValid) {
+    if (!isNombreValid || !isTelefonoValid || !isCiudadValid || !isDistritoValid || !isDireccionValid || !isReferenciaValid || !isHoraValid) {
       alert('⚠️ Por favor, corrige los errores en el formulario.');
       return;
     }
@@ -146,7 +156,7 @@ export default function LandingPage() {
       `*Nombre:* ${formData.nombre}\n` +
       `*Teléfono:* ${formData.telefono}\n` +
       `*Ciudad:* ${formData.ciudad}\n` +
-      (formData.ciudad !== 'Provincias' ? `*Distrito:* ${formData.distrito}\n` : '') +
+      `*Distrito:* ${formData.distrito}\n` +
       `*Dirección:* ${formData.direccion}\n` +
       `*Referencia:* ${formData.referencia}\n` +
       `*Hora sugerida:* ${formData.hora}\n\n` +
@@ -159,12 +169,16 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-gray-900">
+      {/* Top Banner */}
+      <div className="bg-emerald-800 text-white text-center py-2.5 px-4 font-bold text-sm tracking-widest shadow-md sticky top-0 z-50 flex items-center justify-center gap-3 uppercase">
+        <Sparkles className="w-4 h-4 text-emerald-300" />
+        Envío Gratis a todo el Perú | Supralab
+        <Sparkles className="w-4 h-4 text-emerald-300" />
+      </div>
       
       {/* Creative Floating Stock Badge */}
-      <motion.div 
-        initial={{ opacity: 0, x: -100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1, duration: 0.6, type: "spring" }}
+      <div 
+        data-aos="fade-right" data-aos-delay="1000"
         className="fixed bottom-6 md:bottom-8 left-4 z-40 bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl border border-red-100 p-3 flex items-center gap-3 max-w-[260px] cursor-pointer hover:scale-105 transition-transform"
         onClick={() => scrollToForm()}
       >
@@ -180,53 +194,46 @@ export default function LandingPage() {
             Solo quedan <span className="text-red-600 text-base">{stock}</span> unidades
           </p>
         </div>
-      </motion.div>
+      </div>
 
       {/* 1. HeroSection */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 overflow-hidden">
+      <section data-aos="fade-up" className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-50 to-orange-50 -z-10 rounded-3xl"></div>
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse"></div>
         <div className="absolute top-48 -left-24 w-72 h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse" style={{ animationDelay: '2s' }}></div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
-          <motion.div 
-            initial="hidden"
-            animate="visible"
-            variants={{
-              visible: { transition: { staggerChildren: 0.15 } },
-              hidden: {}
-            }}
+          <div 
+            data-aos="fade-right"
             className="order-2 md:order-1 space-y-6"
           >
-            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-100 text-red-700 font-bold text-sm mb-2 shadow-sm border border-red-200">
+            <div data-aos="fade-up" data-aos-delay="100" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-100 text-red-700 font-bold text-sm mb-2 shadow-sm border border-red-200">
               <Flame className="w-4 h-4" />
               ¡Últimas {stock} unidades en stock!
-            </motion.div>
-            <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight tracking-tight">
+            </div>
+            <h1 data-aos="fade-up" data-aos-delay="200" className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight tracking-tight">
               Recupera tu Movilidad y <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">Dile Adiós al Dolor</span> Hoy Mismo.
-            </motion.h1>
-            <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="text-lg md:text-xl text-gray-700 leading-relaxed font-medium">
+            </h1>
+            <p data-aos="fade-up" data-aos-delay="300" className="text-lg md:text-xl text-gray-700 leading-relaxed font-medium">
               El secreto natural que está cambiando vidas en TikTok. Cúrcuma de ultra-alta pureza (95%) con pimienta negra para una absorción 2000% mayor.
-            </motion.p>
-            <motion.button 
-              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }}
+            </p>
+            <button 
+              data-aos="fade-up" data-aos-delay="400"
               onClick={() => scrollToForm()}
               className="w-full md:w-auto bg-[#25D366] hover:bg-[#20bd5a] text-white text-lg md:text-xl font-black py-5 px-8 rounded-2xl shadow-xl transition-all hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-3"
             >
               🛒 CONFIRMAR MI COMPRA
-            </motion.button>
-            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="flex items-center gap-2 text-sm text-gray-600 font-bold bg-white/50 inline-block p-2 rounded-lg">
+            </button>
+            <div data-aos="fade-up" data-aos-delay="500" className="flex items-center gap-2 text-sm text-gray-600 font-bold bg-white/50 inline-block p-2 rounded-lg">
               <div className="flex text-amber-500">
                 {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
               </div>
               Más de 1,200 clientes en todo el Perú ya viven sin dolor.
-            </motion.div>
-          </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            </div>
+          </div>
+          <div 
+            data-aos="fade-left" data-aos-delay="200"
             className="order-1 md:order-2 relative bg-gray-100 rounded-3xl aspect-square md:aspect-[4/3] flex items-center justify-center overflow-hidden shadow-xl group"
           >
             {/* Badge Últimas Unidades en la imagen */}
@@ -235,71 +242,58 @@ export default function LandingPage() {
               ¡ÚLTIMAS {stock} UNIDADES!
             </div>
             
-            <img 
-              src="/image_4.jpg" 
-              alt="Cúrcuma Premium" 
+            <EditableCarousel 
+              id="heroCarousel"
+              initialImages={["/image_5.jpg", "/image_6.jpg", "/image_7.jpg", "/image_8.jpg"]} 
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              referrerPolicy="no-referrer"
-              loading="lazy"
+              autoPlayInterval={3000}
             />
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* 2. TrustBadges */}
-      <motion.section 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        variants={{
-          visible: { transition: { staggerChildren: 0.1 } },
-          hidden: {}
-        }}
+      <section 
+        data-aos="fade-up"
         className="bg-white border-y border-amber-100 py-8"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <motion.div variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } } }} className="flex flex-col items-center gap-3">
+            <div data-aos="zoom-in" data-aos-delay="100" className="flex flex-col items-center gap-3">
               <Leaf className="w-8 h-8 text-amber-600" />
               <span className="font-medium text-gray-700">100% Vegano</span>
-            </motion.div>
-            <motion.div variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } } }} className="flex flex-col items-center gap-3">
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="200" className="flex flex-col items-center gap-3">
               <ShieldCheck className="w-8 h-8 text-amber-600" />
               <span className="font-medium text-gray-700">Calidad Certificada</span>
-            </motion.div>
-            <motion.div variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } } }} className="flex flex-col items-center gap-3">
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="300" className="flex flex-col items-center gap-3">
               <CheckCircle2 className="w-8 h-8 text-amber-600" />
               <span className="font-medium text-gray-700">Sin Gluten</span>
-            </motion.div>
-            <motion.div variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } } }} className="flex flex-col items-center gap-3">
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="400" className="flex flex-col items-center gap-3">
               <Ban className="w-8 h-8 text-amber-600" />
               <span className="font-medium text-gray-700">Sin Ingredientes Artificiales</span>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 3. BenefitsSection */}
-      <motion.section 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={{
-          visible: { transition: { staggerChildren: 0.15 } },
-          hidden: {}
-        }}
+      <section 
+        data-aos="fade-up"
         className="py-20 bg-slate-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.h2 variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="text-3xl md:text-4xl font-bold text-center text-slate-900 mb-16">
+          <h2 data-aos="fade-up" className="text-3xl md:text-4xl font-bold text-center text-slate-900 mb-16">
             Recupera tu Movilidad y tu Energía Natural
-          </motion.h2>
+          </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div variants={{ hidden: { opacity: 0, x: -50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } } }} className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <img src="/image_2.jpg" alt="Beneficios de la Cúrcuma" className="w-full h-auto object-cover" referrerPolicy="no-referrer" loading="lazy" />
-            </motion.div>
+            <div data-aos="fade-right" className="relative rounded-3xl overflow-hidden shadow-2xl">
+              <EditableImage id="beneficiosImage" initialSrc={IMAGES.beneficios} alt="Beneficios de la Cúrcuma" className="w-full h-auto object-cover" referrerPolicy="no-referrer" loading="lazy" />
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div data-aos="fade-up" data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Activity className="w-5 h-5 text-amber-600" />
@@ -309,8 +303,8 @@ export default function LandingPage() {
                 <p className="text-gray-600 text-sm leading-relaxed">
                   Desinflama rodillas, espalda y articulaciones para que vuelvas a moverte sin dolor.
                 </p>
-              </motion.div>
-              <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="200" className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Flame className="w-5 h-5 text-amber-600" />
@@ -320,8 +314,8 @@ export default function LandingPage() {
                 <p className="text-gray-600 text-sm leading-relaxed">
                   Fórmula con Pimienta Negra y Aceite MCT asegura que tu cuerpo absorba cada miligramo.
                 </p>
-              </motion.div>
-              <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="300" className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Shield className="w-5 h-5 text-amber-600" />
@@ -331,8 +325,8 @@ export default function LandingPage() {
                 <p className="text-gray-600 text-sm leading-relaxed">
                   Enriquecido con Propóleo de Abeja y Jengibre para fortalecer tus defensas.
                 </p>
-              </motion.div>
-              <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="400" className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Heart className="w-5 h-5 text-amber-600" />
@@ -342,8 +336,8 @@ export default function LandingPage() {
                 <p className="text-gray-600 text-sm leading-relaxed">
                   Ayuda a mantener un corazón sano y mejora la circulación sanguínea.
                 </p>
-              </motion.div>
-              <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 sm:col-span-2">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="500" className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 sm:col-span-2">
                 <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Brain className="w-5 h-5 text-amber-600" />
@@ -353,35 +347,30 @@ export default function LandingPage() {
                 <p className="text-gray-600 text-sm leading-relaxed">
                   Protege tu cerebro del estrés oxidativo y apoya la memoria y la concentración.
                 </p>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 4. PricingOffer */}
-      <motion.section 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={{
-          visible: { transition: { staggerChildren: 0.2 } },
-          hidden: {}
-        }}
+      <section 
+        data-aos="fade-up"
         className="py-20 bg-white"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <motion.div variants={{ hidden: { opacity: 0, x: -50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } } }} className="relative bg-white rounded-3xl aspect-square md:aspect-[4/3] flex items-center justify-center overflow-hidden shadow-xl border border-amber-100 group">
-              <img 
-                src={paquete.includes('2 Frascos') ? '/image_1.jpg' : '/image_3.jpg'} 
+            <div data-aos="fade-right" className="relative bg-white rounded-3xl aspect-square md:aspect-[4/3] flex items-center justify-center overflow-hidden shadow-xl border border-amber-100 group">
+              <EditableImage 
+                id={paquete.includes('2 Frascos') ? "paqueteDosFrascosImage" : "paqueteUnFrascoImage"}
+                initialSrc={paquete.includes('2 Frascos') ? IMAGES.paqueteDosFrascos : IMAGES.paqueteUnFrasco} 
                 alt="Oferta Especial" 
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 referrerPolicy="no-referrer"
                 loading="lazy"
               />
-            </motion.div>
-            <motion.div variants={{ hidden: { opacity: 0, x: 50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } } }} className="space-y-6">
+            </div>
+            <div data-aos="fade-left" className="space-y-6">
               <h2 className="text-3xl font-bold text-slate-900 mb-4">Elige tu Tratamiento</h2>
               
               <div className="bg-red-100 text-red-700 p-4 rounded-xl mb-6 flex items-center justify-center gap-2 font-bold text-lg animate-pulse">
@@ -421,10 +410,10 @@ export default function LandingPage() {
                   Confirmar mi compra
                 </button>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Biological Analysis Section */}
       <BiologicalAnalysis />
@@ -433,14 +422,8 @@ export default function LandingPage() {
       <CommentsSection />
 
       {/* 5. OrderForm */}
-      <motion.section 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={{
-          visible: { transition: { staggerChildren: 0.1 } },
-          hidden: {}
-        }}
+      <section 
+        data-aos="fade-up"
         id="formulario-compra" 
         className="py-24 relative overflow-hidden"
       >
@@ -451,19 +434,19 @@ export default function LandingPage() {
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-slate-50 to-transparent -z-10"></div>
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="text-center mb-12">
+          <div data-aos="fade-up" className="text-center mb-12">
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
               Completa tus datos para coordinar tu entrega
             </h2>
             <p className="text-amber-400 text-lg md:text-xl font-medium tracking-wide">
               Paga en casa al recibir tu producto. ¡Sin riesgos!
             </p>
-          </motion.div>
+          </div>
           
-          <motion.form variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl space-y-8 relative z-10" onSubmit={handleSubmit}>
+          <form data-aos="fade-up" data-aos-delay="100" className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl space-y-8 relative z-10" onSubmit={handleSubmit}>
             
             {/* Creative Stock Indicator in Form */}
-            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="bg-red-50 border border-red-100 rounded-2xl p-5 mb-8 relative overflow-hidden">
+            <div className="bg-red-50 border border-red-100 rounded-2xl p-5 mb-8 relative overflow-hidden">
               <div className="absolute top-0 left-0 h-1 bg-red-500 w-[15%] animate-pulse"></div>
               <div className="flex items-center justify-between mb-3">
                 <span className="text-red-600 font-bold text-sm flex items-center gap-1.5 uppercase tracking-wider">
@@ -482,10 +465,10 @@ export default function LandingPage() {
               <p className="text-xs text-red-500 font-medium text-right flex items-center justify-end gap-1">
                 <Activity className="w-3 h-3" /> 36 personas viendo esto ahora
               </p>
-            </motion.div>
+            </div>
 
             {/* Mostrar el paquete seleccionado */}
-            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="bg-amber-50/80 p-6 rounded-2xl border border-amber-200 mb-8">
+            <div data-aos="fade-up" data-aos-delay="200" className="bg-amber-50/80 p-6 rounded-2xl border border-amber-200 mb-8">
               <label className="block text-sm font-bold text-slate-800 uppercase tracking-wider mb-4">Selecciona tu paquete:</label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button
@@ -513,11 +496,11 @@ export default function LandingPage() {
                   <span className="text-xl">S/ 149.00</span>
                 </button>
               </div>
-            </motion.div>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Nombre Completo */}
-              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }}>
+              <div data-aos="fade-up" data-aos-delay="300">
                 <label className="block text-sm font-bold text-slate-700 mb-2">Nombres Completos</label>
                 <input 
                   type="text" 
@@ -538,10 +521,10 @@ export default function LandingPage() {
                 {touched.nombre && formErrors.nombre && (
                   <p className="text-red-500 text-xs mt-2 font-bold flex items-center gap-1"><Ban className="w-3 h-3"/> {formErrors.nombre}</p>
                 )}
-              </motion.div>
+              </div>
 
               {/* Teléfono */}
-              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }}>
+              <div data-aos="fade-up" data-aos-delay="400">
                 <label className="block text-sm font-bold text-slate-700 mb-2">Teléfono (WhatsApp)</label>
                 <input 
                   type="tel" 
@@ -562,113 +545,58 @@ export default function LandingPage() {
                 {touched.telefono && formErrors.telefono && (
                   <p className="text-red-500 text-xs mt-2 font-bold flex items-center gap-1"><Ban className="w-3 h-3"/> {formErrors.telefono}</p>
                 )}
-              </motion.div>
+              </div>
               
               {/* Ciudad */}
-              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="md:col-span-1">
+              <div data-aos="fade-up" data-aos-delay="500" className="md:col-span-1">
                 <label className="block text-sm font-bold text-slate-700 mb-2">Ciudad</label>
-                <select
+                <input 
+                  type="text" 
                   name="ciudad"
                   value={formData.ciudad}
-                  onChange={(e) => {
-                    handleInputChange(e);
-                    setFormData(prev => ({ ...prev, distrito: '' }));
-                  }}
+                  onChange={handleInputChange}
                   onBlur={handleBlur}
-                  className="w-full px-5 py-4 rounded-xl border border-amber-400 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:outline-none transition-all bg-white text-slate-900"
-                >
-                  <option value="Lima Metropolitana">Lima Metropolitana</option>
-                  <option value="Callao">Callao</option>
-                  <option value="Provincias">Provincias</option>
-                </select>
-              </motion.div>
+                  placeholder="Ej. Lima, Arequipa..."
+                  className={`w-full px-5 py-4 rounded-xl border focus:ring-2 focus:outline-none transition-all text-slate-900 bg-white ${
+                    touched.ciudad && formErrors.ciudad 
+                      ? 'border-red-500 focus:ring-red-500 bg-red-50' 
+                      : touched.ciudad && !formErrors.ciudad
+                      ? 'border-amber-500 focus:ring-amber-500 bg-amber-50'
+                      : 'border-amber-400 focus:ring-amber-500 focus:border-amber-500'
+                  }`}
+                  required
+                />
+                {touched.ciudad && formErrors.ciudad && (
+                  <p className="text-red-500 text-xs mt-2 font-bold flex items-center gap-1"><Ban className="w-3 h-3"/> {formErrors.ciudad}</p>
+                )}
+              </div>
 
               {/* Distrito */}
-              {formData.ciudad !== 'Provincias' ? (
-                <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="md:col-span-1">
-                  <label className="block text-sm font-bold text-slate-700 mb-2">Distrito</label>
-                  <select
-                    name="distrito"
-                    value={formData.distrito}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                    className={`w-full px-5 py-4 rounded-xl border focus:ring-2 focus:outline-none transition-all bg-white text-slate-900 ${
-                      touched.distrito && formErrors.distrito 
-                        ? 'border-red-500 focus:ring-red-500 bg-red-50' 
-                        : touched.distrito && !formErrors.distrito
-                        ? 'border-amber-500 focus:ring-amber-500 bg-amber-50'
-                        : 'border-amber-400 focus:ring-amber-500 focus:border-amber-500'
-                    }`}
-                    required
-                  >
-                    <option value="">Selecciona tu distrito...</option>
-                    {formData.ciudad === 'Lima Metropolitana' ? (
-                      <>
-                        <option value="Ancón">Ancón</option>
-                        <option value="Ate">Ate</option>
-                        <option value="Barranco">Barranco</option>
-                        <option value="Breña">Breña</option>
-                        <option value="Carabayllo">Carabayllo</option>
-                        <option value="Chaclacayo">Chaclacayo</option>
-                        <option value="Chorrillos">Chorrillos</option>
-                        <option value="Cieneguilla">Cieneguilla</option>
-                        <option value="Comas">Comas</option>
-                        <option value="El Agustino">El Agustino</option>
-                        <option value="Independencia">Independencia</option>
-                        <option value="Jesús María">Jesús María</option>
-                        <option value="La Molina">La Molina</option>
-                        <option value="La Victoria">La Victoria</option>
-                        <option value="Lince">Lince</option>
-                        <option value="Los Olivos">Los Olivos</option>
-                        <option value="Lurigancho">Lurigancho</option>
-                        <option value="Lurín">Lurín</option>
-                        <option value="Magdalena del Mar">Magdalena del Mar</option>
-                        <option value="Miraflores">Miraflores</option>
-                        <option value="Pachacámac">Pachacámac</option>
-                        <option value="Pucusana">Pucusana</option>
-                        <option value="Pueblo Libre">Pueblo Libre</option>
-                        <option value="Puente Piedra">Puente Piedra</option>
-                        <option value="Punta Hermosa">Punta Hermosa</option>
-                        <option value="Punta Negra">Punta Negra</option>
-                        <option value="Rímac">Rímac</option>
-                        <option value="San Bartolo">San Bartolo</option>
-                        <option value="San Borja">San Borja</option>
-                        <option value="San Isidro">San Isidro</option>
-                        <option value="San Juan de Lurigancho">San Juan de Lurigancho</option>
-                        <option value="San Juan de Miraflores">San Juan de Miraflores</option>
-                        <option value="San Luis">San Luis</option>
-                        <option value="San Martín de Porres">San Martín de Porres</option>
-                        <option value="San Miguel">San Miguel</option>
-                        <option value="Santa Anita">Santa Anita</option>
-                        <option value="Santa María del Mar">Santa María del Mar</option>
-                        <option value="Santa Rosa">Santa Rosa</option>
-                        <option value="Santiago de Surco">Santiago de Surco</option>
-                        <option value="Surquillo">Surquillo</option>
-                        <option value="Villa El Salvador">Villa El Salvador</option>
-                        <option value="Villa María del Triunfo">Villa María del Triunfo</option>
-                      </>
-                    ) : (
-                      <>
-                        <option value="Bellavista">Bellavista</option>
-                        <option value="Callao">Callao</option>
-                        <option value="Carmen de la Legua">Carmen de la Legua</option>
-                        <option value="La Perla">La Perla</option>
-                        <option value="La Punta">La Punta</option>
-                        <option value="Mi Perú">Mi Perú</option>
-                        <option value="Ventanilla">Ventanilla</option>
-                      </>
-                    )}
-                  </select>
-                  {touched.distrito && formErrors.distrito && (
-                    <p className="text-red-500 text-xs mt-2 font-bold flex items-center gap-1"><Ban className="w-3 h-3"/> {formErrors.distrito}</p>
-                  )}
-                </motion.div>
-              ) : (
-                <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="md:col-span-1 hidden md:block"></motion.div>
-              )}
+              <div data-aos="fade-up" data-aos-delay="600" className="md:col-span-1">
+                <label className="block text-sm font-bold text-slate-700 mb-2">Distrito</label>
+                <input 
+                  type="text" 
+                  name="distrito"
+                  value={formData.distrito}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  placeholder="Ej. Miraflores, Yanahuara..."
+                  className={`w-full px-5 py-4 rounded-xl border focus:ring-2 focus:outline-none transition-all text-slate-900 bg-white ${
+                    touched.distrito && formErrors.distrito 
+                      ? 'border-red-500 focus:ring-red-500 bg-red-50' 
+                      : touched.distrito && !formErrors.distrito
+                      ? 'border-amber-500 focus:ring-amber-500 bg-amber-50'
+                      : 'border-amber-400 focus:ring-amber-500 focus:border-amber-500'
+                  }`}
+                  required
+                />
+                {touched.distrito && formErrors.distrito && (
+                  <p className="text-red-500 text-xs mt-2 font-bold flex items-center gap-1"><Ban className="w-3 h-3"/> {formErrors.distrito}</p>
+                )}
+              </div>
 
               {/* Dirección */}
-              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="md:col-span-1">
+              <div data-aos="fade-up" data-aos-delay="700" className="md:col-span-1">
                 <label className="block text-sm font-bold text-slate-700 mb-2">Dirección de entrega</label>
                 <input 
                   type="text" 
@@ -689,10 +617,10 @@ export default function LandingPage() {
                 {touched.direccion && formErrors.direccion && (
                   <p className="text-red-500 text-xs mt-2 font-bold flex items-center gap-1"><Ban className="w-3 h-3"/> {formErrors.direccion}</p>
                 )}
-              </motion.div>
+              </div>
               
               {/* Referencia */}
-              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="md:col-span-1">
+              <div data-aos="fade-up" data-aos-delay="800" className="md:col-span-1">
                 <label className="block text-sm font-bold text-slate-700 mb-2">Referencias de la dirección</label>
                 <input 
                   type="text" 
@@ -713,10 +641,10 @@ export default function LandingPage() {
                 {touched.referencia && formErrors.referencia && (
                   <p className="text-red-500 text-xs mt-2 font-bold flex items-center gap-1"><Ban className="w-3 h-3"/> {formErrors.referencia}</p>
                 )}
-              </motion.div>
+              </div>
               
               {/* Hora */}
-              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="md:col-span-2">
+              <div data-aos="fade-up" data-aos-delay="900" className="md:col-span-2">
                 <label className="block text-sm font-bold text-slate-700 mb-2">Hora que quiere recibir</label>
                 <input 
                   type="time" 
@@ -736,10 +664,10 @@ export default function LandingPage() {
                 {touched.hora && formErrors.hora && (
                   <p className="text-red-500 text-xs mt-2 font-bold flex items-center gap-1"><Ban className="w-3 h-3"/> {formErrors.hora}</p>
                 )}
-              </motion.div>
+              </div>
               
               {/* Nota de Ubicación */}
-              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }} className="md:col-span-2 pt-4">
+              <div data-aos="fade-up" data-aos-delay="1000" className="md:col-span-2 pt-4">
                 <div className="w-full rounded-2xl border border-amber-200 bg-amber-50 p-5 flex items-start gap-4 shadow-sm">
                   <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shrink-0">
                     <MapPin className="w-6 h-6" />
@@ -751,24 +679,24 @@ export default function LandingPage() {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
 
-            <motion.button 
-              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } }}
+            <button 
+              data-aos="zoom-in" data-aos-delay="1100"
               type="submit"
               className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-black py-5 px-8 rounded-xl shadow-[0_0_40px_rgba(37,211,102,0.4)] hover:shadow-[0_0_60px_rgba(37,211,102,0.6)] transition-all flex items-center justify-center gap-3 text-xl mt-10 uppercase tracking-wide hover:scale-[1.02] animate-pulse"
               style={{ animationDuration: '2s' }}
             >
               <MessageCircle className="w-7 h-7" />
               CONFIRMAR MI COMPRA
-            </motion.button>
-            <motion.p variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.4 } } }} className="text-center text-sm text-gray-500 mt-6 flex items-center justify-center gap-2 font-medium">
+            </button>
+            <p data-aos="fade-up" data-aos-delay="1200" className="text-center text-sm text-gray-500 mt-6 flex items-center justify-center gap-2 font-medium">
               <ShieldCheck className="w-5 h-5" /> Tus datos están seguros y encriptados
-            </motion.p>
-          </motion.form>
+            </p>
+          </form>
         </div>
-      </motion.section>
+      </section>
 
       {/* FAQ Section */}
       <FAQ />
@@ -796,8 +724,8 @@ export default function LandingPage() {
                 <span className="font-medium text-gray-900">{formData.nombre}</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Ciudad/Distrito</span>
-                <span className="font-medium text-gray-900">{formData.ciudad}{formData.ciudad !== 'Provincias' ? ` - ${formData.distrito}` : ''}</span>
+                <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Ciudad / Distrito</span>
+                <span className="font-medium text-gray-900">{formData.ciudad} - {formData.distrito}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Dirección</span>

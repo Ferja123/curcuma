@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { Star, ShieldCheck, Leaf, Zap, ArrowRight, ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
@@ -22,10 +21,8 @@ export default function HeroSection() {
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16 md:pt-40 md:pb-24">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+          <div 
+            data-aos="fade-up"
             className="space-y-8"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-sm font-medium">
@@ -54,12 +51,10 @@ export default function HeroSection() {
                 <span>100% Vegano</span>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+          <div 
+            data-aos="zoom-in" data-aos-delay="200"
             className="relative"
           >
             <div className="absolute inset-0 bg-amber-200 rounded-full blur-3xl opacity-30 transform translate-x-10 translate-y-10"></div>
@@ -67,6 +62,8 @@ export default function HeroSection() {
               src="/curcuma-principal.jpg" 
               alt="Cúrcuma Antiinflamatoria Premium" 
               className="w-full h-auto rounded-2xl shadow-2xl relative z-10 object-cover aspect-[4/5] md:aspect-square" 
+              fetchPriority="high"
+              decoding="async"
             />
             <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl z-20 flex items-center gap-4 border border-stone-100">
               <div className="bg-amber-100 p-3 rounded-full">
@@ -77,7 +74,7 @@ export default function HeroSection() {
                 <p className="text-xs text-stone-500">Con Bioperine®</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>

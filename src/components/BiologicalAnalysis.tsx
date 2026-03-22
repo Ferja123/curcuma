@@ -1,6 +1,7 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { Beaker, Zap, ShieldCheck, Leaf, Activity, CheckCircle2 } from 'lucide-react';
+import { IMAGES } from '../config/images';
+import EditableImage from './EditableImage';
 
 const BiologicalAnalysis = () => {
   const features = [
@@ -40,45 +41,35 @@ const BiologicalAnalysis = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+          <div 
+            data-aos="fade-up"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 text-amber-400 font-bold text-sm mb-6 border border-amber-500/20"
           >
             <Beaker className="w-4 h-4" />
             Análisis Biológico de tu Fórmula
-          </motion.div>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+          </div>
+          <h2 
+            data-aos="fade-up" data-aos-delay="100"
             className="text-3xl md:text-5xl font-black mb-6 tracking-tight"
           >
             ¿Por qué funciona tan rápido?
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+          </h2>
+          <p 
+            data-aos="fade-up" data-aos-delay="200"
             className="text-lg text-slate-300"
           >
             Esta no es una simple "pastilla de cúrcuma". Es una Fórmula Magistral de Alta Biodisponibilidad diseñada para que tu cuerpo no desperdicie ni un miligramo.
-          </motion.p>
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left: Features List */}
           <div className="space-y-6">
             {features.map((feature, index) => (
-              <motion.div 
+              <div 
                 key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                data-aos="fade-right"
+                data-aos-delay={index * 100}
                 className="bg-slate-800/50 border border-slate-700/50 p-6 rounded-2xl hover:bg-slate-800 transition-colors"
               >
                 <div className="flex gap-4">
@@ -90,25 +81,21 @@ const BiologicalAnalysis = () => {
                     <p className="text-slate-400 text-sm leading-relaxed">{feature.description}</p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
           {/* Right: Veredicto Comercial / Highlight */}
           <div className="space-y-8">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+            <div
+              data-aos="zoom-in"
               className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-700/50"
             >
-              <img src="/image_0.jpg" alt="Información Nutricional" className="w-full h-auto object-cover" referrerPolicy="no-referrer" loading="lazy" />
-            </motion.div>
+              <EditableImage id="analisisBiologicoImage" initialSrc={IMAGES.analisisBiologico} alt="Información Nutricional" className="w-full h-auto object-cover" referrerPolicy="no-referrer" loading="lazy" />
+            </div>
             
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+            <div 
+              data-aos="zoom-in" data-aos-delay="200"
               className="relative"
             >
               <div className="bg-gradient-to-br from-amber-500 to-orange-600 p-1 rounded-3xl shadow-2xl shadow-amber-500/20">
@@ -141,7 +128,7 @@ const BiologicalAnalysis = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

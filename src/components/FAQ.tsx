@@ -31,11 +31,8 @@ export default function FAQ() {
   return (
     <section className="py-20 bg-white border-t border-amber-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+        <div 
+          data-aos="fade-up"
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 tracking-tight">
@@ -44,15 +41,13 @@ export default function FAQ() {
           <p className="text-gray-600 text-lg font-medium">
             Resolvemos todas tus dudas para que compres con total confianza.
           </p>
-        </motion.div>
+        </div>
 
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+            <div 
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
               key={index} 
               className={`border rounded-2xl transition-all duration-300 ${openIndex === index ? 'border-amber-400 bg-amber-50/30 shadow-md' : 'border-gray-200 bg-white hover:border-amber-200'}`}
             >
@@ -78,7 +73,7 @@ export default function FAQ() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

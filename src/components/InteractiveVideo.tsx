@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { Play, Pause, Volume2, VolumeX, Maximize, Info, Upload } from 'lucide-react';
-import { motion } from 'motion/react';
 
 export default function InteractiveVideo() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -60,11 +59,8 @@ export default function InteractiveVideo() {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-[120px] translate-y-1/2"></div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+        <div 
+          data-aos="fade-up"
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-amber-400">
@@ -88,13 +84,10 @@ export default function InteractiveVideo() {
             ref={fileInputRef}
             onChange={handleVideoUpload}
           />
-        </motion.div>
+        </div>
 
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+        <div 
+          data-aos="zoom-in" data-aos-delay="200"
           className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group bg-black aspect-video max-w-4xl mx-auto ring-4 ring-amber-500/10"
         >
           <video
@@ -165,7 +158,7 @@ export default function InteractiveVideo() {
               </div>
             </div>
           )}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -9,7 +9,7 @@ export default function ProductDetails() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row">
           <div className="md:w-1/2 bg-stone-200 p-12 flex items-center justify-center">
-            <img src="/curcuma-principal.jpg" alt="Frasco de Cúrcuma" className="w-full max-w-md rounded-2xl shadow-lg transform -rotate-3 hover:rotate-0 transition-transform duration-500" />
+            <img src="/curcuma-principal.jpg" alt="Frasco de Cúrcuma" className="w-full max-w-md rounded-2xl shadow-lg transform -rotate-3 hover:rotate-0 transition-transform duration-500" loading="lazy" decoding="async" />
           </div>
           <div className="md:w-1/2 p-10 md:p-16 flex flex-col justify-center">
             <div className="inline-block bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-bold mb-6 w-max">

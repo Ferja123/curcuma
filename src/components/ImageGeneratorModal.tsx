@@ -125,7 +125,7 @@ export default function ImageGeneratorModal({ isOpen, onClose, onImageGenerated,
             <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <h3 className="font-bold text-gray-800 mb-3">Resultado:</h3>
               <div className="rounded-2xl overflow-hidden border-4 border-gray-100 shadow-inner">
-                <img src={generatedImage} alt="Generated" className="w-full h-auto object-cover" />
+                <img src={generatedImage} alt="Generated" className="w-full h-auto object-cover" loading="lazy" decoding="async" />
               </div>
               <button 
                 onClick={() => {
