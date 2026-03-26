@@ -248,7 +248,7 @@ export default function LandingPage() {
             
             <EditableCarousel 
               id="heroCarousel"
-              initialImages={[]} 
+              initialImages={IMAGES.heroCarousel} 
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               autoPlayInterval={3000}
             />

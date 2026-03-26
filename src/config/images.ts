@@ -1,25 +1,29 @@
 export const IMAGES = {
   // ======================================================================
-  // 📸 INSTRUCCIONES PARA CAMBIAR LAS IMÁGENES:
-  // 1. Sube tus propias imágenes a la carpeta "public" (en el panel de archivos a la izquierda).
-  // 2. Luego, cambia el nombre aquí (ej. si subes "mi-foto.jpg", escribe "/mi-foto.jpg").
-  // 3. Opcionalmente, puedes pegar un enlace (URL) directo de cualquier imagen de internet (ej. "https://misitio.com/foto.png").
+  // 📸 IMÁGENES DEL PROYECTO
   // ======================================================================
 
-  // Imagen principal (Hero) - Aparece al inicio de la página, junto al formulario
-  hero: "",
+  // Imágenes del carrusel principal (Hero)
+  heroCarousel: [
+    "/img-1774504082044-705907543.webp",
+    "/img-1774505703552-221927732.webp",
+    "/img-1774504107153-766736699.webp"
+  ],
+
+  // Imagen principal (Hero) - Fallback
+  hero: "/img-1774504082044-705907543.webp",
   
   // Imagen de la sección de beneficios (Mitad de página)
-  beneficios: "",
+  beneficios: "/img-1774505081289-700821712.webp",
   
   // Imágenes de los paquetes en la sección de ofertas
-  paqueteTresFrascos: "",
-  paqueteDosFrascos: "",
-  paqueteUnFrasco: "",
+  paqueteTresFrascos: "/img-1774505116130-400932074.webp",
+  paqueteDosFrascos: "/img-1774505116130-400932074.webp",
+  paqueteUnFrasco: "/img-1774505116130-400932074.webp",
   
   // Imagen de la tabla nutricional o análisis biológico
-  analisisBiologico: "",
+  analisisBiologico: "/img-1774505175903-868144995.webp",
 
   // Imagen del producto principal (usada en varias secciones)
-  curcumaPrincipal: ""
+  curcumaPrincipal: "/img-1774505223290-151681735.webp"
 };
