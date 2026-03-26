@@ -1,5 +1,7 @@
 import { Star, ShieldCheck, Leaf, Zap, ArrowRight, ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import EditableImage from './EditableImage';
+import { IMAGES } from '../config/images';
 
 export default function HeroSection() {
   const { setIsCartOpen } = useCart();
@@ -58,12 +60,11 @@ export default function HeroSection() {
             className="relative"
           >
             <div className="absolute inset-0 bg-amber-200 rounded-full blur-3xl opacity-30 transform translate-x-10 translate-y-10"></div>
-            <img 
-              src="/curcuma-principal.jpg" 
+            <EditableImage 
+              id="heroImage"
+              initialSrc={IMAGES.curcumaPrincipal} 
               alt="Cúrcuma Antiinflamatoria Premium" 
               className="w-full h-auto rounded-2xl shadow-2xl relative z-10 object-cover aspect-[4/5] md:aspect-square" 
-              fetchPriority="high"
-              decoding="async"
             />
             <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl z-20 flex items-center gap-4 border border-stone-100">
               <div className="bg-amber-100 p-3 rounded-full">

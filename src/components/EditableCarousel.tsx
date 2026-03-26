@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, PanInfo } from 'motion/react';
-import { Upload, Trash2, ChevronLeft, ChevronRight, Plus, MoveLeft, MoveRight, Save, Loader2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Camera, Loader2, Trash2, Plus } from 'lucide-react';
 
 interface EditableCarouselProps {
   id: string;
@@ -10,10 +10,23 @@ interface EditableCarouselProps {
 }
 
 export default function EditableCarousel({ id, initialImages, className = "", autoPlayInterval = 5000 }: EditableCarouselProps) {
-  const [slides, setSlides] = useState<{url: string, file?: File}[]>(initialImages.map(url => ({url})));
+  const [slides, setSlides] = useState<{url: string}[]>(initialImages.map(url => ({url})));
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadMode, setUploadMode] = useState<'replace' | 'add'>('replace');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    fetch('/api/data')
+      .then(res => res.json())
+      .then(data => {
+        if (data[`carousel_${id}`]) {
+          setSlides(data[`carousel_${id}`]);
+        }
+      })
+      .catch(err => console.error("Error loading carousel data:", err));
+  }, [id]);
 
   // Auto-play functionality
   useEffect(() => {
@@ -25,117 +38,6 @@ export default function EditableCarousel({ id, initialImages, className = "", au
 
     return () => clearInterval(interval);
   }, [slides.length, isHovered, autoPlayInterval]);
-
-  // Fetch persisted carousel images on mount
-  useEffect(() => {
-    fetch('/api/data')
-      .then(res => {
-        if (!res.ok) throw new Error('Network response was not ok');
-        return res.json();
-      })
-      .then(data => {
-        if (data[id] && Array.isArray(data[id])) {
-          setSlides(data[id].map((url: string) => ({url})));
-        } else {
-          setSlides(initialImages.map(url => ({url})));
-        }
-      })
-      .catch(err => {
-        console.warn('Could not fetch persisted carousel:', err);
-        setSlides(initialImages.map(url => ({url})));
-      });
-  }, [id, JSON.stringify(initialImages)]);
-
-  const saveCarouselData = async (newSlides: {url: string, file?: File}[]) => {
-    const urlsToSave = newSlides.filter(s => !s.file).map(s => s.url);
-    try {
-      await fetch('/api/data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ [id]: urlsToSave })
-      });
-    } catch (e) {
-      console.error('Failed to save carousel data', e);
-    }
-  };
-
-  const handleAddPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      const newSlides = Array.from(files).map((file: File) => ({ url: URL.createObjectURL(file), file }));
-      setSlides(prev => [...prev, ...newSlides]);
-      setCurrentIndex(slides.length); // go to the first new image
-    }
-  };
-
-  const handleRemovePhoto = (index: number) => {
-    setSlides(prev => {
-      const newSlides = prev.filter((_, i) => i !== index);
-      saveCarouselData(newSlides);
-      return newSlides;
-    });
-    if (currentIndex >= slides.length - 1 && currentIndex > 0) {
-      setCurrentIndex(prev => prev - 1);
-    }
-  };
-
-  const handleMovePhoto = (index: number, direction: 'left' | 'right') => {
-    setSlides(prev => {
-      const newSlides = [...prev];
-      if (direction === 'left' && index > 0) {
-        [newSlides[index - 1], newSlides[index]] = [newSlides[index], newSlides[index - 1]];
-        setCurrentIndex(index - 1);
-      } else if (direction === 'right' && index < newSlides.length - 1) {
-        [newSlides[index], newSlides[index + 1]] = [newSlides[index + 1], newSlides[index]];
-        setCurrentIndex(index + 1);
-      }
-      saveCarouselData(newSlides);
-      return newSlides;
-    });
-  };
-
-  const handleReplacePhoto = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSlides(prev => {
-        const newSlides = [...prev];
-        newSlides[index] = { url: URL.createObjectURL(file), file };
-        return newSlides;
-      });
-    }
-  };
-
-  const handleSavePhoto = async (index: number) => {
-    const slide = slides[index];
-    if (!slide.file) return;
-
-    setUploadingIndex(index);
-    const formData = new FormData();
-    formData.append('image', slide.file);
-
-    try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData
-      });
-      if (!res.ok) throw new Error('Upload failed');
-      const data = await res.json();
-      if (data.url) {
-        setSlides(prev => {
-          const newSlides = [...prev];
-          newSlides[index] = { url: data.url }; // remove file, update url
-          saveCarouselData(newSlides);
-          return newSlides;
-        });
-        alert('¡Imagen guardada permanentemente!');
-      }
-    } catch (error) {
-      console.error('Error uploading:', error);
-      alert('Hubo un error al guardar la imagen. Por favor, inténtalo de nuevo.');
-    } finally {
-      setUploadingIndex(null);
-    }
-  };
 
   const nextSlide = () => {
     setCurrentIndex(prev => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -158,14 +60,135 @@ export default function EditableCarousel({ id, initialImages, className = "", au
     }
   };
 
+  const handleReplaceClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!isUploading) {
+      setUploadMode('replace');
+      fileInputRef.current?.click();
+    }
+  };
+
+  const handleAddClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!isUploading) {
+      setUploadMode('add');
+      fileInputRef.current?.click();
+    }
+  };
+
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    // Removed window.confirm as it's blocked in iframe
+
+    setIsUploading(true);
+    try {
+      const newSlides = slides.filter((_, idx) => idx !== currentIndex);
+      
+      await fetch('/api/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [`carousel_${id}`]: newSlides })
+      });
+
+      setSlides(newSlides);
+      setCurrentIndex(prev => prev >= newSlides.length ? Math.max(0, newSlides.length - 1) : prev);
+    } catch (error) {
+      console.error("Error deleting image:", error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setIsUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const uploadRes = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        
+        if (!uploadRes.ok) throw new Error('Upload failed');
+        
+        const { url } = await uploadRes.json();
+        
+        const newSlides = [...slides];
+        if (uploadMode === 'replace' && slides.length > 0) {
+          newSlides[currentIndex] = { url };
+        } else {
+          // If adding, or if it's the first image
+          if (slides.length === 0) {
+            newSlides.push({ url });
+          } else {
+            newSlides.splice(currentIndex + 1, 0, { url });
+          }
+        }
+        
+        await fetch('/api/data', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ [`carousel_${id}`]: newSlides })
+        });
+
+        setSlides(newSlides);
+        if (uploadMode === 'add' && slides.length > 0) {
+          setCurrentIndex(currentIndex + 1);
+        } else if (slides.length === 0) {
+          setCurrentIndex(0);
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      } finally {
+        setIsUploading(false);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+      }
+    }
+  };
+
   if (slides.length === 0) {
     return (
-      <div className={`flex items-center justify-center bg-slate-100 rounded-2xl border-2 border-dashed border-slate-300 ${className}`}>
-        <label className="flex flex-col items-center justify-center cursor-pointer p-8 w-full h-full">
-          <Upload className="w-8 h-8 text-slate-400 mb-2" />
-          <span className="text-slate-500 font-medium">Añadir fotos</span>
-          <input type="file" accept="image/*" multiple className="hidden" onChange={handleAddPhoto} />
-        </label>
+      <div 
+        className={`relative group/carousel overflow-hidden bg-gray-100 flex items-center justify-center min-h-[200px] cursor-pointer ${className}`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={handleAddClick}
+      >
+        <div className="flex flex-col items-center justify-center text-gray-400">
+          <Plus className="w-12 h-12 mb-2" />
+          <span className="text-sm font-medium">Click para agregar la primera imagen</span>
+        </div>
+        
+        <div className={`absolute top-4 right-4 flex flex-col gap-2 z-40 transition-opacity duration-300 ${isHovered || isUploading ? 'opacity-100' : 'opacity-0'}`}>
+          <button 
+            onClick={handleAddClick}
+            className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110"
+            title="Añadir nueva imagen"
+          >
+            <Plus className="w-5 h-5" />
+          </button>
+        </div>
+
+        {isUploading && (
+          <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-50">
+            <Loader2 className="w-12 h-12 text-white mb-2 animate-spin" />
+            <span className="text-white font-bold text-sm bg-black/50 px-3 py-1 rounded-full">
+              Actualizando...
+            </span>
+          </div>
+        )}
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          accept="image/*"
+          className="absolute w-0 h-0 opacity-0"
+        />
       </div>
     );
   }
@@ -175,6 +198,7 @@ export default function EditableCarousel({ id, initialImages, className = "", au
       className={`relative group/carousel overflow-hidden ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => setIsHovered(!isHovered)}
     >
       {/* Main Image Slider */}
       <motion.div 
@@ -197,62 +221,52 @@ export default function EditableCarousel({ id, initialImages, className = "", au
               decoding="async" 
               referrerPolicy="no-referrer" 
             />
-            
-            {/* Edit Controls Overlay */}
-            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/slide:opacity-100 transition-opacity flex flex-col items-center justify-center gap-4 z-20">
-              
-              <div className="flex flex-wrap justify-center items-center gap-2 px-4">
-                <button 
-                  onClick={(e) => { e.stopPropagation(); handleMovePhoto(idx, 'left'); }}
-                  disabled={idx === 0}
-                  className="p-2 bg-white/20 hover:bg-white/40 rounded-full text-white disabled:opacity-30 transition-colors"
-                  title="Mover a la izquierda"
-                >
-                  <MoveLeft className="w-5 h-5" />
-                </button>
-                
-                <label className="px-4 py-2 bg-white text-slate-900 rounded-full font-bold text-sm flex items-center gap-2 cursor-pointer hover:scale-105 transition-transform" onClick={e => e.stopPropagation()}>
-                  <Upload className="w-4 h-4" />
-                  Cambiar
-                  <input type="file" accept="image/*" className="hidden" onChange={(e) => handleReplacePhoto(e, idx)} />
-                </label>
-
-                {slide.file && (
-                  <button 
-                    onClick={(e) => { 
-                      e.stopPropagation(); 
-                      handleSavePhoto(idx);
-                    }}
-                    disabled={uploadingIndex === idx}
-                    className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full font-bold text-sm flex items-center gap-2 transition-transform hover:scale-105 shadow-lg disabled:opacity-70"
-                    title="Guardar imagen"
-                  >
-                    {uploadingIndex === idx ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    {uploadingIndex === idx ? 'Guardando...' : 'Guardar'}
-                  </button>
-                )}
-
-                <button 
-                  onClick={(e) => { e.stopPropagation(); handleRemovePhoto(idx); }}
-                  className="p-2 bg-red-500/80 hover:bg-red-600 rounded-full text-white transition-colors"
-                  title="Eliminar foto"
-                >
-                  <Trash2 className="w-5 h-5" />
-                </button>
-
-                <button 
-                  onClick={(e) => { e.stopPropagation(); handleMovePhoto(idx, 'right'); }}
-                  disabled={idx === slides.length - 1}
-                  className="p-2 bg-white/20 hover:bg-white/40 rounded-full text-white disabled:opacity-30 transition-colors"
-                  title="Mover a la derecha"
-                >
-                  <MoveRight className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
           </div>
         ))}
       </motion.div>
+
+      {/* Edit Controls Overlay */}
+      <div className={`absolute top-4 right-4 flex flex-col gap-2 z-40 transition-opacity duration-300 ${isHovered || isUploading ? 'opacity-100' : 'opacity-0'}`}>
+        <button 
+          onClick={handleAddClick}
+          className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110"
+          title="Añadir nueva imagen"
+        >
+          <Plus className="w-5 h-5" />
+        </button>
+        <button 
+          onClick={handleReplaceClick}
+          className="bg-amber-500 hover:bg-amber-600 text-white p-3 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110"
+          title="Cambiar esta imagen"
+        >
+          <Camera className="w-5 h-5" />
+        </button>
+        <button 
+          onClick={handleDelete}
+          className="bg-red-500 hover:bg-red-600 text-white p-3 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110"
+          title="Eliminar esta imagen"
+        >
+          <Trash2 className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Uploading Indicator */}
+      {isUploading && (
+        <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-50">
+          <Loader2 className="w-12 h-12 text-white mb-2 animate-spin" />
+          <span className="text-white font-bold text-sm bg-black/50 px-3 py-1 rounded-full">
+            Actualizando...
+          </span>
+        </div>
+      )}
+
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        accept="image/*"
+        className="absolute w-0 h-0 opacity-0"
+      />
 
       {/* Navigation Arrows */}
       {slides.length > 1 && (
@@ -271,12 +285,6 @@ export default function EditableCarousel({ id, initialImages, className = "", au
           </button>
         </>
       )}
-
-      {/* Add Photo Button (Global) */}
-      <label className="absolute bottom-4 right-4 p-3 bg-amber-500 hover:bg-amber-600 text-white rounded-full shadow-xl cursor-pointer opacity-0 group-hover/carousel:opacity-100 transition-all z-30 hover:scale-110" title="Añadir más fotos" onClick={e => e.stopPropagation()}>
-        <Plus className="w-6 h-6" />
-        <input type="file" accept="image/*" multiple className="hidden" onChange={handleAddPhoto} />
-      </label>
 
       {/* Indicators */}
       {slides.length > 1 && (

@@ -7,15 +7,19 @@ export const IMAGES = {
   // ======================================================================
 
   // Imagen principal (Hero) - Aparece al inicio de la página, junto al formulario
-  hero: "/image_4.jpg",
+  hero: "",
   
   // Imagen de la sección de beneficios (Mitad de página)
-  beneficios: "/image_2.jpg",
+  beneficios: "",
   
   // Imágenes de los paquetes en la sección de ofertas
-  paqueteDosFrascos: "/image_1.jpg",
-  paqueteUnFrasco: "/image_3.jpg",
+  paqueteTresFrascos: "",
+  paqueteDosFrascos: "",
+  paqueteUnFrasco: "",
   
   // Imagen de la tabla nutricional o análisis biológico
-  analisisBiologico: "/image_0.jpg",
+  analisisBiologico: "",
+
+  // Imagen del producto principal (usada en varias secciones)
+  curcumaPrincipal: ""
 };

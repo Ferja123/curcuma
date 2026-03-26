@@ -5,6 +5,7 @@ import CommentsSection from './components/CommentsSection';
 import BiologicalAnalysis from './components/BiologicalAnalysis';
 import EditableImage from './components/EditableImage';
 import EditableCarousel from './components/EditableCarousel';
+import Header from './components/Header';
 import { IMAGES } from './config/images';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -37,7 +38,7 @@ export default function LandingPage() {
     referencia: false,
     hora: false,
   });
-  const [paquete, setPaquete] = useState('Tratamiento Intensivo - 2 Frascos + Caja Premium (S/ 149.00)');
+  const [paquete, setPaquete] = useState('2 Frascos (S/ 139.00)');
 
   const [isMobile, setIsMobile] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
@@ -142,7 +143,7 @@ export default function LandingPage() {
     });
 
     if (!isNombreValid || !isTelefonoValid || !isCiudadValid || !isDistritoValid || !isDireccionValid || !isReferenciaValid || !isHoraValid) {
-      alert('⚠️ Por favor, corrige los errores en el formulario.');
+      // Form has errors, they will be displayed inline
       return;
     }
 
@@ -175,6 +176,9 @@ export default function LandingPage() {
         Envío Gratis a todo el Perú | Supralab
         <Sparkles className="w-4 h-4 text-emerald-300" />
       </div>
+
+      {/* Header with Navigation */}
+      <Header />
       
       {/* Creative Floating Stock Badge */}
       <div 
@@ -197,7 +201,7 @@ export default function LandingPage() {
       </div>
 
       {/* 1. HeroSection */}
-      <section data-aos="fade-up" className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 overflow-hidden">
+      <section data-aos="fade-up" className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-12 md:pt-40 md:pb-20 overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-50 to-orange-50 -z-10 rounded-3xl"></div>
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse"></div>
@@ -244,7 +248,7 @@ export default function LandingPage() {
             
             <EditableCarousel 
               id="heroCarousel"
-              initialImages={["/image_5.jpg", "/image_6.jpg", "/image_7.jpg", "/image_8.jpg"]} 
+              initialImages={[]} 
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               autoPlayInterval={3000}
             />
@@ -282,6 +286,7 @@ export default function LandingPage() {
       {/* 3. BenefitsSection */}
       <section 
         data-aos="fade-up"
+        id="beneficios"
         className="py-20 bg-slate-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -353,68 +358,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 4. PricingOffer */}
-      <section 
-        data-aos="fade-up"
-        className="py-20 bg-white"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div data-aos="fade-right" className="relative bg-white rounded-3xl aspect-square md:aspect-[4/3] flex items-center justify-center overflow-hidden shadow-xl border border-amber-100 group">
-              <EditableImage 
-                id={paquete.includes('2 Frascos') ? "paqueteDosFrascosImage" : "paqueteUnFrascoImage"}
-                initialSrc={paquete.includes('2 Frascos') ? IMAGES.paqueteDosFrascos : IMAGES.paqueteUnFrasco} 
-                alt="Oferta Especial" 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                referrerPolicy="no-referrer"
-                loading="lazy"
-              />
-            </div>
-            <div data-aos="fade-left" className="space-y-6">
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">Elige tu Tratamiento</h2>
-              
-              <div className="bg-red-100 text-red-700 p-4 rounded-xl mb-6 flex items-center justify-center gap-2 font-bold text-lg animate-pulse">
-                <Timer className="w-6 h-6" />
-                Oferta termina en: {formatTime(timeLeft)}
-              </div>
-              
-              {/* Opción 1 */}
-              <div className="bg-white border border-amber-200 p-6 rounded-2xl shadow-sm relative mt-4 md:mt-0">
-                <span className="absolute -top-4 right-6 bg-slate-900 text-amber-400 px-4 py-1.5 rounded-full text-sm font-bold shadow-md">
-                  ENVÍO GRATIS
-                </span>
-                <h3 className="text-xl font-bold text-slate-800">Tratamiento Mensual - 1 Frasco</h3>
-                <p className="text-3xl font-bold text-slate-900 mt-2">S/ 79.00</p>
-                <button 
-                  onClick={() => scrollToForm('Tratamiento Mensual - 1 Frasco (S/ 79.00)')}
-                  className="mt-6 w-full bg-white border-2 border-[#25D366] hover:bg-green-50 text-[#25D366] py-3 rounded-xl font-bold transition-colors"
-                >
-                  Confirmar mi compra
-                </button>
-              </div>
-
-              {/* Opción 2 (Destacada) */}
-              <div className="bg-white border-2 border-[#25D366] p-6 rounded-2xl relative shadow-lg transform md:scale-105">
-                <span className="absolute -top-4 right-6 bg-amber-500 text-slate-900 px-4 py-1.5 rounded-full text-sm font-bold shadow-md">
-                  ENVÍO GRATIS
-                </span>
-                <div className="inline-block bg-[#25D366] text-white px-3 py-1 rounded-full text-xs font-bold mb-3">
-                  BEST SELLER
-                </div>
-                <h3 className="text-xl font-bold text-slate-800">Tratamiento Intensivo - 2 Frascos + Caja Premium</h3>
-                <p className="text-3xl font-bold text-slate-900 mt-2">S/ 149.00</p>
-                <button 
-                  onClick={() => scrollToForm('Tratamiento Intensivo - 2 Frascos + Caja Premium (S/ 149.00)')}
-                  className="mt-6 w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-4 rounded-xl font-bold text-lg transition-colors shadow-md shadow-green-500/30"
-                >
-                  Confirmar mi compra
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Biological Analysis Section */}
       <BiologicalAnalysis />
 
@@ -429,7 +372,7 @@ export default function LandingPage() {
       >
         {/* Premium Decorative Background */}
         <div className="absolute inset-0 bg-slate-900 -z-20"></div>
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1615486171448-4afd37c1ef25?q=80&w=2000&auto=format&fit=crop')] opacity-30 bg-cover bg-center -z-10 mix-blend-luminosity"></div>
+        <div className="absolute inset-0 opacity-30 bg-cover bg-center -z-10 mix-blend-luminosity"></div>
         <div className="absolute inset-0 bg-gradient-to-br from-slate-800/90 via-slate-900/95 to-black/95 -z-10"></div>
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-slate-50 to-transparent -z-10"></div>
         
@@ -470,12 +413,12 @@ export default function LandingPage() {
             {/* Mostrar el paquete seleccionado */}
             <div data-aos="fade-up" data-aos-delay="200" className="bg-amber-50/80 p-6 rounded-2xl border border-amber-200 mb-8">
               <label className="block text-sm font-bold text-slate-800 uppercase tracking-wider mb-4">Selecciona tu paquete:</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <button
                   type="button"
-                  onClick={() => setPaquete('Tratamiento Mensual - 1 Frasco (S/ 79.00)')}
+                  onClick={() => setPaquete('1 Frasco (S/ 79.00)')}
                   className={`p-4 rounded-xl border-2 text-sm font-bold transition-all flex flex-col items-center justify-center gap-2 ${
-                    paquete === 'Tratamiento Mensual - 1 Frasco (S/ 79.00)'
+                    paquete === '1 Frasco (S/ 79.00)'
                       ? 'border-amber-500 bg-amber-500 text-white shadow-lg shadow-amber-500/20'
                       : 'border-amber-200 bg-white text-slate-700 hover:border-amber-400 hover:bg-amber-50'
                   }`}
@@ -485,15 +428,27 @@ export default function LandingPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setPaquete('Tratamiento Intensivo - 2 Frascos + Caja Premium (S/ 149.00)')}
+                  onClick={() => setPaquete('2 Frascos (S/ 139.00)')}
                   className={`p-4 rounded-xl border-2 text-sm font-bold transition-all flex flex-col items-center justify-center gap-2 ${
-                    paquete === 'Tratamiento Intensivo - 2 Frascos + Caja Premium (S/ 149.00)'
+                    paquete === '2 Frascos (S/ 139.00)'
                       ? 'border-amber-500 bg-amber-500 text-white shadow-lg shadow-amber-500/20'
                       : 'border-amber-200 bg-white text-slate-700 hover:border-amber-400 hover:bg-amber-50'
                   }`}
                 >
-                  <span className="opacity-90">2 Frascos + Caja</span>
-                  <span className="text-xl">S/ 149.00</span>
+                  <span className="opacity-90">2 Frascos</span>
+                  <span className="text-xl">S/ 139.00</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPaquete('3 Frascos (S/ 189.00)')}
+                  className={`p-4 rounded-xl border-2 text-sm font-bold transition-all flex flex-col items-center justify-center gap-2 ${
+                    paquete === '3 Frascos (S/ 189.00)'
+                      ? 'border-amber-500 bg-amber-500 text-white shadow-lg shadow-amber-500/20'
+                      : 'border-amber-200 bg-white text-slate-700 hover:border-amber-400 hover:bg-amber-50'
+                  }`}
+                >
+                  <span className="opacity-90">3 Frascos</span>
+                  <span className="text-xl">S/ 189.00</span>
                 </button>
               </div>
             </div>
@@ -645,22 +600,32 @@ export default function LandingPage() {
               
               {/* Hora */}
               <div data-aos="fade-up" data-aos-delay="900" className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 mb-2">Hora que quiere recibir</label>
-                <input 
-                  type="time" 
-                  name="hora"
-                  value={formData.hora}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className={`w-full px-5 py-4 rounded-xl border focus:ring-2 focus:outline-none transition-all text-slate-900 bg-white ${
-                    touched.hora && formErrors.hora 
-                      ? 'border-red-500 focus:ring-red-500 bg-red-50' 
-                      : touched.hora && !formErrors.hora
-                      ? 'border-amber-500 focus:ring-amber-500 bg-amber-50'
-                      : 'border-amber-400 focus:ring-amber-500 focus:border-amber-500'
-                  }`}
-                  required
-                />
+                <label className="block text-sm font-bold text-slate-700 mb-2">¿En qué horario prefieres recibirlo?</label>
+                <div className="relative">
+                  <select 
+                    name="hora"
+                    value={formData.hora}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    className={`w-full px-5 py-4 rounded-xl border appearance-none focus:ring-2 focus:outline-none transition-all text-slate-900 bg-white ${
+                      touched.hora && formErrors.hora 
+                        ? 'border-red-500 focus:ring-red-500 bg-red-50' 
+                        : touched.hora && !formErrors.hora
+                        ? 'border-amber-500 focus:ring-amber-500 bg-amber-50'
+                        : 'border-amber-400 focus:ring-amber-500 focus:border-amber-500'
+                    }`}
+                    required
+                  >
+                    <option value="" disabled>Selecciona un horario...</option>
+                    <option value="Cualquier hora (8am - 8pm)">Cualquier hora (8am - 8pm)</option>
+                    <option value="Mañana (8am - 12pm)">Mañana (8am - 12pm)</option>
+                    <option value="Tarde (12pm - 4pm)">Tarde (12pm - 4pm)</option>
+                    <option value="Noche (4pm - 8pm)">Noche (4pm - 8pm)</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-slate-500">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+                </div>
                 {touched.hora && formErrors.hora && (
                   <p className="text-red-500 text-xs mt-2 font-bold flex items-center gap-1"><Ban className="w-3 h-3"/> {formErrors.hora}</p>
                 )}
@@ -738,7 +703,7 @@ export default function LandingPage() {
               <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
                 <span className="font-bold text-gray-900">Total a Pagar (Contraentrega):</span>
                 <span className="text-xl font-black text-amber-600">
-                  {paquete.includes('149') ? 'S/ 149.00' : 'S/ 79.00'}
+                  {paquete.includes('189') ? 'S/ 189.00' : paquete.includes('139') ? 'S/ 139.00' : 'S/ 79.00'}
                 </span>
               </div>
             </div>

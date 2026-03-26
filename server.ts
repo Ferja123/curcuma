@@ -4,6 +4,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import cors from "cors";
+import sharp from "sharp";
 
 const app = express();
 const PORT = 3000;
@@ -16,17 +17,8 @@ if (!fs.existsSync(publicDir)) {
   fs.mkdirSync(publicDir, { recursive: true });
 }
 
-// Configure Multer for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, publicDir);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, "img-" + uniqueSuffix + path.extname(file.originalname));
-  },
-});
-
+// Configure Multer for file uploads using memory storage
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 app.use(express.json());
@@ -60,12 +52,29 @@ app.post("/api/data", (req, res) => {
 });
 
 // API Route for uploading images
-app.post("/api/upload", upload.single("image"), (req, res) => {
+app.post("/api/upload", upload.single("image"), async (req, res) => {
+  console.log("Upload route hit!", req.file ? "File received" : "No file", req.body);
   if (!req.file) {
+    console.error("No file uploaded!");
     return res.status(400).json({ error: "No file uploaded" });
   }
-  // Return the public URL path
-  res.json({ url: `/${req.file.filename}` });
+  
+  try {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const filename = `img-${uniqueSuffix}.webp`;
+    const filepath = path.join(publicDir, filename);
+    
+    await sharp(req.file.buffer)
+      .webp({ quality: 80 })
+      .toFile(filepath);
+      
+    console.log("File uploaded and converted to webp successfully:", filename);
+    // Return the public URL path
+    res.json({ url: `/${filename}` });
+  } catch (error) {
+    console.error("Error processing image:", error);
+    res.status(500).json({ error: "Failed to process image" });
+  }
 });
 
 // Health check

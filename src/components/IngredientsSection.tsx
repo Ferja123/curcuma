@@ -1,3 +1,6 @@
+import { IMAGES } from '../config/images';
+import EditableImage from './EditableImage';
+
 export default function IngredientsSection() {
   return (
     <section className="py-20 bg-stone-900 text-white">
@@ -42,7 +45,7 @@ export default function IngredientsSection() {
           <div className="relative">
             <div className="aspect-square rounded-full bg-stone-800 border-4 border-stone-700 flex items-center justify-center p-12 relative overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-500/20 via-transparent to-transparent"></div>
-              <img src="/curcuma-principal.jpg" alt="Ingredientes" className="w-full h-full object-cover rounded-full opacity-80 mix-blend-luminosity" loading="lazy" decoding="async" />
+              <EditableImage id="ingredientsImage" initialSrc={IMAGES.curcumaPrincipal} alt="Ingredientes" className="w-full h-full object-cover rounded-full opacity-80 mix-blend-luminosity" />
             </div>
           </div>
         </div>

@@ -33,7 +33,7 @@ const BiologicalAnalysis = () => {
   ];
 
   return (
-    <section className="py-20 bg-slate-900 text-white overflow-hidden relative">
+    <section id="analisis" className="py-20 bg-slate-900 text-white overflow-hidden relative">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-900/20 via-slate-900 to-slate-900 -z-10"></div>
       <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl -z-10"></div>

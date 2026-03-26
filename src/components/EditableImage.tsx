@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Upload, Save, Loader2 } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Camera, Loader2, Trash2, ImagePlus } from 'lucide-react';
 
 type EditableImageProps = React.ComponentProps<"img"> & {
   id: string;
@@ -9,107 +9,132 @@ type EditableImageProps = React.ComponentProps<"img"> & {
 
 export default function EditableImage({ id, initialSrc, containerClassName = "", className = "", ...props }: EditableImageProps) {
   const [src, setSrc] = useState(initialSrc);
-  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Fetch persisted image on mount or when id changes
   useEffect(() => {
     fetch('/api/data')
-      .then(res => {
-        if (!res.ok) throw new Error('Network response was not ok');
-        return res.json();
-      })
+      .then(res => res.json())
       .then(data => {
-        if (data[id]) {
-          setSrc(data[id]);
-        } else {
-          setSrc(initialSrc);
+        if (data[`image_${id}`] !== undefined) {
+          setSrc(data[`image_${id}`]);
         }
       })
-      .catch(err => {
-        console.warn('Could not fetch persisted image:', err);
-        setSrc(initialSrc);
-      });
-  }, [id, initialSrc]);
+      .catch(err => console.error("Error loading image data:", err));
+  }, [id]);
 
-  // Update state if initialSrc changes and we don't have a persisted image
-  useEffect(() => {
-    setPendingFile(null);
-  }, [initialSrc]);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setSrc(url);
-      setPendingFile(file);
+  const handleImageClick = () => {
+    if (!isUploading) {
+      fileInputRef.current?.click();
     }
   };
 
-  const handleSave = async (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!pendingFile) return;
-    
+    // Removed window.confirm as it's blocked in iframe
     setIsUploading(true);
-    const formData = new FormData();
-    formData.append('image', pendingFile);
-    
     try {
-      const res = await fetch('/api/upload', {
+      await fetch('/api/data', {
         method: 'POST',
-        body: formData
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [`image_${id}`]: "" })
       });
-      if (!res.ok) throw new Error('Upload failed');
-      const data = await res.json();
-      if (data.url) {
-        setSrc(data.url);
-        setPendingFile(null);
-        
-        // Save to data.json
-        try {
-          await fetch('/api/data', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ [id]: data.url })
-          });
-        } catch (e) {
-          console.warn('Failed to persist image data:', e);
-        }
-        
-        alert('¡Imagen guardada permanentemente!');
-      }
+      setSrc("");
     } catch (error) {
-      console.error('Error uploading:', error);
-      alert('Hubo un error al guardar la imagen. Por favor, inténtalo de nuevo.');
+      console.error("Error deleting image:", error);
     } finally {
       setIsUploading(false);
     }
   };
 
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setIsUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const uploadRes = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        
+        if (!uploadRes.ok) throw new Error('Upload failed');
+        
+        const { url } = await uploadRes.json();
+        
+        // Save to global data
+        await fetch('/api/data', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ [`image_${id}`]: url })
+        });
+
+        setSrc(url);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      } finally {
+        setIsUploading(false);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+      }
+    }
+  };
+
   return (
-    <div className={`relative group/edit w-full h-full ${containerClassName}`}>
-      <img src={src} className={className} loading="lazy" decoding="async" {...props} />
-      <label className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover/edit:opacity-100 transition-opacity cursor-pointer z-20">
-        <div className="flex flex-col items-center gap-3">
-          <div className="bg-white text-slate-900 px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 shadow-lg transform hover:scale-105 transition-transform">
-            <Upload className="w-4 h-4" />
-            Cambiar foto
-          </div>
-          {pendingFile && (
-            <button 
-              onClick={handleSave}
-              disabled={isUploading}
-              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full font-bold text-sm flex items-center gap-2 transition-transform hover:scale-105 shadow-lg disabled:opacity-70"
-              title="Guardar imagen"
-            >
-              {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              {isUploading ? 'Guardando...' : 'Guardar'}
-            </button>
-          )}
+    <div 
+      className={`relative w-full h-full group cursor-pointer bg-gray-100 flex items-center justify-center ${containerClassName}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleImageClick}
+    >
+      {src ? (
+        <img src={src} className={className} loading="lazy" decoding="async" {...props} />
+      ) : (
+        <div className="w-full h-full min-h-[150px] flex flex-col items-center justify-center text-gray-400">
+          <ImagePlus className="w-12 h-12 mb-2" />
+          <span className="text-sm font-medium">Click para agregar imagen</span>
         </div>
-        <input type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
-      </label>
+      )}
+      
+      {/* Overlay de edición visible solo al hacer hover */}
+      <div className={`absolute inset-0 bg-black/50 flex flex-col items-center justify-center transition-opacity duration-300 ${isHovered || isUploading ? 'opacity-100' : 'opacity-0'}`}>
+        {isUploading ? (
+          <>
+            <Loader2 className="w-12 h-12 text-white mb-2 animate-spin" />
+            <span className="text-white font-bold text-sm bg-black/50 px-3 py-1 rounded-full">
+              Actualizando...
+            </span>
+          </>
+        ) : (
+          <>
+            <Camera className="w-12 h-12 text-white mb-2" />
+            <span className="text-white font-bold text-sm bg-black/50 px-3 py-1 rounded-full">
+              {src ? 'Clic para cambiar imagen' : 'Clic para agregar imagen'}
+            </span>
+          </>
+        )}
+      </div>
+
+      {/* Delete Button */}
+      {src && isHovered && !isUploading && (
+        <button 
+          onClick={handleDelete}
+          className="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-lg transition-transform hover:scale-110 flex items-center gap-2 z-30 pointer-events-auto"
+          title="Eliminar imagen"
+        >
+          <Trash2 className="w-5 h-5" />
+        </button>
+      )}
+
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        accept="image/*"
+        className="absolute w-0 h-0 opacity-0"
+      />
     </div>
   );
 }
