@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 type EditableImageProps = React.ComponentProps<"img"> & {
   id: string;
@@ -7,10 +7,23 @@ type EditableImageProps = React.ComponentProps<"img"> & {
 };
 
 export default function EditableImage({ id, initialSrc, containerClassName = "", className = "", ...props }: EditableImageProps) {
+  const [src, setSrc] = useState(initialSrc);
+
+  useEffect(() => {
+    fetch('/api/data')
+      .then(res => res.json())
+      .then(data => {
+        if (data[`image_${id}`]) {
+          setSrc(data[`image_${id}`]);
+        }
+      })
+      .catch(err => console.error("Failed to fetch image data", err));
+  }, [id]);
+
   return (
     <div className={`relative w-full h-full flex items-center justify-center ${containerClassName}`}>
-      {initialSrc ? (
-        <img src={initialSrc} className={className} loading="lazy" decoding="async" {...props} />
+      {src ? (
+        <img src={src} className={className} loading="lazy" decoding="async" {...props} />
       ) : (
         <div className="w-full h-full min-h-[150px] bg-gray-100 flex items-center justify-center text-gray-400">
           <span className="text-sm font-medium">Imagen no disponible</span>

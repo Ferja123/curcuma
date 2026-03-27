@@ -14,6 +14,17 @@ export default function EditableCarousel({ id, initialImages, className = "", au
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
+  useEffect(() => {
+    fetch('/api/data')
+      .then(res => res.json())
+      .then(data => {
+        if (data[`carousel_${id}`]) {
+          setSlides(data[`carousel_${id}`]);
+        }
+      })
+      .catch(err => console.error("Failed to fetch carousel data", err));
+  }, [id]);
+
   // Auto-play functionality
   useEffect(() => {
     if (slides.length <= 1 || isHovered) return;
