@@ -418,6 +418,13 @@ export default function LandingPage() {
             <p className="text-amber-400 text-lg md:text-xl font-medium tracking-wide mb-6">
               Paga en casa al recibir tu producto. ¡Sin riesgos!
             </p>
+            <div className="flex justify-center mb-8">
+              <img 
+                src={IMAGES.curcumaPrincipal} 
+                alt="Cúrcuma Premium" 
+                className="h-48 md:h-64 object-contain drop-shadow-2xl animate-float"
+              />
+            </div>
             <div className="flex justify-center">
               <img 
                 src="/pago-contra-entrega.png" 

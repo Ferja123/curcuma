@@ -22,7 +22,7 @@ export const IMAGES = {
   paqueteUnFrasco: "/img-1774505116130-400932074.webp",
   
   // Imagen de la tabla nutricional o análisis biológico
-  analisisBiologico: "/analisis-biologico.png",
+  analisisBiologico: "/97181cab-29c6-4cf5-ad0d-f969297b0f16 (1).png",
 
   // Imagen del producto principal (usada en varias secciones)
   curcumaPrincipal: "/img-1774505223290-151681735.webp"
