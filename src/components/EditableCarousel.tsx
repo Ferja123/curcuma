@@ -16,13 +16,18 @@ export default function EditableCarousel({ id, initialImages, className = "", au
 
   useEffect(() => {
     fetch('/api/data')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) return null;
+        return res.json();
+      })
       .then(data => {
-        if (data[`carousel_${id}`]) {
+        if (data && data[`carousel_${id}`]) {
           setSlides(data[`carousel_${id}`]);
         }
       })
-      .catch(err => console.error("Failed to fetch carousel data", err));
+      .catch(() => {
+        // Silently fallback to initialImages when API is unavailable (e.g. static hosting)
+      });
   }, [id]);
 
   // Auto-play functionality

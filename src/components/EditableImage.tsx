@@ -11,13 +11,18 @@ export default function EditableImage({ id, initialSrc, containerClassName = "",
 
   useEffect(() => {
     fetch('/api/data')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) return null;
+        return res.json();
+      })
       .then(data => {
-        if (data[`image_${id}`]) {
+        if (data && data[`image_${id}`]) {
           setSrc(data[`image_${id}`]);
         }
       })
-      .catch(err => console.error("Failed to fetch image data", err));
+      .catch(() => {
+        // Silently fallback to initialSrc when API is unavailable (e.g. static hosting)
+      });
   }, [id]);
 
   return (
