@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Play, Pause, Volume2, VolumeX, Maximize, Info, Upload } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Maximize, Info } from 'lucide-react';
 
 export default function InteractiveVideo() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -7,7 +7,6 @@ export default function InteractiveVideo() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [videoSrc, setVideoSrc] = useState<string>("https://cdn.pixabay.com/video/2020/05/26/40242-425268412_large.mp4");
   const videoRef = useRef<HTMLVideoElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -38,18 +37,6 @@ export default function InteractiveVideo() {
     }
   };
 
-  const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setVideoSrc(url);
-      setIsPlaying(false);
-      if (videoRef.current) {
-        videoRef.current.load();
-      }
-    }
-  };
-
   return (
     <section className="py-24 bg-slate-900 text-white overflow-hidden relative">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1615486171448-4afd37c1ef25?q=80&w=2000&auto=format&fit=crop')] opacity-10 bg-cover bg-center mix-blend-luminosity"></div>
@@ -69,21 +56,6 @@ export default function InteractiveVideo() {
           <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-8">
             Mira cómo nuestra fórmula premium de extracción en frío preserva todos los curcuminoides activos para tu salud.
           </p>
-          
-          <button 
-            onClick={() => fileInputRef.current?.click()}
-            className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-full font-medium transition-all hover:scale-105"
-          >
-            <Upload className="w-5 h-5" />
-            Subir mi propio video
-          </button>
-          <input 
-            type="file" 
-            accept="video/*" 
-            className="hidden" 
-            ref={fileInputRef}
-            onChange={handleVideoUpload}
-          />
         </div>
 
         <div 

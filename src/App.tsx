@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageCircle, MapPin, Edit3, Star, X, Sparkles, Heart, Brain, MessageSquareQuote, PlayCircle, Upload, ChevronLeft, ChevronRight, Timer } from 'lucide-react';
+import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageCircle, MapPin, Edit3, Star, X, Sparkles, Heart, Brain, MessageSquareQuote, PlayCircle, ChevronLeft, ChevronRight, Timer, Truck } from 'lucide-react';
 import FAQ from './components/FAQ';
 import CommentsSection from './components/CommentsSection';
 import BiologicalAnalysis from './components/BiologicalAnalysis';
@@ -9,6 +9,14 @@ import Header from './components/Header';
 import { IMAGES } from './config/images';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+declare global {
+  interface Window {
+    ttq?: {
+      track: (event: string, data?: any) => void;
+    };
+  }
+}
 
 export default function LandingPage() {
   const [formData, setFormData] = useState({
@@ -163,6 +171,15 @@ export default function LandingPage() {
       `*Hora sugerida:* ${formData.hora}\n\n` +
       `*Pago Contraentrega* 🚚`;
 
+    // Track conversion with TikTok Pixel
+    if (window.ttq) {
+      window.ttq.track('CompletePayment', {
+        content_name: paquete,
+        currency: 'PEN',
+        value: paquete.includes('79') ? 79 : paquete.includes('139') ? 139 : 189
+      });
+    }
+
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`, '_blank');
     setIsConfirmModalOpen(false);
@@ -259,25 +276,35 @@ export default function LandingPage() {
       {/* 2. TrustBadges */}
       <section 
         data-aos="fade-up"
-        className="bg-white border-y border-amber-100 py-8"
+        className="bg-white border-y border-amber-100 py-16"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div data-aos="zoom-in" data-aos-delay="100" className="flex flex-col items-center gap-3">
-              <Leaf className="w-8 h-8 text-amber-600" />
-              <span className="font-medium text-gray-700">100% Vegano</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Badge 1 */}
+            <div data-aos="fade-up" data-aos-delay="100" className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
+              <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-6 text-amber-600 shadow-inner">
+                <Truck className="w-10 h-10" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Envío Gratis</h3>
+              <p className="text-slate-600 leading-relaxed">A todo el país, sin costos ocultos. Recibe tu pedido directamente en la puerta de tu casa de forma rápida y segura.</p>
             </div>
-            <div data-aos="zoom-in" data-aos-delay="200" className="flex flex-col items-center gap-3">
-              <ShieldCheck className="w-8 h-8 text-amber-600" />
-              <span className="font-medium text-gray-700">Calidad Certificada</span>
+            
+            {/* Badge 2 */}
+            <div data-aos="fade-up" data-aos-delay="200" className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
+              <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-6 text-amber-600 shadow-inner">
+                <ShieldCheck className="w-10 h-10" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Pago Seguro</h3>
+              <p className="text-slate-600 leading-relaxed">Paga en efectivo o transferencia únicamente cuando tengas el producto en tus manos. ¡Cero riesgos para ti!</p>
             </div>
-            <div data-aos="zoom-in" data-aos-delay="300" className="flex flex-col items-center gap-3">
-              <CheckCircle2 className="w-8 h-8 text-amber-600" />
-              <span className="font-medium text-gray-700">Sin Gluten</span>
-            </div>
-            <div data-aos="zoom-in" data-aos-delay="400" className="flex flex-col items-center gap-3">
-              <Ban className="w-8 h-8 text-amber-600" />
-              <span className="font-medium text-gray-700">Sin Ingredientes Artificiales</span>
+            
+            {/* Badge 3 */}
+            <div data-aos="fade-up" data-aos-delay="300" className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
+              <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-6 text-amber-600 shadow-inner">
+                <Leaf className="w-10 h-10" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">100% Natural</h3>
+              <p className="text-slate-600 leading-relaxed">Fórmula orgánica sin químicos añadidos, estandarizada al 95% de pureza para garantizar la máxima absorción.</p>
             </div>
           </div>
         </div>
@@ -295,7 +322,14 @@ export default function LandingPage() {
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div data-aos="fade-right" className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <EditableImage id="beneficiosImage" initialSrc={IMAGES.beneficios} alt="Beneficios de la Cúrcuma" className="w-full h-auto object-cover" referrerPolicy="no-referrer" loading="lazy" />
+              <video 
+                src="/video-promocional-curcuma.mp4" 
+                className="w-full h-auto object-cover" 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+              />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div data-aos="fade-up" data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
@@ -381,9 +415,16 @@ export default function LandingPage() {
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
               Completa tus datos para coordinar tu entrega
             </h2>
-            <p className="text-amber-400 text-lg md:text-xl font-medium tracking-wide">
+            <p className="text-amber-400 text-lg md:text-xl font-medium tracking-wide mb-6">
               Paga en casa al recibir tu producto. ¡Sin riesgos!
             </p>
+            <div className="flex justify-center">
+              <img 
+                src="/pago-contra-entrega.png" 
+                alt="Pago Contra Entrega" 
+                className="h-20 md:h-24 object-contain drop-shadow-lg"
+              />
+            </div>
           </div>
           
           <form data-aos="fade-up" data-aos-delay="100" className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl space-y-8 relative z-10" onSubmit={handleSubmit}>
