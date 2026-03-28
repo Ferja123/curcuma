@@ -472,13 +472,7 @@ export default function LandingPage() {
                 className="h-48 md:h-64 object-contain drop-shadow-2xl animate-float"
               />
             </div>
-            <div className="flex justify-center">
-              <img 
-                src="/pago-contra-entrega.png" 
-                alt="Pago Contra Entrega" 
-                className="h-20 md:h-24 object-contain drop-shadow-lg"
-              />
-            </div>
+
           </div>
           
           <form data-aos="fade-up" data-aos-delay="100" className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl space-y-8 relative z-10" onSubmit={handleSubmit}>
