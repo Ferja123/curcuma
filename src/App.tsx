@@ -94,21 +94,7 @@ export default function LandingPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Auto-request location when form comes into view
-  useEffect(() => {
-    const formEl = document.getElementById('formulario-compra');
-    if (!formEl) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && geoStatus === 'idle') {
-          requestLocation();
-        }
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(formEl);
-    return () => observer.disconnect();
-  }, [geoStatus]);
+
 
   useEffect(() => {
     AOS.init({
@@ -839,16 +825,18 @@ export default function LandingPage() {
                   geoStatus === 'granted' ? 'bg-green-50 border-green-200 text-green-800' :
                   geoStatus === 'loading' ? 'bg-yellow-50 border-yellow-200 text-yellow-800' :
                   geoStatus === 'denied' ? 'bg-orange-50 border-orange-200 text-orange-800' :
-                  'bg-amber-50 border-amber-200 text-amber-800'
+                  'bg-white border-amber-200 text-amber-800'
                 }`}>
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
-                    geoStatus === 'granted' ? 'bg-green-100 text-green-600' :
-                    geoStatus === 'loading' ? 'bg-yellow-100 text-yellow-600' :
-                    geoStatus === 'denied' ? 'bg-orange-100 text-orange-600' :
-                    'bg-amber-100 text-amber-600'
-                  }`}>
-                    <MapPin className="w-6 h-6" />
-                  </div>
+                  {geoStatus !== 'idle' && (
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
+                      geoStatus === 'granted' ? 'bg-green-100 text-green-600' :
+                      geoStatus === 'loading' ? 'bg-yellow-100 text-yellow-600' :
+                      geoStatus === 'denied' ? 'bg-orange-100 text-orange-600' :
+                      'bg-amber-100 text-amber-600'
+                    }`}>
+                      <MapPin className="w-6 h-6" />
+                    </div>
+                  )}
                   <div className="flex-1">
                     {geoStatus === 'granted' && userCoords ? (
                       <>
@@ -858,11 +846,13 @@ export default function LandingPage() {
                     ) : geoStatus === 'loading' ? (
                       <h4 className="text-sm font-bold">Obteniendo tu ubicación exacta...</h4>
                     ) : geoStatus === 'denied' ? (
-                      <button type="button" onClick={requestLocation} className="text-sm font-bold underline hover:opacity-80 transition-opacity text-left">
-                        Toca aquí para compartir tu ubicación (ayuda al repartidor)
+                      <button type="button" onClick={requestLocation} className="text-sm font-bold underline hover:opacity-80 transition-opacity text-left text-orange-700">
+                        ⚠️ Permiso denegado. Toca aquí para reintentar o actívalo en tu navegador.
                       </button>
                     ) : (
-                      <h4 className="text-sm font-bold">Tu ubicación se solicitará automáticamente</h4>
+                      <button type="button" onClick={requestLocation} className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-black py-4 px-4 rounded-xl shadow-lg transition-all active:scale-95 text-sm md:text-base flex items-center justify-center gap-2 animate-bounce">
+                        <MapPin className="w-6 h-6"/> TOCA AQUÍ PARA COMPARTIR TU UBICACIÓN
+                      </button>
                     )}
                   </div>
                 </div>
