@@ -232,10 +232,25 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-gray-900">
       {/* Top Banner */}
-      <div className="bg-emerald-800 text-white text-center py-2.5 px-4 font-bold text-sm tracking-widest shadow-md sticky top-0 z-50 flex items-center justify-center gap-3 uppercase">
-        <Sparkles className="w-4 h-4 text-emerald-300" />
-        Envío Gratis a todo el Perú | Supralab
-        <Sparkles className="w-4 h-4 text-emerald-300" />
+      {/* Dynamic Sticky Countdown Bar */}
+      <div className="bg-slate-900 text-white py-2 px-4 shadow-xl sticky top-0 z-[60] flex flex-col md:flex-row items-center justify-center gap-2 md:gap-6 border-b border-amber-500/20">
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-3 h-3 text-amber-400 animate-pulse" />
+          <span className="text-[10px] md:text-xs font-black tracking-widest uppercase text-amber-100">Envío Gratis a todo el Perú</span>
+          <Sparkles className="w-3 h-3 text-amber-400 animate-pulse" />
+        </div>
+        <div className="h-4 w-[1px] bg-slate-700 hidden md:block"></div>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5">
+            <Timer className="w-4 h-4 text-amber-500 animate-pulse" />
+            <span className="text-[10px] md:text-sm font-bold text-slate-300 uppercase tracking-wider">La oferta expira en:</span>
+          </div>
+          <div className="bg-slate-800 px-3 py-1 rounded-lg border border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+            <span className="text-amber-500 font-black tabular-nums text-sm md:text-lg min-w-[65px] inline-block">
+              {formatTime(timeLeft)}
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Header with Navigation */}
@@ -244,19 +259,23 @@ export default function LandingPage() {
       {/* Creative Floating Stock Badge */}
       <div 
         data-aos="fade-right" data-aos-delay="1000"
-        className="fixed bottom-6 md:bottom-8 left-4 z-40 bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl border border-red-100 p-3 flex items-center gap-3 max-w-[260px] cursor-pointer hover:scale-105 transition-transform"
+        className="fixed bottom-6 md:bottom-8 left-4 z-40 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-red-100 p-4 flex items-center gap-4 max-w-[280px] cursor-pointer hover:scale-105 transition-all group overflow-hidden"
         onClick={() => scrollToForm()}
       >
+        <div className="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
         <div className="relative flex-shrink-0">
-          <div className="absolute -inset-1 bg-red-500 rounded-full animate-ping opacity-20"></div>
-          <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center text-red-600 border border-red-100">
-            <Flame className="w-5 h-5" />
+          <div className="absolute -inset-2 bg-red-500 rounded-full animate-ping opacity-10"></div>
+          <div className="w-11 h-11 bg-red-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-red-500/30 group-hover:rotate-12 transition-transform">
+            <Flame className="w-6 h-6 animate-pulse" />
           </div>
         </div>
         <div>
-          <p className="text-[10px] text-red-500 font-bold uppercase tracking-wider mb-0.5 animate-pulse">¡Alta Demanda!</p>
-          <p className="text-sm font-bold text-slate-800 leading-tight">
-            Solo quedan <span className="text-red-600 text-base">{stock}</span> unidades
+          <div className="flex items-center gap-1.5 mb-1">
+            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+            <span className="text-[10px] text-red-600 font-black uppercase tracking-[0.1em]">¡Alta Demanda!</span>
+          </div>
+          <p className="text-sm font-black text-slate-800 leading-tight">
+            Solo quedan <span className="text-red-600 text-lg tabular-nums">{stock}</span> unidades
           </p>
         </div>
       </div>
@@ -478,24 +497,27 @@ export default function LandingPage() {
           <form data-aos="fade-up" data-aos-delay="100" className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl space-y-8 relative z-10" onSubmit={handleSubmit}>
             
             {/* Creative Stock Indicator in Form */}
-            <div className="bg-red-50 border border-red-100 rounded-2xl p-5 mb-8 relative overflow-hidden">
-              <div className="absolute top-0 left-0 h-1 bg-red-500 w-[15%] animate-pulse"></div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-red-600 font-bold text-sm flex items-center gap-1.5 uppercase tracking-wider">
-                  <Flame className="w-4 h-4 animate-bounce" /> Alta Demanda
+            <div className="bg-amber-50 border border-amber-100 rounded-2xl p-6 mb-10 relative overflow-hidden shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-amber-900 font-black text-xs md:text-sm flex items-center gap-2 uppercase tracking-widest">
+                  <Activity className="w-4 h-4 text-red-500 animate-pulse" />
+                  Estado del Inventario
                 </span>
-                <span className="text-red-600 font-black text-sm bg-red-100 px-3 py-1 rounded-full">Solo quedan {stock} unidades</span>
+                <span className="text-red-600 font-black text-xs md:text-sm bg-white px-4 py-1.5 rounded-full shadow-md border border-red-100 ring-4 ring-red-50 mb-1">
+                  SOLO {stock} UNIDADES
+                </span>
               </div>
-              <div className="w-full bg-red-200 rounded-full h-3 mb-2 overflow-hidden shadow-inner">
+              <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden border border-slate-300/30">
                 <div 
-                  className="bg-gradient-to-r from-red-500 to-orange-500 h-3 rounded-full relative overflow-hidden" 
-                  style={{ width: `${(stock/50)*100}%`, transition: 'width 1s ease-in-out' }}
+                  className="h-full bg-gradient-to-r from-red-600 via-orange-500 to-amber-500 transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(239,68,68,0.3)] relative" 
+                  style={{ width: `${(stock/30)*100}%` }}
                 >
-                  <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
+                  <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,.2)_25%,transparent_25%,transparent_50%,rgba(255,255,255,.2)_50%,rgba(255,255,255,.2)_75%,transparent_75%,transparent)] bg-[length:20px_20px] animate-[slide_2s_linear_infinite]"></div>
                 </div>
               </div>
-              <p className="text-xs text-red-500 font-medium text-right flex items-center justify-end gap-1">
-                <Activity className="w-3 h-3" /> 36 personas viendo esto ahora
+              <p className="text-[10px] md:text-xs text-amber-800 mt-3 font-medium italic text-right flex items-center justify-end gap-1.5">
+                <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-ping"></span>
+                Actualizado hace unos segundos - Alta demanda detectada
               </p>
             </div>
 
