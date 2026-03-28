@@ -25,5 +25,5 @@ export const IMAGES = {
   analisisBiologico: "/analisis-biologico.png",
 
   // Imagen del producto principal (usada en varias secciones)
-  curcumaPrincipal: "/img-1774505223290-151681735.webp"
+  curcumaPrincipal: "/curcuma-principal.jpg"
 };
