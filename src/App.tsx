@@ -328,7 +328,10 @@ export default function LandingPage() {
                 autoPlay 
                 loop 
                 muted 
-                playsInline 
+                playsInline
+                controls
+                preload="metadata"
+                poster="/hero-image-1.png"
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
