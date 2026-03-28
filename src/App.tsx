@@ -353,29 +353,7 @@ export default function LandingPage() {
       {/* Header with Navigation */}
       <Header />
       
-      {/* Creative Floating Stock Badge */}
-      <div 
-        data-aos="fade-right" data-aos-delay="1000"
-        className="fixed bottom-6 md:bottom-8 left-4 z-40 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-red-100 p-4 flex items-center gap-4 max-w-[280px] cursor-pointer hover:scale-105 transition-all group overflow-hidden"
-        onClick={() => scrollToForm()}
-      >
-        <div className="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
-        <div className="relative flex-shrink-0">
-          <div className="absolute -inset-2 bg-red-500 rounded-full animate-ping opacity-10"></div>
-          <div className="w-11 h-11 bg-red-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-red-500/30 group-hover:rotate-12 transition-transform">
-            <Flame className="w-6 h-6 animate-pulse" />
-          </div>
-        </div>
-        <div>
-          <div className="flex items-center gap-1.5 mb-1">
-            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-            <span className="text-[10px] text-red-600 font-black uppercase tracking-[0.1em]">¡Alta Demanda!</span>
-          </div>
-          <p className="text-sm font-black text-slate-800 leading-tight">
-            Solo quedan <span className="text-red-600 text-lg tabular-nums">{stock}</span> unidades
-          </p>
-        </div>
-      </div>
+
 
       {/* 1. HeroSection */}
       <section data-aos="fade-up" className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-12 md:pt-40 md:pb-20 overflow-hidden">
