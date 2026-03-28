@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageCircle, MapPin, Edit3, Star, X, Sparkles, Heart, Brain, MessageSquareQuote, PlayCircle, ChevronLeft, ChevronRight, Timer, Truck } from 'lucide-react';
+import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageCircle, MapPin, Edit3, Star, X, Sparkles, Heart, Brain, MessageSquareQuote, PlayCircle, ChevronLeft, ChevronRight, Timer, Truck, ChevronDown } from 'lucide-react';
 import FAQ from './components/FAQ';
 import CommentsSection from './components/CommentsSection';
 import BiologicalAnalysis from './components/BiologicalAnalysis';
@@ -53,6 +53,62 @@ export default function LandingPage() {
   const [timeLeft, setTimeLeft] = useState(23 * 60); // 23 minutes countdown
   const [stock, setStock] = useState(14); // Initial stock
   const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [geoStatus, setGeoStatus] = useState<'idle' | 'loading' | 'granted' | 'denied'>('idle');
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+
+  // GPS Request
+  const requestLocation = () => {
+    if (!navigator.geolocation) {
+      setGeoStatus('denied');
+      return;
+    }
+    setGeoStatus('loading');
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserCoords({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+        setGeoStatus('granted');
+      },
+      (error) => {
+        setGeoStatus('denied');
+        if (error.code === 1) {
+          alert('📍 El acceso a tu ubicación fue denegado. Por favor, actívalo en la configuración de la página (ícono del candado junto a la URL) para enviarnos tus coordenadas exactas.');
+        } else {
+          alert('📍 Tuvimos un problema capturando tu ubicación. Por favor, asegúrate de tener el GPS encendido e inténtalo de nuevo.');
+        }
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+    );
+  };
+
+  // Hide scroll indicator on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) setShowScrollIndicator(false);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Auto-request location when form comes into view
+  useEffect(() => {
+    const formEl = document.getElementById('formulario-compra');
+    if (!formEl) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && geoStatus === 'idle') {
+          requestLocation();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(formEl);
+    return () => observer.disconnect();
+  }, [geoStatus]);
 
   useEffect(() => {
     AOS.init({
@@ -199,11 +255,22 @@ export default function LandingPage() {
       return;
     }
 
+    if (geoStatus !== 'granted' || !userCoords) {
+      alert("📍 Por favor, permite el acceso a tu ubicación exacta o toca el botón 'Compartir ubicación'. Es REQUISITO OBLIGATORIO para que el transportista pueda entregar tu pedido correctamente.");
+      if (geoStatus !== 'loading') requestLocation();
+      return;
+    }
+
     setIsConfirmModalOpen(true);
   };
 
   const confirmOrder = () => {
     const phoneNumber = "51919749480";
+    let coordsText = '';
+    if (userCoords) {
+      coordsText = `\n📌 *Coordenadas GPS:* ${userCoords.lat.toFixed(6)}, ${userCoords.lng.toFixed(6)}\n🗺️ *Ver en mapa:* https://www.google.com/maps?q=${userCoords.lat},${userCoords.lng}`;
+    }
+
     const message = `*NUEVO PEDIDO - CÚRCUMA PREMIUM* 🌿\n\n` +
       `*Paquete:* ${paquete}\n` +
       `*Nombre:* ${formData.nombre}\n` +
@@ -212,8 +279,9 @@ export default function LandingPage() {
       `*Distrito:* ${formData.distrito}\n` +
       `*Dirección:* ${formData.direccion}\n` +
       `*Referencia:* ${formData.referencia}\n` +
-      `*Hora sugerida:* ${formData.hora}\n\n` +
-      `*Pago Contraentrega* 🚚`;
+      `*Hora sugerida:* ${formData.hora}` +
+      coordsText +
+      `\n\n*Pago Contraentrega* 🚚`;
 
     // Track conversion with TikTok Pixel
     if (window.ttq) {
@@ -302,14 +370,7 @@ export default function LandingPage() {
             <p data-aos="fade-up" data-aos-delay="300" className="text-lg md:text-xl text-gray-700 leading-relaxed font-medium">
               El secreto natural que está cambiando vidas en TikTok. Cúrcuma de ultra-alta pureza (95%) con pimienta negra para una absorción 2000% mayor.
             </p>
-            <button 
-              data-aos="fade-up" data-aos-delay="400"
-              onClick={() => scrollToForm()}
-              className="w-full md:w-auto bg-[#25D366] hover:bg-[#20bd5a] text-white text-lg md:text-xl font-black py-5 px-8 rounded-2xl shadow-xl transition-all hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-3"
-            >
-              🛒 CONFIRMAR MI COMPRA
-            </button>
-            <div data-aos="fade-up" data-aos-delay="500" className="flex items-center gap-2 text-sm text-gray-600 font-bold bg-white/50 inline-block p-2 rounded-lg">
+            <div data-aos="fade-up" data-aos-delay="500" className="flex items-center gap-2 text-sm text-gray-600 font-bold bg-white/50 inline-block p-2 rounded-lg mt-6">
               <div className="flex text-amber-500">
                 {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
               </div>
@@ -326,6 +387,11 @@ export default function LandingPage() {
               ¡ÚLTIMAS {stock} UNIDADES!
             </div>
             
+            {/* Sello Producto Original */}
+            <div className="absolute bottom-4 right-4 z-20 bg-gradient-to-r from-amber-500 to-yellow-300 text-slate-900 text-[10px] md:text-sm font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-[0_4px_15px_rgba(245,158,11,0.5)] flex items-center gap-1.5 border border-amber-200 backdrop-blur-sm animate-float">
+              <ShieldCheck className="w-4 h-4 md:w-5 md:h-5" /> 100% Original
+            </div>
+            
             <EditableCarousel 
               id="heroCarousel"
               initialImages={IMAGES.heroCarousel} 
@@ -334,6 +400,27 @@ export default function LandingPage() {
             />
           </div>
         </div>
+
+        {/* Professional Scroll Indicator */}
+        {showScrollIndicator && (
+          <div
+            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex flex-col items-center cursor-pointer group z-30 animate-fade-in hidden md:flex"
+            onClick={() => {
+              const beneficiosect = document.getElementById('beneficios');
+              if (beneficiosect) beneficiosect.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            <span className="text-amber-800/60 text-[10px] font-bold tracking-[0.3em] uppercase mb-2 group-hover:text-amber-600 transition-colors bg-white/50 px-3 py-1 rounded-full backdrop-blur-sm">
+              Desliza
+            </span>
+            <div className="relative w-6 h-10 border-2 border-amber-500/30 rounded-full flex justify-center p-1 group-hover:border-amber-500/60 transition-colors bg-white/50 backdrop-blur-sm">
+              <div className="w-1 h-2.5 bg-gradient-to-b from-orange-400 to-amber-500 rounded-full animate-[scrollDot_2s_ease-in-out_infinite] shadow-[0_0_8px_rgba(245,158,11,0.6)]"></div>
+            </div>
+            <div className="mt-1 flex flex-col items-center">
+              <ChevronDown className="w-4 h-4 text-amber-600/40 animate-[bounceSlow_2.5s_ease-in-out_infinite]" />
+            </div>
+          </div>
+        )}
       </section>
 
       {/* 2. TrustBadges */}
@@ -478,18 +565,22 @@ export default function LandingPage() {
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div data-aos="fade-up" className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-black text-amber-400 mb-6 tracking-tight drop-shadow-md">
               Completa tus datos para coordinar tu entrega
             </h2>
-            <p className="text-amber-400 text-lg md:text-xl font-medium tracking-wide mb-6">
+            <p className="text-amber-100 text-lg md:text-xl font-medium tracking-wide mb-6">
               Paga en casa al recibir tu producto. ¡Sin riesgos!
             </p>
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-8 relative">
               <img 
                 src={IMAGES.curcumaPrincipal} 
                 alt="Cúrcuma Premium" 
                 className="h-48 md:h-64 object-contain drop-shadow-2xl animate-float"
               />
+               {/* Sello Original */}
+              <div className="absolute top-0 right-1/2 transform translate-x-16 md:translate-x-32 bg-yellow-400 text-slate-900 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 z-10 border border-yellow-200">
+                <ShieldCheck className="w-4 h-4" /> 100% Original
+              </div>
             </div>
 
           </div>
@@ -742,17 +833,37 @@ export default function LandingPage() {
                 )}
               </div>
               
-              {/* Nota de Ubicación */}
+              {/* GPS Location Status */}
               <div data-aos="fade-up" data-aos-delay="1000" className="md:col-span-2 pt-4">
-                <div className="w-full rounded-2xl border border-amber-200 bg-amber-50 p-5 flex items-start gap-4 shadow-sm">
-                  <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shrink-0">
+                <div className={`w-full rounded-2xl p-5 flex items-center gap-4 shadow-sm border ${
+                  geoStatus === 'granted' ? 'bg-green-50 border-green-200 text-green-800' :
+                  geoStatus === 'loading' ? 'bg-yellow-50 border-yellow-200 text-yellow-800' :
+                  geoStatus === 'denied' ? 'bg-orange-50 border-orange-200 text-orange-800' :
+                  'bg-amber-50 border-amber-200 text-amber-800'
+                }`}>
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
+                    geoStatus === 'granted' ? 'bg-green-100 text-green-600' :
+                    geoStatus === 'loading' ? 'bg-yellow-100 text-yellow-600' :
+                    geoStatus === 'denied' ? 'bg-orange-100 text-orange-600' :
+                    'bg-amber-100 text-amber-600'
+                  }`}>
                     <MapPin className="w-6 h-6" />
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-amber-900 mb-1">Paso final de confirmación</h4>
-                    <p className="text-sm text-amber-800 leading-relaxed">
-                      Como último paso, un asesor se comunicará contigo y te pedirá tu <strong>ubicación exacta en el mapa</strong> para generar la guía del transportista y asegurar que tu pedido llegue sin problemas.
-                    </p>
+                  <div className="flex-1">
+                    {geoStatus === 'granted' && userCoords ? (
+                      <>
+                        <h4 className="text-sm font-bold mb-1">📍 Ubicación detectada correctamente</h4>
+                        <p className="text-xs font-mono">{userCoords.lat.toFixed(4)}, {userCoords.lng.toFixed(4)}</p>
+                      </>
+                    ) : geoStatus === 'loading' ? (
+                      <h4 className="text-sm font-bold">Obteniendo tu ubicación exacta...</h4>
+                    ) : geoStatus === 'denied' ? (
+                      <button type="button" onClick={requestLocation} className="text-sm font-bold underline hover:opacity-80 transition-opacity text-left">
+                        Toca aquí para compartir tu ubicación (ayuda al repartidor)
+                      </button>
+                    ) : (
+                      <h4 className="text-sm font-bold">Tu ubicación se solicitará automáticamente</h4>
+                    )}
                   </div>
                 </div>
               </div>
