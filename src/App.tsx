@@ -90,18 +90,43 @@ export default function LandingPage() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
+    const startPlaying = () => {
+      video.play().catch(error => {
+        console.log("Autoplay prevented, waiting for interaction:", error);
+      });
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.play().catch(() => {});
+          startPlaying();
         } else {
           video.pause();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 } // Lower threshold for better response
     );
+
+    // Interaction fallback to "unlock" muted autoplay if browser blocked it initially
+    const unlock = () => {
+      if (videoRef.current && observer) {
+        // If the observer says we are visible, try playing again on any click
+        const rect = videoRef.current.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        if (isVisible) {
+          videoRef.current.play().catch(() => {});
+        }
+      }
+      window.removeEventListener('click', unlock);
+    };
+    window.addEventListener('click', unlock);
+
     observer.observe(video);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('click', unlock);
+    };
   }, []);
 
   const formatTime = (seconds: number) => {
@@ -345,6 +370,7 @@ export default function LandingPage() {
                 ref={videoRef}
                 src="/video-promocional-curcuma.mp4" 
                 className="w-full h-auto object-cover" 
+                autoPlay
                 loop 
                 muted 
                 playsInline
