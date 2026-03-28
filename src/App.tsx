@@ -52,6 +52,7 @@ export default function LandingPage() {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(23 * 60); // 23 minutes countdown
   const [stock, setStock] = useState(14); // Initial stock
+  const videoRef = React.useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     AOS.init({
@@ -83,6 +84,24 @@ export default function LandingPage() {
       clearInterval(timer);
       clearInterval(stockTimer);
     };
+  }, []);
+
+  // Auto-play video when scrolled into view
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
   }, []);
 
   const formatTime = (seconds: number) => {
@@ -323,14 +342,13 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div data-aos="fade-right" className="relative rounded-3xl overflow-hidden shadow-2xl">
               <video 
+                ref={videoRef}
                 src="/video-promocional-curcuma.mp4" 
                 className="w-full h-auto object-cover" 
-                autoPlay 
                 loop 
                 muted 
                 playsInline
-                controls
-                preload="metadata"
+                preload="auto"
                 poster="/hero-image-1.png"
               />
             </div>
