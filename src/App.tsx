@@ -579,10 +579,13 @@ export default function LandingPage() {
               Paga en casa al recibir tu producto. ¡Sin riesgos!
             </p>
             <div className="flex justify-center mb-8 relative">
-              <img 
-                src={IMAGES.curcumaPrincipal} 
-                alt="Cúrcuma Premium" 
-                className="h-48 md:h-64 object-contain drop-shadow-2xl animate-float"
+              <video 
+                src="/womans_hands_grasping.mp4" 
+                className="h-64 md:h-80 w-auto max-w-full object-contain rounded-2xl drop-shadow-2xl"
+                autoPlay
+                loop 
+                muted 
+                playsInline
               />
                {/* Sello Original */}
               <div className="absolute top-0 right-1/2 transform translate-x-16 md:translate-x-32 bg-yellow-400 text-slate-900 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 z-10 border border-yellow-200">
