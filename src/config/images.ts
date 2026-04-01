@@ -17,13 +17,13 @@ export const IMAGES = {
   beneficios: "/img-1774505081289-700821712.webp",
   
   // Imágenes de los paquetes en la sección de ofertas
-  paqueteTresFrascos: "/img-1774505116130-400932074.webp",
-  paqueteDosFrascos: "/img-1774505116130-400932074.webp",
-  paqueteUnFrasco: "/img-1774505116130-400932074.webp",
+  paqueteTresFrascos: "/funrich_pack_3.png",
+  paqueteDosFrascos: "/funrich_pack_2.png",
+  paqueteUnFrasco: "/funrich_pack_1.png",
   
   // Imagen de la tabla nutricional o análisis biológico
   analisisBiologico: "/analisis-biologico.png",
 
   // Imagen del producto principal (usada en varias secciones)
-  curcumaPrincipal: "/curcuma-principal.jpg"
+  curcumaPrincipal: "/original_bottle.png"
 };
