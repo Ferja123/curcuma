@@ -579,13 +579,10 @@ export default function LandingPage() {
               Paga en casa al recibir tu producto. ¡Sin riesgos!
             </p>
             <div className="flex justify-center mb-8 relative">
-              <video 
-                src="/womans_hands_grasping.mp4" 
-                className="h-64 md:h-80 w-auto max-w-full object-contain rounded-2xl drop-shadow-2xl"
-                autoPlay
-                loop 
-                muted 
-                playsInline
+              <img 
+                src={IMAGES.curcumaPrincipal} 
+                alt="Funirich Joint Health" 
+                className="h-64 md:h-80 w-auto max-w-full object-contain rounded-2xl drop-shadow-2xl hover:scale-105 transition-all duration-500"
               />
                {/* Sello Original */}
               <div className="absolute top-0 right-1/2 transform translate-x-16 md:translate-x-32 bg-yellow-400 text-slate-900 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 z-10 border border-yellow-200">
