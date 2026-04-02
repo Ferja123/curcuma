@@ -961,17 +961,19 @@ export default function LandingPage() {
         </div>
       )}
 
-      {/* 9. Floating CTA - Bottom Right */}
-      <div className={`fixed bottom-6 right-6 z-50 transition-all duration-500 ${showFloatingCTA ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}>
+      {/* 9. Floating CTA - Vertical Mobile Optimization */}
+      <div className={`fixed bottom-6 right-4 z-50 transition-all duration-500 ${showFloatingCTA ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}>
         <button 
           onClick={() => document.getElementById('formulario-compra')?.scrollIntoView({behavior:'smooth'})} 
-          className="bg-[#25D366] hover:bg-[#20bd5a] text-white p-4 md:p-5 rounded-full shadow-2xl flex items-center gap-3 animate-bounce shadow-green-500/40 border-2 border-white/20 active:scale-95 transition-transform"
+          className="bg-[#25D366] hover:bg-[#20bd5a] text-white p-3 md:p-5 rounded-2xl md:rounded-full shadow-2xl flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 animate-bounce shadow-green-500/40 border-2 border-white/20 active:scale-95 transition-transform min-w-[70px] md:min-w-0"
         >
-          <Truck className="w-6 h-6" />
-          <span className="text-sm font-black uppercase tracking-widest pr-2 hidden md:inline">
-            PEDIR AHORA
+          <Truck className="w-5 h-5 md:w-6 md:h-6" />
+          <span className="text-[10px] md:text-sm font-black uppercase tracking-widest leading-none">
+            <span className="md:hidden">PEDIR</span>
+            <span className="hidden md:inline text-sm">PEDIR AHORA</span>
           </span>
-          <div className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg border border-white/30 md:hidden">
+          {/* Stock badge for mobile specifically */}
+          <div className="absolute -top-2 -left-2 bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow-lg border border-white/30 md:hidden">
             {stock}
           </div>
         </button>
