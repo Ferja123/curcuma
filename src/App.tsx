@@ -961,22 +961,22 @@ export default function LandingPage() {
         </div>
       )}
 
-      {/* 9. Floating CTA - Vertical Mobile Optimization */}
-      <div className={`fixed bottom-6 right-4 z-50 transition-all duration-500 ${showFloatingCTA ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}>
-        <button 
-          onClick={() => document.getElementById('formulario-compra')?.scrollIntoView({behavior:'smooth'})} 
-          className="bg-[#25D366] hover:bg-[#20bd5a] text-white p-3 md:p-5 rounded-2xl md:rounded-full shadow-2xl flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 animate-bounce shadow-green-500/40 border-2 border-white/20 active:scale-95 transition-transform min-w-[70px] md:min-w-0"
-        >
-          <Truck className="w-5 h-5 md:w-6 md:h-6" />
-          <span className="text-[10px] md:text-sm font-black uppercase tracking-widest leading-none">
-            <span className="md:hidden">PEDIR</span>
-            <span className="hidden md:inline text-sm">PEDIR AHORA</span>
-          </span>
-          {/* Stock badge for mobile specifically */}
-          <div className="absolute -top-2 -left-2 bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow-lg border border-white/30 md:hidden">
-            {stock}
+      {/* 9. Floating CTA - Centered Bottom */}
+      <div className={`fixed bottom-4 left-0 right-0 z-50 px-4 pointer-events-none flex flex-col items-center transition-all duration-500 ${showFloatingCTA ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}>
+        <div className="pointer-events-auto w-full max-w-[320px] flex flex-col items-center gap-1.5 drop-shadow-2xl">
+          {/* Stock Notification */}
+          <div className="bg-red-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full shadow-lg flex items-center gap-2 border border-red-400/30">
+            <Flame className="w-3.5 h-3.5 animate-pulse" /> 
+            <span>¡ULTIMAS <span className="text-yellow-300">{stock}</span> UNIDADES!</span>
           </div>
-        </button>
+          {/* Main CTA Button */}
+          <button 
+            onClick={() => document.getElementById('formulario-compra')?.scrollIntoView({behavior:'smooth'})} 
+            className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-black py-4 rounded-full shadow-[0_10px_30px_rgba(37,211,102,0.4)] transition-all flex justify-center items-center gap-2 text-base uppercase tracking-widest border-[3px] border-white/90 animate-bounce active:scale-95"
+          >
+            🛒 COMPRAR AHORA
+          </button>
+        </div>
       </div>
 
     </div>
