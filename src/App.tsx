@@ -961,25 +961,20 @@ export default function LandingPage() {
         </div>
       )}
 
-      {/* 9. Floating CTA Bottom */}
-      <div className={`fixed bottom-4 left-0 right-0 z-50 px-4 pointer-events-none flex flex-col items-center transition-all duration-[400ms] ease-out ${showFloatingCTA ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}>
-        <div className="pointer-events-auto w-full max-w-[280px] md:max-w-[320px] flex flex-col items-center gap-1.5 drop-shadow-2xl">
-          {/* Synchronized Stock Mini Badge */}
-          <div className="bg-red-600/95 backdrop-blur-sm text-white text-[11px] font-black px-4 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border border-red-400/30">
-            <Flame className="w-3.5 h-3.5 animate-pulse" /> 
-            <span>¡SOLO QUEDAN <span className="text-yellow-300 mx-0.5 text-xs">{stock}</span> UNIDADES!</span>
+      {/* 9. Floating CTA - Bottom Right */}
+      <div className={`fixed bottom-6 right-6 z-50 transition-all duration-500 ${showFloatingCTA ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}>
+        <button 
+          onClick={() => document.getElementById('formulario-compra')?.scrollIntoView({behavior:'smooth'})} 
+          className="bg-[#25D366] hover:bg-[#20bd5a] text-white p-4 md:p-5 rounded-full shadow-2xl flex items-center gap-3 animate-bounce shadow-green-500/40 border-2 border-white/20 active:scale-95 transition-transform"
+        >
+          <Truck className="w-6 h-6" />
+          <span className="text-sm font-black uppercase tracking-widest pr-2 hidden md:inline">
+            PEDIR AHORA
+          </span>
+          <div className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg border border-white/30 md:hidden">
+            {stock}
           </div>
-          {/* Main CTA */}
-          <button 
-            onClick={() => {
-              const formEl = document.getElementById('formulario-compra');
-              if (formEl) formEl.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="w-full bg-gradient-to-r from-[#25D366] to-[#20bd5a] hover:from-[#20bd5a] hover:to-[#1da851] text-white font-black py-3.5 rounded-full shadow-[0_8px_25px_rgba(37,211,102,0.4)] hover:shadow-[0_12px_30px_rgba(37,211,102,0.6)] active:scale-95 transition-all flex justify-center items-center gap-2 text-base uppercase tracking-wide border-[3px] border-white/90 animate-bounce-slow"
-          >
-            🛒 COMPRAR AHORA
-          </button>
-        </div>
+        </button>
       </div>
 
     </div>
