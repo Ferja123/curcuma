@@ -401,11 +401,7 @@ export default function LandingPage() {
             
             <EditableCarousel 
               id="heroCarousel"
-              initialImages={[
-                IMAGES.hero,
-                IMAGES.heroCarousel[1], // impact_ingredients_burst.png
-                IMAGES.heroCarousel[2]  // impact_joint_health.png
-              ]} 
+              initialImages={IMAGES.heroCarousel} 
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               autoPlayInterval={4000}
             />

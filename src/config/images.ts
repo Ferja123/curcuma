@@ -7,7 +7,9 @@ export const IMAGES = {
   heroCarousel: [
     "/hero_premium.png",
     "/impact_ingredients_burst.png",
-    "/impact_joint_health.png"
+    "/impact_joint_health.png",
+    "/hero_freedom_hiking.png",
+    "/hero_5.png"
   ],
 
   // Imagen principal (Hero) - Fallback
@@ -26,7 +28,7 @@ export const IMAGES = {
 
   // Referencias originales y nuevos impactos
   curcumaPrincipal: "/pack_1.png",
-  trustBadges: "/trust_badges_ref.png",
+  trustBadges: "/impact_trust_quality.png",
   ingredientsHero: "/ingredients_hero.png",
   nutritionalFacts: "/nutrition_facts_ref.png",
 
