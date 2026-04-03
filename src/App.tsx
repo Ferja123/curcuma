@@ -401,9 +401,13 @@ export default function LandingPage() {
             
             <EditableCarousel 
               id="heroCarousel"
-              initialImages={IMAGES.heroCarousel} 
+              initialImages={[
+                IMAGES.hero,
+                IMAGES.heroCarousel[1], // impact_ingredients_burst.png
+                IMAGES.heroCarousel[2]  // impact_joint_health.png
+              ]} 
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              autoPlayInterval={3000}
+              autoPlayInterval={4000}
             />
           </div>
         </div>
@@ -430,12 +434,67 @@ export default function LandingPage() {
         )}
       </section>
 
-      {/* 2. TrustBadges */}
+      {/* High Impact Section: Ingredients Burst */}
+      <section data-aos="fade-up" className="py-12 bg-white flex flex-col items-center">
+        <div className="max-w-4xl w-full px-4 text-center">
+          <div className="relative rounded-[3rem] overflow-hidden shadow-2xl border-2 border-amber-500/10 group">
+             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40 z-10"></div>
+             <img 
+               src="/impact_ingredients_burst.png" 
+               alt="Pura Cúrcuma e Ingredientes Naturales" 
+               className="w-full h-auto object-cover transform transition-transform duration-1000 group-hover:scale-105" 
+             />
+             <div className="absolute bottom-10 left-0 right-0 z-20 px-8 text-center">
+               <h2 className="text-white text-3xl md:text-4xl font-black mb-2 drop-shadow-lg">El Poder de la Sinergia Natural</h2>
+               <p className="text-amber-100 font-bold text-lg md:text-xl drop-shadow-md italic uppercase tracking-wider">Absorción 2000% Optimizada</p>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Real Product Gallery: Authentic User/Reference Photos */}
+      <section data-aos="fade-up" className="py-20 bg-slate-50 border-y border-slate-200 overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Nuestra Galería Real</h2>
+            <p className="text-amber-600 font-bold text-lg md:text-xl uppercase tracking-[0.2em]">Transparencia Total: El Producto que amas</p>
+          </div>
+          
+          <div className="relative max-w-4xl mx-auto rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] bg-white p-4">
+             <EditableCarousel 
+               id="realProductGallery"
+               initialImages={IMAGES.realGallery}
+               className="w-full aspect-[4/3] rounded-3xl object-cover"
+               autoPlayInterval={3500}
+             />
+             <div className="absolute top-8 left-8 z-20 bg-green-500 text-white px-5 py-2 rounded-full font-black text-xs md:text-sm shadow-lg flex items-center gap-2 uppercase tracking-widest border-2 border-white/30 backdrop-blur-md">
+               <ShieldCheck className="w-4 h-4" /> Auténtico 100%
+             </div>
+          </div>
+          
+          <div className="mt-12 flex flex-wrap justify-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
+            <span className="text-slate-400 font-black text-xl italic tracking-tighter">#SaludNatural</span>
+            <span className="text-slate-400 font-black text-xl italic tracking-tighter">#CurcumaPremium</span>
+            <span className="text-slate-400 font-black text-xl italic tracking-tighter">#VidaSinDolor</span>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Quality & Trust Section (Garantía de Calidad) */}
       <section 
         data-aos="fade-up"
-        className="bg-white border-y border-amber-100 py-16"
+        className="bg-white border-y border-amber-100 py-20"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-12 uppercase tracking-widest">Garantía de Calidad Farmacéutica</h2>
+          <div className="flex justify-center mb-16">
+            <img 
+              src={IMAGES.trustBadges} 
+              alt="Certificaciones de Calidad" 
+              className="h-24 md:h-32 w-auto object-contain drop-shadow-md grayscale hover:grayscale-0 transition-all duration-500"
+            />
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Badge 1 */}
             <div data-aos="fade-up" data-aos-delay="100" className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
@@ -467,7 +526,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 3. BenefitsSection */}
+      {/* 5. Benefits & Video Section */}
       <section 
         data-aos="fade-up"
         id="beneficios"
@@ -971,7 +1030,10 @@ export default function LandingPage() {
           </div>
           {/* Main CTA Button */}
           <button 
-            onClick={() => document.getElementById('formulario-compra')?.scrollIntoView({behavior:'smooth'})} 
+            onClick={() => {
+              const form = document.getElementById('formulario-compra');
+              if (form) form.scrollIntoView({behavior:'smooth'});
+            }} 
             className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-black py-4 rounded-full shadow-[0_10px_30px_rgba(37,211,102,0.4)] transition-all flex justify-center items-center gap-2 text-base uppercase tracking-widest border-[3px] border-white/90 animate-bounce active:scale-95"
           >
             🛒 COMPRAR AHORA

@@ -93,6 +93,23 @@ const BiologicalAnalysis = () => {
             >
               <EditableImage id="analisisBiologicoImage" initialSrc={IMAGES.analisisBiologico} alt="Información Nutricional" className="w-full h-auto object-cover" referrerPolicy="no-referrer" loading="lazy" />
             </div>
+
+            {/* Impact Image: Joint Health Visualization */}
+            <div
+              data-aos="fade-up"
+              className="relative rounded-3xl overflow-hidden shadow-2xl border border-amber-500/30 group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent z-10 opacity-60"></div>
+              <img 
+                src="/impact_joint_health.png" 
+                alt="Visualización de Salud Articular" 
+                className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" 
+              />
+              <div className="absolute bottom-4 left-6 z-20">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-400">Tecnología de Absorción</span>
+                <p className="text-white font-bold text-sm">Efecto Antiinflamatorio Profundo</p>
+              </div>
+            </div>
             
             <div 
               data-aos="zoom-in" data-aos-delay="200"
