@@ -8,8 +8,8 @@ export const IMAGES = {
     "/hero_premium.png",
     "/impact_ingredients_burst.png",
     "/impact_joint_health.png",
-    "/hero_freedom_hiking.png",
-    "/hero_5.png"
+    "/hero_freedom_jumping.png",
+    "/hero_doctor_trust.png"
   ],
 
   // Imagen principal (Hero) - Fallback
@@ -28,7 +28,7 @@ export const IMAGES = {
 
   // Referencias originales y nuevos impactos
   curcumaPrincipal: "/pack_1.png",
-  trustBadges: "/impact_trust_quality.png",
+  trustBadges: "/active_lifestyle.png",
   ingredientsHero: "/ingredients_hero.png",
   nutritionalFacts: "/nutrition_facts_ref.png",
 

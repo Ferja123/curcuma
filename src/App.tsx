@@ -448,22 +448,41 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 3. Quality & Trust Section (Garantía de Calidad) */}
+      {/* 3. Quality & Trust Section (Garantía de Calidad) - High Impact Banner */}
       <section 
         data-aos="fade-up"
-        className="bg-white border-y border-amber-100 py-20"
+        className="py-16 bg-white flex flex-col items-center border-y border-amber-100"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-12 uppercase tracking-widest">Garantía de Calidad Farmacéutica</h2>
-          <div className="flex justify-center mb-16">
+        <div className="max-w-4xl w-full px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-8 uppercase tracking-widest">Garantía de Calidad Farmacéutica</h2>
+          <div className="relative rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white group">
+             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10"></div>
+             <img 
+               src={IMAGES.trustBadges} 
+               alt="Garantía de Calidad Premium" 
+               className="w-full h-auto object-cover transform transition-transform duration-1000 group-hover:scale-105" 
+             />
+             <div className="absolute bottom-6 md:bottom-10 left-0 right-0 z-20 px-6 md:px-12 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-4">
+               <div>
+                 <h3 className="text-white text-xl md:text-3xl font-black mb-1 drop-shadow-lg">Pureza Certificada al 95%</h3>
+                 <p className="text-amber-300 font-bold text-sm md:text-lg drop-shadow-md uppercase tracking-wider">Estándar de Grado Clínico</p>
+               </div>
+               <div className="bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-3 shadow-xl border border-amber-400/50">
+                 <ShieldCheck className="w-6 h-6 md:w-8 md:h-8 text-amber-600" />
+                 <span className="text-amber-900 font-black text-xs md:text-sm uppercase whitespace-nowrap">Producto 100% Original</span>
+               </div>
+             </div>
+          </div>
+          <div className="mt-12">
             <img 
-              src={IMAGES.trustBadges} 
+              src="/trust_badges_ref.png" 
               alt="Certificaciones de Calidad" 
-              className="h-24 md:h-32 w-auto object-contain drop-shadow-md grayscale hover:grayscale-0 transition-all duration-500"
+              className="h-16 md:h-20 w-auto mx-auto object-contain drop-shadow-sm opacity-60 grayscale hover:grayscale-0 transition-all duration-500"
             />
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
             {/* Badge 1 */}
             <div data-aos="fade-up" data-aos-delay="100" className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
               <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-6 text-amber-600 shadow-inner">
