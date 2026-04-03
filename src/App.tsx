@@ -371,7 +371,7 @@ export default function LandingPage() {
               <Flame className="w-4 h-4" />
               ¡Últimas {stock} unidades en stock!
             </div>
-            <h1 data-aos="fade-up" data-aos-delay="200" className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight tracking-tight">
+            <h1 data-aos="fade-up" data-aos-delay="200" className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight tracking-tight">
               Recupera tu Movilidad y <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">Dile Adiós al Dolor</span> Hoy Mismo.
             </h1>
             <p data-aos="fade-up" data-aos-delay="300" className="text-lg md:text-xl text-gray-700 leading-relaxed font-medium">
@@ -452,35 +452,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 3. Real Product Gallery: Authentic User/Reference Photos */}
-      <section data-aos="fade-up" className="py-20 bg-slate-50 border-y border-slate-200 overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <div className="mb-12">
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Nuestra Galería Real</h2>
-            <p className="text-amber-600 font-bold text-lg md:text-xl uppercase tracking-[0.2em]">Transparencia Total: El Producto que amas</p>
-          </div>
-          
-          <div className="relative max-w-4xl mx-auto rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] bg-white p-4">
-             <EditableCarousel 
-               id="realProductGallery"
-               initialImages={IMAGES.realGallery}
-               className="w-full aspect-[4/3] rounded-3xl object-cover"
-               autoPlayInterval={3500}
-             />
-             <div className="absolute top-8 left-8 z-20 bg-green-500 text-white px-5 py-2 rounded-full font-black text-xs md:text-sm shadow-lg flex items-center gap-2 uppercase tracking-widest border-2 border-white/30 backdrop-blur-md">
-               <ShieldCheck className="w-4 h-4" /> Auténtico 100%
-             </div>
-          </div>
-          
-          <div className="mt-12 flex flex-wrap justify-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
-            <span className="text-slate-400 font-black text-xl italic tracking-tighter">#SaludNatural</span>
-            <span className="text-slate-400 font-black text-xl italic tracking-tighter">#CurcumaPremium</span>
-            <span className="text-slate-400 font-black text-xl italic tracking-tighter">#VidaSinDolor</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Quality & Trust Section (Garantía de Calidad) */}
+      {/* 3. Quality & Trust Section (Garantía de Calidad) */}
       <section 
         data-aos="fade-up"
         className="bg-white border-y border-amber-100 py-20"
@@ -526,7 +498,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 5. Benefits & Video Section */}
+      {/* 4. Benefits & Video Section */}
       <section 
         data-aos="fade-up"
         id="beneficios"
@@ -631,7 +603,7 @@ export default function LandingPage() {
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div data-aos="fade-up" className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-black text-amber-400 mb-6 tracking-tight drop-shadow-md">
+            <h2 className="text-2xl md:text-5xl font-black text-amber-400 mb-6 tracking-tight drop-shadow-md">
               Completa tus datos para coordinar tu entrega
             </h2>
             <p className="text-amber-100 text-lg md:text-xl font-medium tracking-wide mb-6">
@@ -639,8 +611,8 @@ export default function LandingPage() {
             </p>
             <div className="flex justify-center mb-8 relative">
               <img 
-                src={IMAGES.curcumaPrincipal} 
-                alt="Funirich Joint Health" 
+                src={paquete.includes('3 Frascos') ? IMAGES.paqueteTresFrascos : paquete.includes('2 Frascos') ? IMAGES.paqueteDosFrascos : IMAGES.paqueteUnFrasco} 
+                alt="Paquete Seleccionado - Cúrcuma" 
                 className="h-64 md:h-80 w-auto max-w-full object-contain rounded-2xl drop-shadow-2xl hover:scale-105 transition-all duration-500"
               />
                {/* Sello Original */}
@@ -1021,11 +993,11 @@ export default function LandingPage() {
       )}
 
       {/* 9. Floating CTA - Centered Bottom */}
-      <div className={`fixed bottom-4 left-0 right-0 z-50 px-4 pointer-events-none flex flex-col items-center transition-all duration-500 ${showFloatingCTA ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}>
-        <div className="pointer-events-auto w-full max-w-[320px] flex flex-col items-center gap-1.5 drop-shadow-2xl">
+      <div className={`fixed bottom-2 md:bottom-4 left-0 right-0 z-50 px-4 pointer-events-none flex flex-col items-center transition-all duration-500 ${showFloatingCTA ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}>
+        <div className="pointer-events-auto w-full max-w-[280px] md:max-w-[320px] flex flex-col items-center gap-1 drop-shadow-2xl">
           {/* Stock Notification */}
-          <div className="bg-red-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full shadow-lg flex items-center gap-2 border border-red-400/30">
-            <Flame className="w-3.5 h-3.5 animate-pulse" /> 
+          <div className="bg-red-600 text-white text-[9px] md:text-[10px] font-black px-3 py-1 rounded-full shadow-lg flex items-center gap-2 border border-red-400/30">
+            <Flame className="w-3 h-3 md:w-3.5 md:h-3.5 animate-pulse" /> 
             <span>¡ULTIMAS <span className="text-yellow-300">{stock}</span> UNIDADES!</span>
           </div>
           {/* Main CTA Button */}
@@ -1034,7 +1006,7 @@ export default function LandingPage() {
               const form = document.getElementById('formulario-compra');
               if (form) form.scrollIntoView({behavior:'smooth'});
             }} 
-            className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-black py-4 rounded-full shadow-[0_10px_30px_rgba(37,211,102,0.4)] transition-all flex justify-center items-center gap-2 text-base uppercase tracking-widest border-[3px] border-white/90 animate-bounce active:scale-95"
+            className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-black py-3 md:py-4 rounded-full shadow-[0_10px_30px_rgba(37,211,102,0.4)] transition-all flex justify-center items-center gap-2 text-sm md:text-base uppercase tracking-widest border-[2px] md:border-[3px] border-white/90 animate-bounce active:scale-95"
           >
             🛒 COMPRAR AHORA
           </button>
