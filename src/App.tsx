@@ -448,7 +448,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 3. Quality & Trust Section (Garantía de Calidad) - High Impact Banner */}
+      {/* 3. Quality & Trust Section (Garantía de Calidad) - High Impact Banner [REDEPLOY_FORCE] */}
       <section 
         data-aos="fade-up"
         className="py-16 bg-white flex flex-col items-center border-y border-amber-100"
