@@ -482,7 +482,7 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
             {/* Badge 1 */}
             <div data-aos="fade-up" data-aos-delay="100" className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
               <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-6 text-amber-600 shadow-inner">
@@ -510,7 +510,6 @@ export default function LandingPage() {
               <p className="text-slate-600 leading-relaxed">Fórmula orgánica sin químicos añadidos, estandarizada al 95% de pureza para garantizar la máxima absorción.</p>
             </div>
           </div>
-        </div>
       </section>
 
       {/* 4. Benefits & Video Section */}
