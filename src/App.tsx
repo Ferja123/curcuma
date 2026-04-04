@@ -506,17 +506,14 @@ export default function LandingPage() {
                </div>
              </div>
           </div>
-          <div className="mt-12">
+          <div className="mt-12 bg-white/80 backdrop-blur-sm rounded-3xl p-6 md:p-10 shadow-lg border border-amber-100/50 max-w-2xl mx-auto">
+            <p className="text-center text-xs md:text-sm font-bold text-amber-800 uppercase tracking-[0.2em] mb-6">Certificaciones de Calidad Internacional</p>
             <img 
-              src="/trust_badges_ref.webp" 
-              alt="Certificaciones de Calidad" 
-              className="h-16 md:h-20 w-auto mx-auto object-contain drop-shadow-sm opacity-80 transition-all duration-500"
+              src="/trust_badges_grid.webp" 
+              alt="Certificaciones: 100% Natural, GMP Certified, Pure Curcumin 95%, Clinical Grade, Laboratory Tested, FDA Facility" 
+              className="w-full max-w-lg mx-auto object-contain drop-shadow-md"
               loading="lazy"
               decoding="async"
-              onError={(e) => {
-                // Sencillo fallback si por alguna razón falla la carga
-                e.currentTarget.src = "/trust_badges_impact.webp";
-              }}
             />
           </div>
         </div>
