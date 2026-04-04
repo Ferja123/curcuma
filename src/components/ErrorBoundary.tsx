@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -16,11 +16,23 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error): State {
+    // If it's the Google Translate DOM error, try to auto-recover
+    if (error.message?.includes('insertBefore') || error.message?.includes('removeChild')) {
+      // Force a clean reload after a brief delay
+      setTimeout(() => window.location.reload(), 100);
+      return { hasError: false, error: null };
+    }
     return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('React Error Boundary caught:', error, errorInfo);
+    console.error('React Error Boundary caught:', error.message);
+    
+    // Auto-recover from DOM manipulation errors caused by extensions
+    if (error.message?.includes('insertBefore') || error.message?.includes('removeChild') || error.message?.includes('not a child')) {
+      console.warn('DOM conflict detected (likely browser extension). Auto-recovering...');
+      this.setState({ hasError: false, error: null });
+    }
   }
 
   render() {
@@ -34,7 +46,7 @@ class ErrorBoundary extends Component<Props, State> {
           color: 'white',
           minHeight: '100vh',
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'column' as const,
           alignItems: 'center',
           justifyContent: 'center'
         }}>
@@ -59,9 +71,6 @@ class ErrorBoundary extends Component<Props, State> {
           >
             🔄 Recargar Página
           </button>
-          <p style={{ fontSize: '12px', marginTop: '16px', color: '#64748b' }}>
-            {this.state.error?.message}
-          </p>
         </div>
       );
     }
