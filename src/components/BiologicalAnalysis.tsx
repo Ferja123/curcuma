@@ -104,6 +104,8 @@ const BiologicalAnalysis = () => {
                 src="/impact_joint_health.png" 
                 alt="Visualización de Salud Articular" 
                 className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" 
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute bottom-4 left-6 z-20">
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-400">Tecnología de Absorción</span>

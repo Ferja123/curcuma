@@ -180,15 +180,17 @@ export default function LandingPage() {
   useEffect(() => {
     AOS.init({
       duration: 600,
-      once: false, // Changed to false to allow re-triggering if scroll is jittery
+      once: false,
       offset: 50,
       delay: 50,
       easing: 'ease-out-back',
     });
 
     // Forced refresh after content mounts or images load
-    window.addEventListener('load', () => AOS.refresh());
-    setTimeout(() => AOS.refresh(), 1000);
+    const refreshAOS = () => AOS.refresh();
+    window.addEventListener('load', refreshAOS);
+    const refreshTimer = setTimeout(refreshAOS, 1000);
+    const secondRefreshTimer = setTimeout(refreshAOS, 3000); // For larger images
 
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
@@ -524,6 +526,8 @@ export default function LandingPage() {
                src={IMAGES.trustBadges} 
                alt="Garantía de Calidad Premium" 
                className="w-full h-auto object-cover transform transition-transform duration-1000 group-hover:scale-105" 
+               loading="lazy"
+               decoding="async"
              />
              <div className="absolute bottom-6 md:bottom-10 left-0 right-0 z-20 px-6 md:px-12 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-4">
                <div>
@@ -536,11 +540,17 @@ export default function LandingPage() {
                </div>
              </div>
           </div>
-          <div className="mt-12">
+          <div className="mt-12" data-aos="fade-up" data-aos-delay="400">
             <img 
               src="/trust_badges_ref.png" 
               alt="Certificaciones de Calidad" 
-              className="h-16 md:h-20 w-auto mx-auto object-contain drop-shadow-sm opacity-60 grayscale hover:grayscale-0 transition-all duration-500"
+              className="h-16 md:h-20 w-auto mx-auto object-contain drop-shadow-sm opacity-80 transition-all duration-500"
+              loading="lazy"
+              decoding="async"
+              onError={(e) => {
+                // Sencillo fallback si por alguna razón falla la carga
+                e.currentTarget.src = "/trust_badges_impact.png";
+              }}
             />
           </div>
         </div>
@@ -597,6 +607,7 @@ export default function LandingPage() {
                 playsInline
                 preload="auto"
                 poster="/hero-image-1.png"
+                loading="lazy"
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -691,6 +702,8 @@ export default function LandingPage() {
                 src={paquete.includes('3 Frascos') ? IMAGES.paqueteTresFrascos : paquete.includes('2 Frascos') ? IMAGES.paqueteDosFrascos : IMAGES.paqueteUnFrasco} 
                 alt="Paquete Seleccionado - Cúrcuma" 
                 className="h-64 md:h-80 w-auto max-w-full object-contain rounded-2xl drop-shadow-2xl hover:scale-105 transition-all duration-500"
+                loading="lazy"
+                decoding="async"
               />
                {/* Sello Original */}
               <div className="absolute top-0 right-1/2 transform translate-x-16 md:translate-x-32 bg-yellow-400 text-slate-900 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 z-10 border border-yellow-200">
@@ -1097,7 +1110,13 @@ export default function LandingPage() {
       <div className={`fixed top-4 left-4 right-4 md:right-auto md:bottom-24 md:top-auto md:left-4 z-[90] transition-all duration-700 transform ${showNotification ? 'translate-y-0 md:translate-x-0 opacity-100' : '-translate-y-full md:-translate-x-full opacity-0'}`}>
         <div className="bg-white/95 backdrop-blur-md rounded-2xl p-3 md:p-4 shadow-2xl border border-amber-100 flex items-center gap-3 md:gap-4 max-w-full md:max-w-[320px] mx-auto md:mx-0">
           <div className="w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-amber-500/20 shrink-0 shadow-sm">
-            <img src={currentNotification.image} alt={currentNotification.name} className="w-full h-full object-cover" />
+            <img 
+              src={currentNotification.image} 
+              alt={currentNotification.name} 
+              className="w-full h-full object-cover" 
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-0.5">

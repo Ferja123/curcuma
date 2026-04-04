@@ -61,7 +61,14 @@ export default function CommentsSection() {
               {/* Header */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <img src={review.avatar} alt={review.name} className="w-12 h-12 rounded-full object-cover border-2 border-amber-500/20" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                  <img 
+                    src={review.avatar} 
+                    alt={review.name} 
+                    className="w-12 h-12 rounded-full object-cover border-2 border-amber-500/20" 
+                    loading="lazy" 
+                    decoding="async" 
+                    referrerPolicy="no-referrer" 
+                  />
                   <div>
                     <h4 className="font-bold text-white text-sm flex items-center gap-1">
                       {review.name}
