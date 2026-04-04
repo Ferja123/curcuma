@@ -179,10 +179,16 @@ export default function LandingPage() {
 
   useEffect(() => {
     AOS.init({
-      duration: 800,
-      once: true,
-      offset: 100,
+      duration: 600,
+      once: false, // Changed to false to allow re-triggering if scroll is jittery
+      offset: 50,
+      delay: 50,
+      easing: 'ease-out-back',
     });
+
+    // Forced refresh after content mounts or images load
+    window.addEventListener('load', () => AOS.refresh());
+    setTimeout(() => AOS.refresh(), 1000);
 
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
@@ -998,8 +1004,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <FAQ />
+      {/* FAQ Section with Zero Gap */}
+      <div className="bg-white -mt-px relative z-20">
+        <FAQ />
+      </div>
 
       {/* 8. Confirmation Modal */}
       {isConfirmModalOpen && (
