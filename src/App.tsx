@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageCircle, MapPin, Edit3, Star, X, Sparkles, Heart, Brain, MessageSquareQuote, PlayCircle, ChevronLeft, ChevronRight, Timer, Truck, ChevronDown } from 'lucide-react';
+import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageCircle, MapPin, Edit3, Star, X, Sparkles, Heart, Brain, MessageSquareQuote, PlayCircle, ChevronLeft, ChevronRight, Timer, Truck, ChevronDown, ShoppingBag, User } from 'lucide-react';
 import FAQ from './components/FAQ';
 import CommentsSection from './components/CommentsSection';
 import BiologicalAnalysis from './components/BiologicalAnalysis';
@@ -46,6 +46,42 @@ export default function LandingPage() {
     referencia: false,
     hora: false,
   });
+
+  const [showNotification, setShowNotification] = useState(false);
+  const [currentNotification, setCurrentNotification] = useState({ name: '', city: '', count: 1 });
+
+  const fakePurchasers = [
+    { name: 'Mónica', city: 'Arequipa', count: 3 },
+    { name: 'José', city: 'Lima', count: 2 },
+    { name: 'Ricardo', city: 'Trujillo', count: 1 },
+    { name: 'Elena', city: 'Cusco', count: 3 },
+    { name: 'Sofía', city: 'Piura', count: 2 },
+    { name: 'Carlos', city: 'Huancayo', count: 1 },
+    { name: 'Beatriz', city: 'Iquitos', count: 2 },
+    { name: 'Andrés', city: 'Chiclayo', count: 3 },
+    { name: 'Carmen', city: 'Tacna', count: 1 },
+    { name: 'Luis', city: 'Pucallpa', count: 2 },
+  ];
+
+  useEffect(() => {
+    const triggerNotification = () => {
+      const idx = Math.floor(Math.random() * fakePurchasers.length);
+      setCurrentNotification(fakePurchasers[idx]);
+      setShowNotification(true);
+      
+      setTimeout(() => {
+        setShowNotification(false);
+      }, 5000);
+    };
+
+    const initialDelay = setTimeout(triggerNotification, 5000);
+    const interval = setInterval(triggerNotification, 20000);
+
+    return () => {
+      clearTimeout(initialDelay);
+      clearInterval(interval);
+    };
+  }, []);
   const [paquete, setPaquete] = useState('2 Frascos (S/ 139.00)');
 
   const [isMobile, setIsMobile] = useState(false);
@@ -377,11 +413,30 @@ export default function LandingPage() {
             <p data-aos="fade-up" data-aos-delay="300" className="text-lg md:text-xl text-gray-700 leading-relaxed font-medium">
               El secreto natural que está cambiando vidas en TikTok. Cúrcuma de ultra-alta pureza (95%) con pimienta negra para una absorción 2000% mayor.
             </p>
-            <div data-aos="fade-up" data-aos-delay="500" className="flex items-center gap-2 text-sm text-gray-600 font-bold bg-white/50 inline-block p-2 rounded-lg mt-6">
-              <div className="flex text-amber-500">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+            <div data-aos="fade-up" data-aos-delay="500" className="flex flex-col gap-6 mt-6">
+              <div className="flex items-center gap-2 text-sm text-gray-600 font-bold bg-white/50 inline-block p-2 rounded-lg mr-auto">
+                <div className="flex text-amber-500">
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+                </div>
+                Más de 1,200 clientes en todo el Perú ya viven sin dolor.
               </div>
-              Más de 1,200 clientes en todo el Perú ya viven sin dolor.
+              
+              <button 
+                onClick={() => scrollToForm()}
+                className="group relative w-full md:w-auto px-10 py-5 bg-gradient-to-r from-orange-600 to-amber-500 text-white font-black text-xl md:text-2xl rounded-2xl shadow-[0_0_40px_rgba(234,88,12,0.3)] hover:shadow-[0_0_60px_rgba(234,88,12,0.5)] transform hover:-translate-y-1 active:scale-95 transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12"></div>
+                <ShoppingBag className="w-6 h-6 md:w-8 md:h-8" />
+                <span className="uppercase tracking-tighter">¡Pedir ahora y pagar en casa!</span>
+                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <div className="flex items-center gap-2.5 animate-pulse">
+                <div className="w-2.5 h-2.5 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+                <span className="text-sm font-bold text-gray-600">
+                  <span className="text-green-600">23 personas</span> están comprando en este momento
+                </span>
+              </div>
             </div>
           </div>
           <div 
@@ -1024,6 +1079,24 @@ export default function LandingPage() {
           >
             🛒 COMPRAR AHORA
           </button>
+        </div>
+      </div>
+
+      {/* 10. Fake Live Purchase Notification */}
+      <div className={`fixed bottom-20 md:bottom-24 left-4 z-[60] transition-all duration-700 transform ${showNotification ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'}`}>
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-2xl border border-amber-100 flex items-center gap-4 max-w-[280px]">
+          <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center shrink-0">
+            <User className="w-6 h-6 text-amber-600" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-[11px] font-black text-amber-600 uppercase tracking-wider mb-0.5">¡Nuevo pedido en vivo!</p>
+            <p className="text-sm font-bold text-slate-900 truncate">
+              {currentNotification.name} de {currentNotification.city}
+            </p>
+            <p className="text-xs text-slate-500">
+              Acaba de pedir <span className="font-bold text-amber-500">{currentNotification.count} {currentNotification.count === 1 ? 'frasco' : 'frascos'}</span>
+            </p>
+          </div>
         </div>
       </div>
 
