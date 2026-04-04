@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, PanInfo } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -13,6 +13,8 @@ export default function EditableCarousel({ id, initialImages, className = "", au
   const [slides, setSlides] = useState<{url: string}[]>(initialImages.map(url => ({url})));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isTouching, setIsTouching] = useState(false);
+  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     fetch('/api/data')
@@ -25,21 +27,19 @@ export default function EditableCarousel({ id, initialImages, className = "", au
           setSlides(data[`carousel_${id}`]);
         }
       })
-      .catch(() => {
-        // Silently fallback to initialImages when API is unavailable (e.g. static hosting)
-      });
+      .catch(() => {});
   }, [id]);
 
-  // Auto-play functionality
+  // Auto-play: pauses on hover OR touch
   useEffect(() => {
-    if (slides.length <= 1 || isHovered) return;
+    if (slides.length <= 1 || isHovered || isTouching) return;
 
     const interval = setInterval(() => {
       setCurrentIndex(prev => (prev === slides.length - 1 ? 0 : prev + 1));
     }, autoPlayInterval);
 
     return () => clearInterval(interval);
-  }, [slides.length, isHovered, autoPlayInterval]);
+  }, [slides.length, isHovered, isTouching, autoPlayInterval]);
 
   const nextSlide = () => {
     setCurrentIndex(prev => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -47,6 +47,11 @@ export default function EditableCarousel({ id, initialImages, className = "", au
 
   const prevSlide = () => {
     setCurrentIndex(prev => (prev === 0 ? slides.length - 1 : prev - 1));
+  };
+
+  const handleDragStart = () => {
+    setIsTouching(true);
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
   };
 
   const handleDragEnd = (e: any, { offset, velocity }: PanInfo) => {
@@ -60,6 +65,17 @@ export default function EditableCarousel({ id, initialImages, className = "", au
     } else if (offset.x > 50) {
       prevSlide();
     }
+    // Resume auto-play after 5 seconds of no interaction
+    resumeTimerRef.current = setTimeout(() => setIsTouching(false), 5000);
+  };
+
+  const handleTouchStart = () => {
+    setIsTouching(true);
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+  };
+
+  const handleTouchEnd = () => {
+    resumeTimerRef.current = setTimeout(() => setIsTouching(false), 5000);
   };
 
   if (slides.length === 0) {
@@ -77,13 +93,15 @@ export default function EditableCarousel({ id, initialImages, className = "", au
       className={`relative group/carousel overflow-hidden ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
-      {/* Main Image Slider */}
       <motion.div 
         className="relative w-full h-full flex"
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.2}
+        onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         animate={{ x: `-${currentIndex * 100}%` }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -103,7 +121,6 @@ export default function EditableCarousel({ id, initialImages, className = "", au
         ))}
       </motion.div>
 
-      {/* Navigation Arrows */}
       {slides.length > 1 && (
         <>
           <button 
@@ -121,7 +138,6 @@ export default function EditableCarousel({ id, initialImages, className = "", au
         </>
       )}
 
-      {/* Indicators */}
       {slides.length > 1 && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-30">
           {slides.map((_, idx) => (
