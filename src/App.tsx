@@ -7,8 +7,7 @@ import EditableImage from './components/EditableImage';
 import EditableCarousel from './components/EditableCarousel';
 import Header from './components/Header';
 import { IMAGES } from './config/images';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+// AOS removed - using native CSS scroll animations for stability
 
 declare global {
   interface Window {
@@ -178,19 +177,21 @@ export default function LandingPage() {
 
 
   useEffect(() => {
-    AOS.init({
-      duration: 600,
-      once: false,
-      offset: 50,
-      delay: 50,
-      easing: 'ease-out-back',
+    // Native IntersectionObserver for scroll animations - replaces AOS
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in-view');
+          }
+        });
+      },
+      { threshold: 0.05, rootMargin: '0px 0px -30px 0px' }
+    );
+    document.querySelectorAll('[data-aos]').forEach((el) => {
+      el.classList.add('pre-animate');
+      observer.observe(el);
     });
-
-    // Forced refresh after content mounts or images load
-    const refreshAOS = () => AOS.refresh();
-    window.addEventListener('load', refreshAOS);
-    const refreshTimer = setTimeout(refreshAOS, 1000);
-    const secondRefreshTimer = setTimeout(refreshAOS, 3000); // For larger images
 
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
@@ -202,15 +203,13 @@ export default function LandingPage() {
 
     const stockTimer = setInterval(() => {
       setStock((prev) => {
-        // Decrease stock occasionally, but don't go below 3
-        if (prev > 3 && Math.random() > 0.5) {
-          return prev - 1;
-        }
+        if (prev > 3 && Math.random() > 0.5) return prev - 1;
         return prev;
       });
     }, 12000);
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', checkMobile);
       clearInterval(timer);
       clearInterval(stockTimer);
