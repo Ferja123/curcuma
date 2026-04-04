@@ -433,10 +433,10 @@ export default function LandingPage() {
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
 
-              <div className="flex items-center gap-2.5 animate-pulse">
+              <div className="flex items-center gap-2.5 animate-pulse bg-green-50/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-green-200/50 inline-flex">
                 <div className="w-2.5 h-2.5 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
-                <span className="text-sm font-bold text-gray-600">
-                  <span className="text-green-600">23 personas</span> están comprando en este momento
+                <span className="text-sm font-bold text-gray-700">
+                  <span className="text-green-700">25 personas</span> están comprando en este momento
                 </span>
               </div>
             </div>
@@ -1064,12 +1064,12 @@ export default function LandingPage() {
       )}
 
       {/* 9. Floating CTA - Centered Bottom */}
-      <div className={`fixed bottom-2 md:bottom-4 left-0 right-0 z-50 px-4 pointer-events-none flex flex-col items-center transition-all duration-500 ${showFloatingCTA ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}>
-        <div className="pointer-events-auto w-full max-w-[280px] md:max-w-[320px] flex flex-col items-center gap-1 drop-shadow-2xl">
+      <div className={`fixed bottom-4 left-0 right-0 z-50 px-4 pointer-events-none flex flex-col items-center transition-all duration-500 md:hidden ${showFloatingCTA ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}>
+        <div className="pointer-events-auto w-full max-w-[280px] flex flex-col items-center gap-1.5 shadow-2xl">
           {/* Stock Notification */}
-          <div className="bg-red-600 text-white text-[9px] md:text-[10px] font-black px-3 py-1 rounded-full shadow-lg flex items-center gap-2 border border-red-400/30">
-            <Flame className="w-3 h-3 md:w-3.5 md:h-3.5 animate-pulse" /> 
-            <span>¡ULTIMAS <span className="text-yellow-300">{stock}</span> UNIDADES!</span>
+          <div className="bg-red-600 text-white text-[10px] font-black px-4 py-1 rounded-full shadow-lg flex items-center gap-2 border border-red-400/30 animate-pulse">
+            <Flame className="w-3.5 h-3.5 fill-white" /> 
+            <span>¡ULTIMAS <span className="text-yellow-300 font-black">{stock}</span> UNIDADES EN STOCK!</span>
           </div>
           {/* Main CTA Button */}
           <button 
@@ -1077,23 +1077,24 @@ export default function LandingPage() {
               const form = document.getElementById('formulario-compra');
               if (form) form.scrollIntoView({behavior:'smooth'});
             }} 
-            className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-black py-3 md:py-4 rounded-full shadow-[0_10px_30px_rgba(37,211,102,0.4)] transition-all flex justify-center items-center gap-2 text-sm md:text-base uppercase tracking-widest border-[2px] md:border-[3px] border-white/90 animate-bounce active:scale-95"
+            className="w-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-black py-4 rounded-3xl shadow-[0_10px_30px_rgba(34,197,94,0.4)] transition-all flex justify-center items-center gap-3 text-lg uppercase tracking-wider active:scale-95 border-2 border-white/20"
           >
-            🛒 COMPRAR AHORA
+            <ShoppingBag className="w-6 h-6" />
+            COMPRAR AHORA
           </button>
         </div>
       </div>
 
       {/* 10. Fake Live Purchase Notification */}
-      <div className={`fixed bottom-20 md:bottom-24 left-4 z-[60] transition-all duration-700 transform ${showNotification ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'}`}>
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-2xl border border-amber-100 flex items-center gap-4 max-w-[320px]">
-          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-amber-500/20 shrink-0 shadow-sm">
+      <div className={`fixed top-4 left-4 right-4 md:right-auto md:bottom-24 md:top-auto md:left-4 z-[90] transition-all duration-700 transform ${showNotification ? 'translate-y-0 md:translate-x-0 opacity-100' : '-translate-y-full md:-translate-x-full opacity-0'}`}>
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-3 md:p-4 shadow-2xl border border-amber-100 flex items-center gap-3 md:gap-4 max-w-full md:max-w-[320px] mx-auto md:mx-0">
+          <div className="w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-amber-500/20 shrink-0 shadow-sm">
             <img src={currentNotification.image} alt={currentNotification.name} className="w-full h-full object-cover" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-0.5">
-              <p className="text-[10px] font-black text-amber-600 uppercase tracking-wider">¡Nuevo pedido!</p>
-              <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
+              <p className="text-[9px] md:text-[10px] font-black text-amber-600 uppercase tracking-wider">¡Nuevo pedido!</p>
+              <span className={`text-[8px] md:text-[9px] font-bold px-2 py-0.5 rounded-full ${
                 currentNotification.platform === 'TikTok' ? 'bg-black text-white' : 
                 currentNotification.platform === 'Facebook' ? 'bg-blue-600 text-white' : 
                 'bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 text-white'
@@ -1101,11 +1102,11 @@ export default function LandingPage() {
                 {currentNotification.platform}
               </span>
             </div>
-            <p className="text-sm font-bold text-slate-900 truncate">
+            <p className="text-xs md:text-sm font-bold text-slate-900 truncate">
               {currentNotification.name} de {currentNotification.city}
             </p>
-            <p className="text-xs text-slate-500">
-              Acaba de pedir <span className="font-bold text-amber-500">{currentNotification.count} {currentNotification.count === 1 ? 'frasco' : 'frascos'}</span>
+            <p className="text-[10px] md:text-xs text-slate-500">
+              Pidió <span className="font-bold text-amber-500">{currentNotification.count} {currentNotification.count === 1 ? 'frasco' : 'frascos'}</span>
             </p>
           </div>
         </div>
