@@ -23,8 +23,7 @@ export default function HeroSection() {
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16 md:pt-40 md:pb-24">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div 
-            data-aos="fade-up"
+          <div
             className="space-y-8"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-sm font-medium">
@@ -55,8 +54,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div 
-            data-aos="zoom-in" data-aos-delay="200"
+          <div
             className="relative"
           >
             <div className="absolute inset-0 bg-amber-200 rounded-full blur-3xl opacity-30 transform translate-x-10 translate-y-10"></div>

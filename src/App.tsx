@@ -7,7 +7,6 @@ import EditableImage from './components/EditableImage';
 import EditableCarousel from './components/EditableCarousel';
 import Header from './components/Header';
 import { IMAGES } from './config/images';
-// AOS removed - using native CSS scroll animations for stability
 
 declare global {
   interface Window {
@@ -384,28 +383,27 @@ export default function LandingPage() {
 
 
       {/* 1. HeroSection */}
-      <section data-aos="fade-up" className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-12 md:pt-40 md:pb-20 overflow-hidden">
+      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-12 md:pt-40 md:pb-20 overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-50 to-orange-50 -z-10 rounded-3xl"></div>
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse"></div>
-        <div className="absolute top-48 -left-24 w-72 h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+        <div className="absolute top-48 -left-24 w-72 h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
-          <div 
-            data-aos="fade-right"
+          <div
             className="order-2 md:order-1 space-y-6"
           >
-            <div data-aos="fade-up" data-aos-delay="100" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-100 text-red-700 font-bold text-sm mb-2 shadow-sm border border-red-200">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-100 text-red-700 font-bold text-sm mb-2 shadow-sm border border-red-200">
               <Flame className="w-4 h-4" />
               ¡Últimas {stock} unidades en stock!
             </div>
-            <h1 data-aos="fade-up" data-aos-delay="200" className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight tracking-tight">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight tracking-tight">
               Recupera tu Movilidad y <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">Dile Adiós al Dolor</span> Hoy Mismo.
             </h1>
-            <p data-aos="fade-up" data-aos-delay="300" className="text-lg md:text-xl text-gray-700 leading-relaxed font-medium">
+            <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-medium">
               El secreto natural que está cambiando vidas en TikTok. Cúrcuma de ultra-alta pureza (95%) con pimienta negra para una absorción 2000% mayor.
             </p>
-            <div data-aos="fade-up" data-aos-delay="500" className="flex flex-col gap-6 mt-6">
+            <div className="flex flex-col gap-6 mt-6">
               <div className="flex items-center gap-2 text-sm text-gray-600 font-bold bg-white/50 inline-block p-2 rounded-lg mr-auto">
                 <div className="flex text-amber-500">
                   {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
@@ -431,12 +429,11 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-          <div 
-            data-aos="fade-left" data-aos-delay="200"
+          <div
             className="order-1 md:order-2 relative bg-gray-100 rounded-3xl aspect-square md:aspect-[4/3] flex items-center justify-center overflow-hidden shadow-xl group"
           >
             {/* Badge Últimas Unidades en la imagen */}
-            <div className="absolute top-4 left-4 z-20 bg-red-600 text-white px-4 py-2 rounded-full font-black text-sm md:text-base shadow-lg flex items-center gap-2 animate-bounce">
+            <div className="absolute top-4 left-4 z-20 bg-red-600 text-white px-4 py-2 rounded-full font-black text-sm md:text-base shadow-lg flex items-center gap-2">
               <Flame className="w-4 h-4 md:w-5 md:h-5" />
               ¡ÚLTIMAS {stock} UNIDADES!
             </div>
@@ -478,7 +475,7 @@ export default function LandingPage() {
       </section>
 
       {/* High Impact Section: Ingredients Burst */}
-      <section data-aos="fade-up" className="py-12 bg-white flex flex-col items-center">
+      <section className="py-12 bg-white flex flex-col items-center">
         <div className="max-w-4xl w-full px-4 text-center">
           <div className="relative rounded-[3rem] overflow-hidden shadow-2xl border-2 border-amber-500/10 group">
              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40 z-10"></div>
@@ -496,8 +493,7 @@ export default function LandingPage() {
       </section>
 
       {/* 3. Quality & Trust Section (Garantía de Calidad) - High Impact Banner [REDEPLOY_FORCE] */}
-      <section 
-        data-aos="fade-up"
+      <section
         className="py-16 bg-white flex flex-col items-center border-y border-amber-100"
       >
         <div className="max-w-4xl w-full px-4 text-center">
@@ -522,7 +518,7 @@ export default function LandingPage() {
                </div>
              </div>
           </div>
-          <div className="mt-12" data-aos="fade-up" data-aos-delay="400">
+          <div className="mt-12">
             <img 
               src="/trust_badges_ref.png" 
               alt="Certificaciones de Calidad" 
@@ -539,7 +535,7 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
             {/* Badge 1 */}
-            <div data-aos="fade-up" data-aos-delay="100" className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
+            <div className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
               <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-6 text-amber-600 shadow-inner">
                 <Truck className="w-10 h-10" />
               </div>
@@ -548,7 +544,7 @@ export default function LandingPage() {
             </div>
             
             {/* Badge 2 */}
-            <div data-aos="fade-up" data-aos-delay="200" className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
+            <div className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
               <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-6 text-amber-600 shadow-inner">
                 <ShieldCheck className="w-10 h-10" />
               </div>
@@ -557,7 +553,7 @@ export default function LandingPage() {
             </div>
             
             {/* Badge 3 */}
-            <div data-aos="fade-up" data-aos-delay="300" className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
+            <div className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
               <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-6 text-amber-600 shadow-inner">
                 <Leaf className="w-10 h-10" />
               </div>
@@ -568,17 +564,16 @@ export default function LandingPage() {
       </section>
 
       {/* 4. Benefits & Video Section */}
-      <section 
-        data-aos="fade-up"
+      <section
         id="beneficios"
         className="py-20 bg-slate-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 data-aos="fade-up" className="text-3xl md:text-4xl font-bold text-center text-slate-900 mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-slate-900 mb-16">
             Recupera tu Movilidad y tu Energía Natural
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div data-aos="fade-right" className="relative rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <video 
                 ref={videoRef}
                 src="/video-promocional-curcuma.mp4" 
@@ -593,7 +588,7 @@ export default function LandingPage() {
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div data-aos="fade-up" data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Activity className="w-5 h-5 text-amber-600" />
@@ -604,7 +599,7 @@ export default function LandingPage() {
                   Desinflama rodillas, espalda y articulaciones para que vuelvas a moverte sin dolor.
                 </p>
               </div>
-              <div data-aos="fade-up" data-aos-delay="200" className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Flame className="w-5 h-5 text-amber-600" />
@@ -615,7 +610,7 @@ export default function LandingPage() {
                   Fórmula con Pimienta Negra y Aceite MCT asegura que tu cuerpo absorba cada miligramo.
                 </p>
               </div>
-              <div data-aos="fade-up" data-aos-delay="300" className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Shield className="w-5 h-5 text-amber-600" />
@@ -626,7 +621,7 @@ export default function LandingPage() {
                   Enriquecido con Propóleo de Abeja y Jengibre para fortalecer tus defensas.
                 </p>
               </div>
-              <div data-aos="fade-up" data-aos-delay="400" className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Heart className="w-5 h-5 text-amber-600" />
@@ -637,7 +632,7 @@ export default function LandingPage() {
                   Ayuda a mantener un corazón sano y mejora la circulación sanguínea.
                 </p>
               </div>
-              <div data-aos="fade-up" data-aos-delay="500" className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 sm:col-span-2">
+              <div className="bg-white p-6 rounded-2xl shadow-md border border-amber-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 sm:col-span-2">
                 <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Brain className="w-5 h-5 text-amber-600" />
@@ -660,8 +655,7 @@ export default function LandingPage() {
       <CommentsSection />
 
       {/* 5. OrderForm */}
-      <section 
-        data-aos="fade-up"
+      <section
         id="formulario-compra" 
         className="py-24 relative overflow-hidden"
       >
@@ -672,7 +666,7 @@ export default function LandingPage() {
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-slate-50 to-transparent -z-10"></div>
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div data-aos="fade-up" className="text-center mb-12">
+          <div className="text-center mb-12">
             <h2 className="text-2xl md:text-5xl font-black text-amber-400 mb-6 tracking-tight drop-shadow-md">
               Completa tus datos para coordinar tu entrega
             </h2>
@@ -695,7 +689,7 @@ export default function LandingPage() {
 
           </div>
           
-          <form data-aos="fade-up" data-aos-delay="100" className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl space-y-8 relative z-10" onSubmit={handleSubmit}>
+          <form className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl space-y-8 relative z-10" onSubmit={handleSubmit}>
             
             {/* Creative Stock Indicator in Form */}
             <div className="bg-amber-50 border border-amber-100 rounded-2xl p-6 mb-10 relative overflow-hidden shadow-sm">
@@ -723,7 +717,7 @@ export default function LandingPage() {
             </div>
 
             {/* Mostrar el paquete seleccionado */}
-            <div data-aos="fade-up" data-aos-delay="200" className="bg-amber-50/80 p-6 rounded-2xl border border-amber-200 mb-8">
+            <div className="bg-amber-50/80 p-6 rounded-2xl border border-amber-200 mb-8">
               <label className="block text-sm font-bold text-slate-800 uppercase tracking-wider mb-4">Selecciona tu paquete:</label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <button
@@ -767,7 +761,7 @@ export default function LandingPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Nombre Completo */}
-              <div data-aos="fade-up" data-aos-delay="300">
+              <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2">Nombres Completos</label>
                 <input 
                   type="text" 
@@ -791,7 +785,7 @@ export default function LandingPage() {
               </div>
 
               {/* Teléfono */}
-              <div data-aos="fade-up" data-aos-delay="400">
+              <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2">Teléfono (WhatsApp)</label>
                 <input 
                   type="tel" 
@@ -815,7 +809,7 @@ export default function LandingPage() {
               </div>
               
               {/* Ciudad */}
-              <div data-aos="fade-up" data-aos-delay="500" className="md:col-span-1">
+              <div className="md:col-span-1">
                 <label className="block text-sm font-bold text-slate-700 mb-2">Ciudad</label>
                 <input 
                   type="text" 
@@ -839,7 +833,7 @@ export default function LandingPage() {
               </div>
 
               {/* Distrito */}
-              <div data-aos="fade-up" data-aos-delay="600" className="md:col-span-1">
+              <div className="md:col-span-1">
                 <label className="block text-sm font-bold text-slate-700 mb-2">Distrito</label>
                 <input 
                   type="text" 
@@ -863,7 +857,7 @@ export default function LandingPage() {
               </div>
 
               {/* Dirección */}
-              <div data-aos="fade-up" data-aos-delay="700" className="md:col-span-1">
+              <div className="md:col-span-1">
                 <label className="block text-sm font-bold text-slate-700 mb-2">Dirección de entrega</label>
                 <input 
                   type="text" 
@@ -887,7 +881,7 @@ export default function LandingPage() {
               </div>
               
               {/* Referencia */}
-              <div data-aos="fade-up" data-aos-delay="800" className="md:col-span-1">
+              <div className="md:col-span-1">
                 <label className="block text-sm font-bold text-slate-700 mb-2">Referencias de la dirección</label>
                 <input 
                   type="text" 
@@ -911,7 +905,7 @@ export default function LandingPage() {
               </div>
               
               {/* Hora */}
-              <div data-aos="fade-up" data-aos-delay="900" className="md:col-span-2">
+              <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-slate-700 mb-2">¿En qué horario prefieres recibirlo?</label>
                 <div className="relative">
                   <select 
@@ -944,7 +938,7 @@ export default function LandingPage() {
               </div>
               
               {/* GPS Location Status */}
-              <div data-aos="fade-up" data-aos-delay="1000" className="md:col-span-2 pt-4">
+              <div className="md:col-span-2 pt-4">
                 <div className={`w-full rounded-2xl p-5 flex items-center gap-4 shadow-sm border ${
                   geoStatus === 'granted' ? 'bg-green-50 border-green-200 text-green-800' :
                   geoStatus === 'loading' ? 'bg-yellow-50 border-yellow-200 text-yellow-800' :
@@ -983,8 +977,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <button 
-              data-aos="zoom-in" data-aos-delay="1100"
+            <button
               type="submit"
               className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-black py-5 px-8 rounded-xl shadow-[0_0_40px_rgba(37,211,102,0.4)] hover:shadow-[0_0_60px_rgba(37,211,102,0.6)] transition-all flex items-center justify-center gap-3 text-xl mt-10 uppercase tracking-wide hover:scale-[1.02] animate-pulse"
               style={{ animationDuration: '2s' }}
@@ -992,7 +985,7 @@ export default function LandingPage() {
               <MessageCircle className="w-7 h-7" />
               CONFIRMAR MI COMPRA
             </button>
-            <p data-aos="fade-up" data-aos-delay="1200" className="text-center text-sm text-gray-500 mt-6 flex items-center justify-center gap-2 font-medium">
+            <p className="text-center text-sm text-gray-500 mt-6 flex items-center justify-center gap-2 font-medium">
               <ShieldCheck className="w-5 h-5" /> Tus datos están seguros y encriptados
             </p>
           </form>

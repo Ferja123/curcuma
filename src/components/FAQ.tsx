@@ -31,8 +31,7 @@ export default function FAQ() {
   return (
     <section id="faq" className="py-20 bg-white border-t border-amber-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div 
-          data-aos="fade-up"
+        <div
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 tracking-tight">
@@ -45,9 +44,7 @@ export default function FAQ() {
 
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div 
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
+            <div
               key={index} 
               className={`border rounded-2xl transition-all duration-300 ${openIndex === index ? 'border-amber-400 bg-amber-50/30 shadow-md' : 'border-gray-200 bg-white hover:border-amber-200'}`}
             >
