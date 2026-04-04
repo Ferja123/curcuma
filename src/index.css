@@ -12,25 +12,7 @@ html, body {
   scroll-behavior: smooth;
 }
 
-/* Native scroll animation system - replaces AOS for stability */
-.pre-animate {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
-.pre-animate.animate-in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Safety fallback: if JS fails, everything remains visible after 2s */
-@keyframes fallback-show {
-  to { opacity: 1; transform: none; }
-}
-.pre-animate {
-  animation: fallback-show 0s 2s forwards;
-}
+/* All content always visible - no opacity tricks */
 
 @layer utilities {
   .hide-scrollbar {

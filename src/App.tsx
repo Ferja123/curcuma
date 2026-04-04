@@ -177,22 +177,6 @@ export default function LandingPage() {
 
 
   useEffect(() => {
-    // Native IntersectionObserver for scroll animations - replaces AOS
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in-view');
-          }
-        });
-      },
-      { threshold: 0.05, rootMargin: '0px 0px -30px 0px' }
-    );
-    document.querySelectorAll('[data-aos]').forEach((el) => {
-      el.classList.add('pre-animate');
-      observer.observe(el);
-    });
-
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -209,7 +193,6 @@ export default function LandingPage() {
     }, 12000);
 
     return () => {
-      observer.disconnect();
       window.removeEventListener('resize', checkMobile);
       clearInterval(timer);
       clearInterval(stockTimer);
