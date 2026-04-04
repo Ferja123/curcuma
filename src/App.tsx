@@ -49,18 +49,18 @@ export default function LandingPage() {
   const [currentNotification, setCurrentNotification] = useState({ name: '', city: '', count: 1, image: '', platform: 'TikTok' });
 
   const fakePurchasers = [
-    { name: 'Mónica', city: 'Arequipa', count: 3, image: '/user_avatar_1.png', platform: 'TikTok' },
-    { name: 'José', city: 'Lima', count: 2, image: '/user_avatar_2.png', platform: 'Facebook' },
-    { name: 'Ricardo', city: 'Trujillo', count: 1, image: '/user_avatar_2.png', platform: 'Instagram' },
-    { name: 'Elena', city: 'Cusco', count: 3, image: '/user_avatar_3.png', platform: 'TikTok' },
-    { name: 'Sofía', city: 'Piura', count: 2, image: '/user_avatar_3.png', platform: 'Facebook' },
-    { name: 'Carlos', city: 'Huancayo', count: 1, image: '/user_avatar_4.png', platform: 'TikTok' },
-    { name: 'Beatriz', city: 'Iquitos', count: 2, image: '/user_avatar_1.png', platform: 'Instagram' },
-    { name: 'Andrés', city: 'Chiclayo', count: 3, image: '/user_avatar_4.png', platform: 'Facebook' },
-    { name: 'Carmen', city: 'Tacna', count: 1, image: '/user_avatar_3.png', platform: 'TikTok' },
-    { name: 'Luis', city: 'Pucallpa', count: 2, image: '/user_avatar_2.png', platform: 'Instagram' },
-    { name: 'Rosa', city: 'Tumbes', count: 3, image: '/user_avatar_5.png', platform: 'TikTok' },
-    { name: 'Miguel', city: 'Callao', count: 2, image: '/user_avatar_6.png', platform: 'Facebook' },
+    { name: 'Mónica', city: 'Arequipa', count: 3, image: '/user_avatar_1.webp', platform: 'TikTok' },
+    { name: 'José', city: 'Lima', count: 2, image: '/user_avatar_2.webp', platform: 'Facebook' },
+    { name: 'Ricardo', city: 'Trujillo', count: 1, image: '/user_avatar_2.webp', platform: 'Instagram' },
+    { name: 'Elena', city: 'Cusco', count: 3, image: '/user_avatar_3.webp', platform: 'TikTok' },
+    { name: 'Sofía', city: 'Piura', count: 2, image: '/user_avatar_3.webp', platform: 'Facebook' },
+    { name: 'Carlos', city: 'Huancayo', count: 1, image: '/user_avatar_4.webp', platform: 'TikTok' },
+    { name: 'Beatriz', city: 'Iquitos', count: 2, image: '/user_avatar_1.webp', platform: 'Instagram' },
+    { name: 'Andrés', city: 'Chiclayo', count: 3, image: '/user_avatar_4.webp', platform: 'Facebook' },
+    { name: 'Carmen', city: 'Tacna', count: 1, image: '/user_avatar_3.webp', platform: 'TikTok' },
+    { name: 'Luis', city: 'Pucallpa', count: 2, image: '/user_avatar_2.webp', platform: 'Instagram' },
+    { name: 'Rosa', city: 'Tumbes', count: 3, image: '/user_avatar_5.webp', platform: 'TikTok' },
+    { name: 'Miguel', city: 'Callao', count: 2, image: '/user_avatar_6.webp', platform: 'Facebook' },
   ];
 
   useEffect(() => {
@@ -311,22 +311,12 @@ export default function LandingPage() {
       return;
     }
 
-    if (geoStatus !== 'granted' || !userCoords) {
-      alert("📍 Por favor, permite el acceso a tu ubicación exacta o toca el botón 'Compartir ubicación'. Es REQUISITO OBLIGATORIO para que el transportista pueda entregar tu pedido correctamente.");
-      if (geoStatus !== 'loading') requestLocation();
-      return;
-    }
-
+    // No GPS requirement - just open confirmation
     setIsConfirmModalOpen(true);
   };
 
   const confirmOrder = () => {
     const phoneNumber = "51919749480";
-    let coordsText = '';
-    if (userCoords) {
-      coordsText = `\n📌 *Coordenadas GPS:* ${userCoords.lat.toFixed(6)}, ${userCoords.lng.toFixed(6)}\n🗺️ *Ver en mapa:* https://www.google.com/maps/search/?api=1&query=${userCoords.lat},${userCoords.lng}`;
-    }
-
     const message = `*NUEVO PEDIDO - CÚRCUMA PREMIUM* 🌿\n\n` +
       `*Paquete:* ${paquete}\n` +
       `*Nombre:* ${formData.nombre}\n` +
@@ -336,8 +326,7 @@ export default function LandingPage() {
       `*Dirección:* ${formData.direccion}\n` +
       `*Referencia:* ${formData.referencia}\n` +
       `*Hora sugerida:* ${formData.hora}` +
-      coordsText +
-      `\n\n*Pago Contraentrega* 🚚`;
+      `\n\n*Pago Contraentrega* 🚚\n_Un asesor te contactará para confirmar tu ubicación exacta._`;
 
     // Track conversion with TikTok Pixel
     if (window.ttq) {
@@ -377,13 +366,12 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* Header with Navigation */}
-      <Header />
+      {/* Header removed - only top bar remains */}
       
 
 
       {/* 1. HeroSection */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-12 md:pt-40 md:pb-20 overflow-hidden">
+      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 md:pt-24 md:pb-20 overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-50 to-orange-50 -z-10 rounded-3xl"></div>
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
@@ -480,7 +468,7 @@ export default function LandingPage() {
           <div className="relative rounded-[3rem] overflow-hidden shadow-2xl border-2 border-amber-500/10 group">
              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40 z-10"></div>
              <img 
-               src="/impact_ingredients_burst.png" 
+               src="/impact_ingredients_burst.webp" 
                alt="Pura Cúrcuma e Ingredientes Naturales" 
                className="w-full h-auto object-cover transform transition-transform duration-1000 group-hover:scale-105" 
              />
@@ -520,14 +508,14 @@ export default function LandingPage() {
           </div>
           <div className="mt-12">
             <img 
-              src="/trust_badges_ref.png" 
+              src="/trust_badges_ref.webp" 
               alt="Certificaciones de Calidad" 
               className="h-16 md:h-20 w-auto mx-auto object-contain drop-shadow-sm opacity-80 transition-all duration-500"
               loading="lazy"
               decoding="async"
               onError={(e) => {
                 // Sencillo fallback si por alguna razón falla la carga
-                e.currentTarget.src = "/trust_badges_impact.png";
+                e.currentTarget.src = "/trust_badges_impact.webp";
               }}
             />
           </div>
@@ -583,7 +571,7 @@ export default function LandingPage() {
                 muted 
                 playsInline
                 preload="auto"
-                poster="/hero-image-1.png"
+                poster="/hero-image-1.webp"
                 loading="lazy"
               />
             </div>
@@ -937,41 +925,15 @@ export default function LandingPage() {
                 )}
               </div>
               
-              {/* GPS Location Status */}
+              {/* Advisor Note - replaces GPS */}
               <div className="md:col-span-2 pt-4">
-                <div className={`w-full rounded-2xl p-5 flex items-center gap-4 shadow-sm border ${
-                  geoStatus === 'granted' ? 'bg-green-50 border-green-200 text-green-800' :
-                  geoStatus === 'loading' ? 'bg-yellow-50 border-yellow-200 text-yellow-800' :
-                  geoStatus === 'denied' ? 'bg-orange-50 border-orange-200 text-orange-800' :
-                  'bg-white border-amber-200 text-amber-800'
-                }`}>
-                  {geoStatus !== 'idle' && (
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
-                      geoStatus === 'granted' ? 'bg-green-100 text-green-600' :
-                      geoStatus === 'loading' ? 'bg-yellow-100 text-yellow-600' :
-                      geoStatus === 'denied' ? 'bg-orange-100 text-orange-600' :
-                      'bg-amber-100 text-amber-600'
-                    }`}>
-                      <MapPin className="w-6 h-6" />
-                    </div>
-                  )}
-                  <div className="flex-1">
-                    {geoStatus === 'granted' && userCoords ? (
-                      <>
-                        <h4 className="text-sm font-bold mb-1">📍 Ubicación detectada correctamente</h4>
-                        <p className="text-xs font-mono">{userCoords.lat.toFixed(4)}, {userCoords.lng.toFixed(4)}</p>
-                      </>
-                    ) : geoStatus === 'loading' ? (
-                      <h4 className="text-sm font-bold">Obteniendo tu ubicación exacta...</h4>
-                    ) : geoStatus === 'denied' ? (
-                      <button type="button" onClick={requestLocation} className="text-sm font-bold underline hover:opacity-80 transition-opacity text-left text-orange-700">
-                        ⚠️ Permiso denegado. Toca aquí para reintentar o actívalo en tu navegador.
-                      </button>
-                    ) : (
-                      <button type="button" onClick={requestLocation} className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-black py-4 px-4 rounded-xl shadow-lg transition-all active:scale-95 text-sm md:text-base flex items-center justify-center gap-2 animate-bounce">
-                        <MapPin className="w-6 h-6"/> TOCA AQUÍ PARA COMPARTIR TU UBICACIÓN
-                      </button>
-                    )}
+                <div className="w-full rounded-2xl p-5 bg-blue-50 border border-blue-200 text-blue-800 flex items-start gap-4 shadow-sm">
+                  <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                    <MapPin className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-black mb-1">📦 Entrega Rápida y Precisa</h4>
+                    <p className="text-xs leading-relaxed text-blue-700">Después de confirmar tu compra, <strong>un asesor se comunicará contigo</strong> para pedirte tu ubicación exacta y así facilitar la entrega rápida y precisa del motorizado.</p>
                   </div>
                 </div>
               </div>
@@ -979,8 +941,7 @@ export default function LandingPage() {
 
             <button
               type="submit"
-              className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-black py-5 px-8 rounded-xl shadow-[0_0_40px_rgba(37,211,102,0.4)] hover:shadow-[0_0_60px_rgba(37,211,102,0.6)] transition-all flex items-center justify-center gap-3 text-xl mt-10 uppercase tracking-wide hover:scale-[1.02] animate-pulse"
-              style={{ animationDuration: '2s' }}
+              className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-black py-5 px-8 rounded-2xl shadow-[0_0_40px_rgba(37,211,102,0.4)] hover:shadow-[0_0_60px_rgba(37,211,102,0.6)] transition-all flex items-center justify-center gap-3 text-xl mt-10 uppercase tracking-wide hover:scale-[1.02]"
             >
               <MessageCircle className="w-7 h-7" />
               CONFIRMAR MI COMPRA
