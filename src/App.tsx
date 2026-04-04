@@ -48,19 +48,21 @@ export default function LandingPage() {
   });
 
   const [showNotification, setShowNotification] = useState(false);
-  const [currentNotification, setCurrentNotification] = useState({ name: '', city: '', count: 1 });
+  const [currentNotification, setCurrentNotification] = useState({ name: '', city: '', count: 1, image: '', platform: 'TikTok' });
 
   const fakePurchasers = [
-    { name: 'Mónica', city: 'Arequipa', count: 3 },
-    { name: 'José', city: 'Lima', count: 2 },
-    { name: 'Ricardo', city: 'Trujillo', count: 1 },
-    { name: 'Elena', city: 'Cusco', count: 3 },
-    { name: 'Sofía', city: 'Piura', count: 2 },
-    { name: 'Carlos', city: 'Huancayo', count: 1 },
-    { name: 'Beatriz', city: 'Iquitos', count: 2 },
-    { name: 'Andrés', city: 'Chiclayo', count: 3 },
-    { name: 'Carmen', city: 'Tacna', count: 1 },
-    { name: 'Luis', city: 'Pucallpa', count: 2 },
+    { name: 'Mónica', city: 'Arequipa', count: 3, image: '/user_avatar_1.png', platform: 'TikTok' },
+    { name: 'José', city: 'Lima', count: 2, image: '/user_avatar_2.png', platform: 'Facebook' },
+    { name: 'Ricardo', city: 'Trujillo', count: 1, image: '/user_avatar_2.png', platform: 'Instagram' },
+    { name: 'Elena', city: 'Cusco', count: 3, image: '/user_avatar_3.png', platform: 'TikTok' },
+    { name: 'Sofía', city: 'Piura', count: 2, image: '/user_avatar_3.png', platform: 'Facebook' },
+    { name: 'Carlos', city: 'Huancayo', count: 1, image: '/user_avatar_4.png', platform: 'TikTok' },
+    { name: 'Beatriz', city: 'Iquitos', count: 2, image: '/user_avatar_1.png', platform: 'Instagram' },
+    { name: 'Andrés', city: 'Chiclayo', count: 3, image: '/user_avatar_4.png', platform: 'Facebook' },
+    { name: 'Carmen', city: 'Tacna', count: 1, image: '/user_avatar_3.png', platform: 'TikTok' },
+    { name: 'Luis', city: 'Pucallpa', count: 2, image: '/user_avatar_2.png', platform: 'Instagram' },
+    { name: 'Rosa', city: 'Tumbes', count: 3, image: '/user_avatar_5.png', platform: 'TikTok' },
+    { name: 'Miguel', city: 'Callao', count: 2, image: '/user_avatar_6.png', platform: 'Facebook' },
   ];
 
   useEffect(() => {
@@ -1084,12 +1086,21 @@ export default function LandingPage() {
 
       {/* 10. Fake Live Purchase Notification */}
       <div className={`fixed bottom-20 md:bottom-24 left-4 z-[60] transition-all duration-700 transform ${showNotification ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'}`}>
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-2xl border border-amber-100 flex items-center gap-4 max-w-[280px]">
-          <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center shrink-0">
-            <User className="w-6 h-6 text-amber-600" />
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-2xl border border-amber-100 flex items-center gap-4 max-w-[320px]">
+          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-amber-500/20 shrink-0 shadow-sm">
+            <img src={currentNotification.image} alt={currentNotification.name} className="w-full h-full object-cover" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[11px] font-black text-amber-600 uppercase tracking-wider mb-0.5">¡Nuevo pedido en vivo!</p>
+            <div className="flex items-center justify-between mb-0.5">
+              <p className="text-[10px] font-black text-amber-600 uppercase tracking-wider">¡Nuevo pedido!</p>
+              <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
+                currentNotification.platform === 'TikTok' ? 'bg-black text-white' : 
+                currentNotification.platform === 'Facebook' ? 'bg-blue-600 text-white' : 
+                'bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 text-white'
+              }`}>
+                {currentNotification.platform}
+              </span>
+            </div>
             <p className="text-sm font-bold text-slate-900 truncate">
               {currentNotification.name} de {currentNotification.city}
             </p>
