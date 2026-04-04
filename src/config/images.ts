@@ -7,9 +7,9 @@ export const IMAGES = {
   heroCarousel: [
     "/hero_premium.png",
     "/impact_ingredients_burst.png",
-    "/impact_joint_health.png",
+    "/active_lifestyle.png",
     "/hero_freedom_jumping.png",
-    "/hero_doctor_trust.png"
+    "/hero_micro_science.png"
   ],
 
   // Imagen principal (Hero) - Fallback
