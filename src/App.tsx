@@ -707,15 +707,15 @@ export default function LandingPage() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <button
                   type="button"
-                  onClick={() => setPaquete('1 Frasco (S/ 99.00)')}
+                  onClick={() => setPaquete('1 Frasco (S/ 79.00)')}
                   className={`p-4 rounded-xl border-2 text-sm font-bold transition-all flex flex-col items-center justify-center gap-2 ${
-                    paquete === '1 Frasco (S/ 99.00)'
+                    paquete === '1 Frasco (S/ 79.00)'
                       ? 'border-amber-500 bg-amber-500 text-white shadow-lg shadow-amber-500/20'
                       : 'border-amber-200 bg-white text-slate-700 hover:border-amber-400 hover:bg-amber-50'
                   }`}
                 >
                   <span className="opacity-90">1 Frasco</span>
-                  <span className="text-xl">S/ 99.00</span>
+                  <span className="text-xl">S/ 79.00</span>
                 </button>
                 <button
                   type="button"
@@ -992,7 +992,7 @@ export default function LandingPage() {
               <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
                 <span className="font-bold text-gray-900">Total a Pagar (Contraentrega):</span>
                 <span className="text-xl font-black text-amber-600">
-                  {paquete.includes('189') ? 'S/ 189.00' : paquete.includes('139') ? 'S/ 139.00' : 'S/ 99.00'}
+                  {paquete.includes('189') ? 'S/ 189.00' : paquete.includes('139') ? 'S/ 139.00' : 'S/ 79.00'}
                 </span>
               </div>
             </div>
