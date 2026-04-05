@@ -37,6 +37,51 @@ const reviews = [
     time: "Hace 3 días",
     estrellas: 5,
     plataforma: "Facebook"
+  },
+  {
+    id: 6,
+    name: "Jorge Mendoza",
+    avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=150&auto=format&fit=crop",
+    text: "Excelente para el dolor articular. Al principio no creía mucho pero decidí probar con 2 frascos y vaya que funciona. Envío seguro a Piura sin problemas, pagué al recibir.",
+    time: "Hace 4 días",
+    estrellas: 5,
+    plataforma: "Facebook"
+  },
+  {
+    id: 7,
+    name: "Susana Arévalo",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop",
+    text: "Llevo tomando esta cúrcuma un mes y siento mis rodillas más sueltas, ya no me suenan tanto al subir escaleras. ¡Recomendadísimo!",
+    time: "Hace 5 días",
+    estrellas: 5,
+    plataforma: "TikTok"
+  },
+  {
+    id: 8,
+    name: "Manuel Castañeda",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop",
+    text: "Para la inflamación es una maravilla. Hago deporte constantemente y esto me ha ayudado con la recuperación de los músculos y articulaciones. Muy buen producto.",
+    time: "Hace 1 semana",
+    estrellas: 5,
+    plataforma: "Instagram"
+  },
+  {
+    id: 9,
+    name: "Rosaura Pinedo",
+    avatar: "https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=150&auto=format&fit=crop",
+    text: "Soy muy exigente con mis suplementos naturales. Mi doctora me aprobó tomar esta Cúrcuma y la marca me encantó. Te llega el producto sellado y 100% original.",
+    time: "Hace 1 semana",
+    estrellas: 5,
+    plataforma: "TikTok"
+  },
+  {
+    id: 10,
+    name: "Víctor Hugo",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&auto=format&fit=crop",
+    text: "De verdad te quita el dolor de espalda. Trabajo manejando todo el día y los dolores eran insoportables. Voy en el tercer frasco y me cambió la vida por completo.",
+    time: "Hace 2 semanas",
+    estrellas: 5,
+    plataforma: "Facebook"
   }
 ];
 
