@@ -55,18 +55,17 @@ export default function EditableCarousel({ id, initialImages, className = "", au
   };
 
   const handleDragEnd = (e: any, { offset, velocity }: PanInfo) => {
-    const swipe = Math.abs(offset.x) * velocity.x;
-    if (swipe < -10000) {
+    // Aumentamos el umbral para que no se deslice con un toque mínimo (evitar que pase rápido accidentalmente)
+    const swipePower = Math.abs(offset.x) * (velocity.x || 1);
+    
+    if (swipePower < -8000 || offset.x < -80) {
       nextSlide();
-    } else if (swipe > 10000) {
-      prevSlide();
-    } else if (offset.x < -50) {
-      nextSlide();
-    } else if (offset.x > 50) {
+    } else if (swipePower > 8000 || offset.x > 80) {
       prevSlide();
     }
-    // Resume auto-play after 5 seconds of no interaction
-    resumeTimerRef.current = setTimeout(() => setIsTouching(false), 5000);
+    
+    // Resume auto-play after 8 seconds of no interaction (más tiempo de pausa al interactuar)
+    resumeTimerRef.current = setTimeout(() => setIsTouching(false), 8000);
   };
 
   const handleTouchStart = () => {
@@ -75,7 +74,7 @@ export default function EditableCarousel({ id, initialImages, className = "", au
   };
 
   const handleTouchEnd = () => {
-    resumeTimerRef.current = setTimeout(() => setIsTouching(false), 5000);
+    resumeTimerRef.current = setTimeout(() => setIsTouching(false), 8000);
   };
 
   if (slides.length === 0) {
@@ -90,21 +89,22 @@ export default function EditableCarousel({ id, initialImages, className = "", au
 
   return (
     <div 
-      className={`relative group/carousel overflow-hidden ${className}`}
+      className={`relative group/carousel overflow-hidden touch-pan-y ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      style={{ touchAction: 'pan-y' }} // Mejora la interacción en móviles, permitiendo scroll vertical
     >
       <motion.div 
         className="relative w-full h-full flex"
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={0.2}
+        dragElastic={0.4} // Hace el arrastre con el dedo más libre y fluido
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         animate={{ x: `-${currentIndex * 100}%` }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        transition={{ type: "tween", ease: "circOut", duration: 0.6 }} // Animación mucho más fluida y natural
       >
         {slides.map((slide, idx) => (
           <div key={idx} className="w-full h-full flex-shrink-0 relative group/slide">
