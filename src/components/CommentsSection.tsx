@@ -5,16 +5,25 @@ const reviews = [
   {
     id: 1,
     name: "Carmen Rosa Silva",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150&auto=format&fit=crop",
+    avatar: "/avatar_peruvian_woman_2_1775642218874.png",
     text: "Yo lo pedí el martes y me llegó el miércoles a mi casa en Surco. Pagué al recibir, todo muy seguro. Ya voy por mi segundo día tomándolo y se siente la diferencia en mis rodillas.",
     time: "Hace 2 horas",
     estrellas: 5,
     plataforma: "TikTok"
   },
   {
+    id: 2,
+    name: "Maribel Vargas",
+    avatar: "/avatar_peruvian_woman_4_1775642310590.png",
+    text: "Mi esposo sufre de dolor en la articulación de los hombros y desde que toma la Cúrcuma Premium ha mejorado un montón. ¡Excelente servicio de contraentrega en Arequipa!",
+    time: "Hace 4 horas",
+    estrellas: 5,
+    plataforma: "Facebook"
+  },
+  {
     id: 3,
     name: "Ana María Gutiérrez",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=150&auto=format&fit=crop",
+    avatar: "/avatar_peruvian_woman_1_1775642185599.png",
     text: "Mi mamá sufría mucho de artritis en las manos, no podía ni tejer. Le compré el tratamiento intensivo y ahora está feliz, ha recuperado mucha movilidad. 100% recomendado.",
     time: "Hace 1 día",
     estrellas: 5,
@@ -23,7 +32,7 @@ const reviews = [
   {
     id: 4,
     name: "Roberto Carlos",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150&auto=format&fit=crop",
+    avatar: "/avatar_peruvian_man_1_1775642202671.png",
     text: "Excelente producto, lo vi en TikTok y dudaba, pero al ver que el pago era contraentrega me animé. Muy buena atención.",
     time: "Hace 2 días",
     estrellas: 5,
@@ -32,7 +41,7 @@ const reviews = [
   {
     id: 5,
     name: "Lucía Fernández",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&auto=format&fit=crop",
+    avatar: "/avatar_peruvian_woman_3_1775642275152.png",
     text: "Me encanta que tenga pimienta negra y aceite MCT, se nota que es una fórmula pensada. El dolor de mi espalda baja ha mejorado un 80%.",
     time: "Hace 3 días",
     estrellas: 5,
@@ -41,7 +50,7 @@ const reviews = [
   {
     id: 6,
     name: "Jorge Mendoza",
-    avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=150&auto=format&fit=crop",
+    avatar: "/avatar_peruvian_man_2_1775642236373.png",
     text: "Excelente para el dolor articular. Al principio no creía mucho pero decidí probar con 2 frascos y vaya que funciona. Envío seguro a Piura sin problemas, pagué al recibir.",
     time: "Hace 4 días",
     estrellas: 5,
@@ -49,35 +58,53 @@ const reviews = [
   },
   {
     id: 7,
+    name: "Luis Ramírez",
+    avatar: "/avatar_peruvian_man_4_1775642329751.png",
+    text: "Trabajo en construcción y las rodillas siempre me mataban. Este producto me ha aliviado un montón y bajé un par de kilos sin notarlo. El asesor muy amable.",
+    time: "Hace 4 días",
+    estrellas: 5,
+    plataforma: "Instagram"
+  },
+  {
+    id: 8,
     name: "Susana Arévalo",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop",
+    avatar: "/avatar_peruvian_woman_5_1775642364737.png",
     text: "Llevo tomando esta cúrcuma un mes y siento mis rodillas más sueltas, ya no me suenan tanto al subir escaleras. ¡Recomendadísimo!",
     time: "Hace 5 días",
     estrellas: 5,
     plataforma: "TikTok"
   },
   {
-    id: 8,
+    id: 9,
     name: "Manuel Castañeda",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop",
+    avatar: "/avatar_peruvian_man_3_1775642292155.png",
     text: "Para la inflamación es una maravilla. Hago deporte constantemente y esto me ha ayudado con la recuperación de los músculos y articulaciones. Muy buen producto.",
     time: "Hace 1 semana",
     estrellas: 5,
     plataforma: "Instagram"
   },
   {
-    id: 9,
+    id: 10,
     name: "Rosaura Pinedo",
-    avatar: "https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=150&auto=format&fit=crop",
+    avatar: "/avatar_peruvian_woman_1_1775642185599.png",
     text: "Soy muy exigente con mis suplementos naturales. Mi doctora me aprobó tomar esta Cúrcuma y la marca me encantó. Te llega el producto sellado y 100% original.",
     time: "Hace 1 semana",
     estrellas: 5,
     plataforma: "TikTok"
   },
   {
-    id: 10,
+    id: 11,
+    name: "Pedro Salinas",
+    avatar: "/avatar_peruvian_man_1_1775642202671.png",
+    text: "Desde que uso la Cúrcuma no me duele la cintura al agacharme. Excelente, el envío a Trujillo fue de lo mejor y lo recibí pronto.",
+    time: "Hace 1 semana",
+    estrellas: 5,
+    plataforma: "Facebook"
+  },
+  {
+    id: 12,
     name: "Víctor Hugo",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&auto=format&fit=crop",
+    avatar: "/avatar_peruvian_man_2_1775642236373.png",
     text: "De verdad te quita el dolor de espalda. Trabajo manejando todo el día y los dolores eran insoportables. Voy en el tercer frasco y me cambió la vida por completo.",
     time: "Hace 2 semanas",
     estrellas: 5,
