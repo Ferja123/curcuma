@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageCircle, MapPin, Edit3, Star, X, Sparkles, Heart, Brain, MessageSquareQuote, PlayCircle, ChevronLeft, ChevronRight, Timer, Truck, ChevronDown, ShoppingBag, User } from 'lucide-react';
+import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageCircle, MapPin, Edit3, Star, X, Sparkles, Heart, Brain, MessageSquareQuote, PlayCircle, ChevronLeft, ChevronRight, Timer, Truck, ChevronDown, ShoppingBag, User, CreditCard, Banknote } from 'lucide-react';
 import FAQ from './components/FAQ';
 import CommentsSection from './components/CommentsSection';
 import BiologicalAnalysis from './components/BiologicalAnalysis';
@@ -480,6 +480,69 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Strategic 3D Weight Loss Section */}
+      <section className="py-24 bg-slate-50 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="order-2 lg:order-1 space-y-8 text-right lg:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 text-amber-800 font-black text-xs uppercase tracking-widest shadow-sm">
+                <Flame className="w-4 h-4 text-orange-600" />
+                Impacto Metabólico 3D
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight">
+                Potencia tu <span className="text-orange-600">Metabolismo</span> y Recupera tu Figura Ideal.
+              </h2>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                No es solo articulaciones. La Cúrcuma de alta pureza actúa directamente sobre las células adiposas, reduciendo la inflamación sistémica y activando tu quema de grasa natural.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+                <div className="flex flex-row lg:flex-row-reverse items-center justify-end lg:justify-start gap-4">
+                   <div className="text-right">
+                    <h4 className="font-bold text-slate-900">Quema de Grasa</h4>
+                    <p className="text-sm text-slate-500">Estimula la termogénesis natural.</p>
+                  </div>
+                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                    <CheckCircle2 className="w-6 h-6 text-green-600" />
+                  </div>
+                </div>
+                <div className="flex flex-row lg:flex-row-reverse items-center justify-end lg:justify-start gap-4">
+                  <div className="text-right">
+                    <h4 className="font-bold text-slate-900">Control de Apetito</h4>
+                    <p className="text-sm text-slate-500">Regula los niveles de glucosa.</p>
+                  </div>
+                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                    <CheckCircle2 className="w-6 h-6 text-green-600" />
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-end lg:justify-start">
+                <button 
+                  onClick={() => {
+                    const form = document.getElementById('formulario-compra');
+                    if (form) form.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 text-orange-600 font-black text-sm uppercase tracking-wider group bg-white border-2 border-orange-100 px-8 py-4 rounded-2xl hover:border-orange-500 transition-all shadow-sm hover:shadow-xl"
+                >
+                  Quiero empezar mi transformación
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2 relative group">
+              <div className="absolute -inset-4 bg-gradient-to-r from-amber-500 to-orange-600 rounded-[3rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+              <div className="relative rounded-[3rem] overflow-hidden shadow-[0_20px_60px_-15px_rgba(234,88,12,0.3)] border-2 border-white">
+                <img 
+                  src="/3d_metabolism_impact.png" 
+                  alt="Transformación Metabólica Natural" 
+                  className="w-full h-auto object-cover transform transition-transform duration-1000 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/20 via-transparent to-transparent"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 3. Quality & Trust Section (Garantía de Calidad) - High Impact Banner [REDEPLOY_FORCE] */}
       <section
         className="py-16 bg-white flex flex-col items-center border-y border-amber-100"
@@ -943,6 +1006,46 @@ export default function LandingPage() {
               <MessageCircle className="w-7 h-7" />
               CONFIRMAR MI COMPRA
             </button>
+
+            {/* Payment Methods Section */}
+            <div className="mt-10 pt-8 border-t border-gray-100">
+              <p className="text-center text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest mb-6">
+                Aceptamos todos los medios de pago en la entrega
+              </p>
+              <div className="flex flex-wrap justify-center items-center gap-5 md:gap-8 transition-all">
+                {/* Local Payment Methods */}
+                <div className="flex flex-col items-center gap-1.5 group cursor-default">
+                  <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center overflow-hidden group-hover:border-purple-200 transition-colors">
+                    <div className="w-10 h-10 bg-[#742284] rounded-lg flex items-center justify-center text-white text-[9px] font-black tracking-tighter shadow-inner">Yape</div>
+                  </div>
+                  <span className="text-[10px] font-bold text-gray-400 group-hover:text-purple-600 transition-colors uppercase">Yape</span>
+                </div>
+                <div className="flex flex-col items-center gap-1.5 group cursor-default">
+                  <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center overflow-hidden group-hover:border-cyan-200 transition-colors">
+                    <div className="w-10 h-10 bg-[#00d1ce] rounded-lg flex items-center justify-center text-white text-[9px] font-black tracking-tighter shadow-inner">Plin</div>
+                  </div>
+                  <span className="text-[10px] font-bold text-gray-400 group-hover:text-cyan-600 transition-colors uppercase">Plin</span>
+                </div>
+                <div className="flex flex-col items-center gap-1.5 group cursor-default">
+                  <div className="w-12 h-12 shadow-sm border border-gray-100 flex items-center justify-center rounded-xl bg-gray-50 group-hover:bg-green-50 transition-colors group-hover:border-green-200">
+                    <Banknote className="w-6 h-6 text-gray-400 group-hover:text-green-600 transition-colors" />
+                  </div>
+                  <span className="text-[10px] font-bold text-gray-400 group-hover:text-green-600 transition-colors uppercase">Efectivo</span>
+                </div>
+
+                {/* Vertical Divider */}
+                <div className="h-10 w-[1px] bg-gray-100 hidden sm:block"></div>
+
+                {/* International Cards */}
+                <div className="flex items-center gap-4 grayscale group-hover:grayscale-0 transition-all duration-500 opacity-60 group-hover:opacity-100">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" className="h-5 md:h-6 w-auto" alt="Visa" />
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" className="h-7 md:h-10 w-auto" alt="Mastercard" />
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" className="h-6 md:h-8 w-auto" alt="Amex" />
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Diners_Club_Logo3.svg" className="h-6 md:h-8 w-auto" alt="Diners" />
+                </div>
+              </div>
+            </div>
+
             <p className="text-center text-sm text-gray-500 mt-6 flex items-center justify-center gap-2 font-medium">
               <ShieldCheck className="w-5 h-5" /> Tus datos están seguros y encriptados
             </p>
