@@ -49,18 +49,18 @@ export default function LandingPage() {
   const [currentNotification, setCurrentNotification] = useState({ name: '', city: '', count: 1, image: '', platform: 'TikTok' });
 
   const fakePurchasers = [
-    { name: 'Mónica', city: 'Arequipa', count: 3, image: '/user_avatar_1.webp', platform: 'TikTok' },
-    { name: 'José', city: 'Lima', count: 2, image: '/user_avatar_2.webp', platform: 'Facebook' },
-    { name: 'Ricardo', city: 'Trujillo', count: 1, image: '/user_avatar_2.webp', platform: 'Instagram' },
-    { name: 'Elena', city: 'Cusco', count: 3, image: '/user_avatar_3.webp', platform: 'TikTok' },
-    { name: 'Sofía', city: 'Piura', count: 2, image: '/user_avatar_3.webp', platform: 'Facebook' },
-    { name: 'Carlos', city: 'Huancayo', count: 1, image: '/user_avatar_4.webp', platform: 'TikTok' },
-    { name: 'Beatriz', city: 'Iquitos', count: 2, image: '/user_avatar_1.webp', platform: 'Instagram' },
-    { name: 'Andrés', city: 'Chiclayo', count: 3, image: '/user_avatar_4.webp', platform: 'Facebook' },
-    { name: 'Carmen', city: 'Tacna', count: 1, image: '/user_avatar_3.webp', platform: 'TikTok' },
-    { name: 'Luis', city: 'Pucallpa', count: 2, image: '/user_avatar_2.webp', platform: 'Instagram' },
-    { name: 'Rosa', city: 'Tumbes', count: 3, image: '/user_avatar_5.webp', platform: 'TikTok' },
-    { name: 'Miguel', city: 'Callao', count: 2, image: '/user_avatar_6.webp', platform: 'Facebook' },
+    { name: 'Mónica', city: 'Arequipa', count: 3, image: '/avatar_peruvian_woman_1_1775642185599.png', platform: 'TikTok' },
+    { name: 'José', city: 'Lima', count: 2, image: '/avatar_peruvian_man_1_1775642202671.png', platform: 'Facebook' },
+    { name: 'Ricardo', city: 'Trujillo', count: 1, image: '/avatar_peruvian_man_2_1775642236373.png', platform: 'Instagram' },
+    { name: 'Elena', city: 'Cusco', count: 3, image: '/avatar_peruvian_woman_2_1775642218874.png', platform: 'TikTok' },
+    { name: 'Sofía', city: 'Piura', count: 2, image: '/avatar_peruvian_woman_3_1775642275152.png', platform: 'Facebook' },
+    { name: 'Carlos', city: 'Huancayo', count: 1, image: '/avatar_peruvian_man_3_1775642292155.png', platform: 'TikTok' },
+    { name: 'Beatriz', city: 'Iquitos', count: 2, image: '/avatar_peruvian_woman_4_1775642310590.png', platform: 'Instagram' },
+    { name: 'Andrés', city: 'Chiclayo', count: 3, image: '/avatar_peruvian_man_4_1775642329751.png', platform: 'Facebook' },
+    { name: 'Carmen', city: 'Tacna', count: 1, image: '/avatar_peruvian_woman_5_1775642364737.png', platform: 'TikTok' },
+    { name: 'Luis', city: 'Pucallpa', count: 2, image: '/avatar_peruvian_man_1_1775642202671.png', platform: 'Instagram' },
+    { name: 'Rosa', city: 'Tumbes', count: 3, image: '/avatar_peruvian_woman_1_1775642185599.png', platform: 'TikTok' },
+    { name: 'Miguel', city: 'Callao', count: 2, image: '/avatar_peruvian_man_2_1775642236373.png', platform: 'Facebook' },
   ];
 
   useEffect(() => {
