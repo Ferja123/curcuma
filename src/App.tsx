@@ -462,24 +462,6 @@ export default function LandingPage() {
         )}
       </section>
 
-      {/* High Impact Section: Ingredients Burst */}
-      <section className="py-12 bg-white flex flex-col items-center">
-        <div className="max-w-4xl w-full px-4 text-center">
-          <div className="relative rounded-[3rem] overflow-hidden shadow-2xl border-2 border-amber-500/10 group">
-             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40 z-10"></div>
-             <img 
-               src="/impact_ingredients_burst.webp" 
-               alt="Pura Cúrcuma e Ingredientes Naturales" 
-               className="w-full h-auto object-cover transform transition-transform duration-1000 group-hover:scale-105" 
-             />
-             <div className="absolute bottom-10 left-0 right-0 z-20 px-8 text-center">
-               <h2 className="text-white text-3xl md:text-4xl font-black mb-2 drop-shadow-lg">El Poder de la Sinergia Natural</h2>
-               <p className="text-amber-100 font-bold text-lg md:text-xl drop-shadow-md italic uppercase tracking-wider">Absorción 2000% Optimizada</p>
-             </div>
-          </div>
-        </div>
-      </section>
-
       {/* Strategic 3D Weight Loss Section */}
       <section className="py-24 bg-slate-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
