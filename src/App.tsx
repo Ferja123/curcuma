@@ -49,18 +49,18 @@ export default function LandingPage() {
   const [currentNotification, setCurrentNotification] = useState({ name: '', city: '', count: 1, image: '', platform: 'TikTok' });
 
   const fakePurchasers = [
-    { name: 'Mónica', city: 'Arequipa', count: 3, image: '/avatar_peruvian_woman_1_1775642185599.png', platform: 'TikTok' },
-    { name: 'José', city: 'Lima', count: 2, image: '/avatar_peruvian_man_1_1775642202671.png', platform: 'Facebook' },
-    { name: 'Ricardo', city: 'Trujillo', count: 1, image: '/avatar_peruvian_man_2_1775642236373.png', platform: 'Instagram' },
-    { name: 'Elena', city: 'Cusco', count: 3, image: '/avatar_peruvian_woman_2_1775642218874.png', platform: 'TikTok' },
-    { name: 'Sofía', city: 'Piura', count: 2, image: '/avatar_peruvian_woman_3_1775642275152.png', platform: 'Facebook' },
-    { name: 'Carlos', city: 'Huancayo', count: 1, image: '/avatar_peruvian_man_3_1775642292155.png', platform: 'TikTok' },
-    { name: 'Beatriz', city: 'Iquitos', count: 2, image: '/avatar_peruvian_woman_4_1775642310590.png', platform: 'Instagram' },
-    { name: 'Andrés', city: 'Chiclayo', count: 3, image: '/avatar_peruvian_man_4_1775642329751.png', platform: 'Facebook' },
-    { name: 'Carmen', city: 'Tacna', count: 1, image: '/avatar_peruvian_woman_5_1775642364737.png', platform: 'TikTok' },
-    { name: 'Luis', city: 'Pucallpa', count: 2, image: '/avatar_peruvian_man_1_1775642202671.png', platform: 'Instagram' },
-    { name: 'Rosa', city: 'Tumbes', count: 3, image: '/avatar_peruvian_woman_1_1775642185599.png', platform: 'TikTok' },
-    { name: 'Miguel', city: 'Callao', count: 2, image: '/avatar_peruvian_man_2_1775642236373.png', platform: 'Facebook' },
+    { name: 'Maria', city: 'San Borja', count: 3, image: '/peruvian_buyer_4_1775713430695.png', platform: 'TikTok' },
+    { name: 'Roberto', city: 'Chiclayo', count: 2, image: '/peruvian_buyer_1_1775713058317.png', platform: 'Facebook' },
+    { name: 'Silvia', city: 'La Molina', count: 1, image: '/peruvian_buyer_2_1775713279213.png', platform: 'Instagram' },
+    { name: 'Fernando', city: 'Huancayo', count: 3, image: '/peruvian_buyer_3_1775713405015.png', platform: 'TikTok' },
+    { name: 'Gladys', city: 'Ica', count: 2, image: '/peruvian_buyer_4_1775713430695.png', platform: 'Facebook' },
+    { name: 'Raul', city: 'Tacna', count: 1, image: '/peruvian_buyer_1_1775713058317.png', platform: 'TikTok' },
+    { name: 'Patricia', city: 'Tarapoto', count: 2, image: '/peruvian_buyer_2_1775713279213.png', platform: 'Instagram' },
+    { name: 'Hugo', city: 'Pucallpa', count: 3, image: '/peruvian_buyer_3_1775713405015.png', platform: 'Facebook' },
+    { name: 'Teresa', city: 'Chimbote', count: 1, image: '/peruvian_buyer_4_1775713430695.png', platform: 'TikTok' },
+    { name: 'Alejandro', city: 'Juliaca', count: 2, image: '/peruvian_buyer_1_1775713058317.png', platform: 'Instagram' },
+    { name: 'Diana', city: 'Ayacucho', count: 3, image: '/peruvian_buyer_2_1775713279213.png', platform: 'TikTok' },
+    { name: 'Hector', city: 'Cajamarca', count: 2, image: '/peruvian_buyer_3_1775713405015.png', platform: 'Facebook' },
   ];
 
   useEffect(() => {
@@ -371,7 +371,7 @@ export default function LandingPage() {
 
 
       {/* 1. HeroSection */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 md:pt-24 md:pb-20 overflow-hidden">
+      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8 md:pt-14 md:pb-12 overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-50 to-orange-50 -z-10 rounded-3xl"></div>
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
@@ -581,7 +581,7 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
             {/* Badge 1 */}
             <div className="flex flex-col items-center text-center p-8 rounded-3xl bg-slate-50 hover:bg-amber-50 transition-colors border border-slate-100 hover:border-amber-200 shadow-sm hover:shadow-md">
               <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-6 text-amber-600 shadow-inner">
@@ -614,10 +614,10 @@ export default function LandingPage() {
       {/* 4. Benefits & Video Section */}
       <section
         id="beneficios"
-        className="py-20 bg-slate-50"
+        className="py-12 bg-slate-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-slate-900 mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-slate-900 mb-10">
             Recupera tu Movilidad y tu Energía Natural
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -705,7 +705,7 @@ export default function LandingPage() {
       {/* 5. OrderForm */}
       <section
         id="formulario-compra" 
-        className="py-24 relative overflow-hidden"
+        className="py-12 relative overflow-hidden"
       >
         {/* Premium Decorative Background */}
         <div className="absolute inset-0 bg-slate-900 -z-20"></div>
