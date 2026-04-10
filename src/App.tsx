@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Leaf, ShieldCheck, CheckCircle2, Ban, Activity, Flame, Shield, MessageCircle, MapPin, Edit3, Star, X, Sparkles, Heart, Brain, MessageSquareQuote, PlayCircle, ChevronLeft, ChevronRight, Timer, Truck, ChevronDown, ShoppingBag, User, CreditCard, Banknote } from 'lucide-react';
-import FAQ from './components/FAQ';
-import CommentsSection from './components/CommentsSection';
-import BiologicalAnalysis from './components/BiologicalAnalysis';
-import EditableImage from './components/EditableImage';
 import EditableCarousel from './components/EditableCarousel';
-import Header from './components/Header';
+
+const FAQ = lazy(() => import('./components/FAQ'));
+const CommentsSection = lazy(() => import('./components/CommentsSection'));
+const BiologicalAnalysis = lazy(() => import('./components/BiologicalAnalysis'));
 import { IMAGES } from './config/images';
 
 declare global {
@@ -679,10 +678,14 @@ export default function LandingPage() {
       </section>
 
       {/* Biological Analysis Section */}
-      <BiologicalAnalysis />
+      <Suspense fallback={<div className="py-20 flex justify-center items-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500"></div></div>}>
+        <BiologicalAnalysis />
+      </Suspense>
 
       {/* Comments Section */}
-      <CommentsSection />
+      <Suspense fallback={<div className="py-20 flex justify-center items-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500"></div></div>}>
+        <CommentsSection />
+      </Suspense>
 
       {/* 5. OrderForm */}
       <section
@@ -1037,7 +1040,9 @@ export default function LandingPage() {
 
       {/* FAQ Section with Zero Gap */}
       <div className="bg-white -mt-px relative z-20">
-        <FAQ />
+        <Suspense fallback={<div className="py-20 flex justify-center items-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500"></div></div>}>
+          <FAQ />
+        </Suspense>
       </div>
 
       {/* 8. Confirmation Modal */}
