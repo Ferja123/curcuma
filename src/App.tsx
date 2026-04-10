@@ -158,7 +158,7 @@ export default function LandingPage() {
   // Hide scroll indicator on scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 200) setShowScrollIndicator(false);
+      if (window.scrollY > 100) setShowScrollIndicator(false);
       
       const formEl = document.getElementById('formulario-compra');
       let formVisible = false;
@@ -166,9 +166,12 @@ export default function LandingPage() {
         const rect = formEl.getBoundingClientRect();
         formVisible = rect.top < window.innerHeight && rect.bottom > 0;
       }
-      setShowFloatingCTA(window.scrollY > window.innerHeight * 0.4 && !formVisible);
+      // Mostrar el CTA flotante tan pronto empiece a hacer scroll (250px) y ocultarlo en el formulario
+      setShowFloatingCTA(window.scrollY > 250 && !formVisible);
     };
-    window.addEventListener('scroll', handleScroll);
+    // Ejecutar al inicio por si carga desplazado
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
