@@ -333,6 +333,8 @@ export default function LandingPage() {
     // Track conversion with TikTok Pixel
     if (window.ttq) {
       window.ttq.track('PlaceAnOrder', {
+        content_type: 'product',
+        content_id: 'curcuma-premium',
         content_name: paquete,
         currency: 'PEN',
         value: paquete.includes('79') ? 79 : paquete.includes('139') ? 139 : 189
