@@ -1126,7 +1126,7 @@ export default function LandingPage() {
               const form = document.getElementById('formulario-compra');
               if (form) form.scrollIntoView({behavior:'smooth'});
             }} 
-            className="w-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-black py-4 rounded-3xl shadow-[0_10px_30px_rgba(34,197,94,0.4)] transition-all flex justify-center items-center gap-3 text-lg uppercase tracking-wider active:scale-95 border-2 border-white/20"
+            className="w-full bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-white font-black py-4 rounded-3xl shadow-[0_10px_30px_rgba(245,158,11,0.5)] transition-all flex justify-center items-center gap-3 text-lg uppercase tracking-wider active:scale-95 border-2 border-white/30 animate-[pulse_2.5s_ease-in-out_infinite]"
           >
             <ShoppingBag className="w-6 h-6" />
             COMPRAR AHORA
