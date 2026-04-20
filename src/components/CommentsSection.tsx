@@ -9,7 +9,8 @@ const reviews = [
     text: "Yo lo pedí el martes y me llegó el miércoles a mi casa en Surco. Pagué al recibir, todo muy seguro. Ya voy por mi segundo día tomándolo y se siente la diferencia en mis rodillas.",
     time: "Hace 2 horas",
     estrellas: 5,
-    plataforma: "TikTok"
+    plataforma: "TikTok",
+    fotoProducto: "https://images.unsplash.com/photo-1571772996211-2f02c9727629?q=80&w=600&auto=format&fit=crop"
   },
   {
     id: 2,
@@ -18,7 +19,8 @@ const reviews = [
     text: "Mi esposo sufre de dolor en la articulación de los hombros y desde que toma la Cúrcuma Premium ha mejorado un montón. ¡Excelente servicio de contraentrega en Arequipa!",
     time: "Hace 4 horas",
     estrellas: 5,
-    plataforma: "Facebook"
+    plataforma: "Facebook",
+    fotoProducto: "https://images.unsplash.com/photo-1552636077-d6b38c201889?q=80&w=600&auto=format&fit=crop"
   },
   {
     id: 3,
@@ -27,7 +29,8 @@ const reviews = [
     text: "Mi mamá sufría mucho de artritis en las manos, no podía ni tejer. Le compré el tratamiento intensivo y ahora está feliz, ha recuperado mucha movilidad. 100% recomendado.",
     time: "Hace 1 día",
     estrellas: 5,
-    plataforma: "Instagram"
+    plataforma: "Instagram",
+    fotoProducto: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?q=80&w=600&auto=format&fit=crop"
   },
   {
     id: 4,
@@ -159,9 +162,20 @@ export default function CommentsSection() {
               </div>
 
               {/* Text */}
-              <p className="text-slate-300 text-sm leading-relaxed flex-grow">
+              <p className="text-slate-300 text-sm leading-relaxed mb-4">
                 "{review.text}"
               </p>
+
+              {/* Photo Evidence */}
+              {review.fotoProducto && (
+                <div className="mt-auto w-full h-48 rounded-xl overflow-hidden border border-slate-700/50 relative group">
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
+                  <img src={review.fotoProducto} alt="Foto del cliente" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <div className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm text-white text-[10px] px-2 py-1 rounded-md z-20 flex items-center gap-1 font-bold">
+                    <CheckCircle2 className="w-3 h-3 text-green-400" /> Compra Verificada
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>

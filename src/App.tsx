@@ -422,7 +422,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div
-            className="order-1 md:order-2 relative bg-gray-100 rounded-3xl aspect-square md:aspect-[4/3] flex items-center justify-center overflow-hidden shadow-xl group"
+            className="order-1 md:order-2 relative bg-gray-50 rounded-3xl aspect-[4/5] md:aspect-[3/4] lg:h-[600px] lg:w-full flex items-center justify-center overflow-hidden shadow-2xl group border border-amber-100"
           >
             {/* Badge Últimas Unidades en la imagen */}
             <div className="absolute top-4 left-4 z-20 bg-red-600 text-white px-4 py-2 rounded-full font-black text-sm md:text-base shadow-lg flex items-center gap-2">
@@ -1135,8 +1135,8 @@ export default function LandingPage() {
       </div>
 
       {/* 10. Fake Live Purchase Notification */}
-      <div className={`fixed top-4 left-4 right-4 md:right-auto md:bottom-24 md:top-auto md:left-4 z-[90] transition-all duration-700 transform ${showNotification ? 'translate-y-0 md:translate-x-0 opacity-100' : '-translate-y-full md:-translate-x-full opacity-0'}`}>
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-3 md:p-4 shadow-2xl border border-amber-100 flex items-center gap-3 md:gap-4 max-w-full md:max-w-[320px] mx-auto md:mx-0">
+      <div className={`fixed top-4 left-4 right-4 md:right-auto md:top-24 md:bottom-auto md:left-6 z-[90] transition-all duration-700 transform ${showNotification ? 'translate-y-0 md:translate-x-0 opacity-100' : '-translate-y-full md:-translate-x-full opacity-0'}`}>
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-3 md:p-4 shadow-2xl border border-amber-200 flex items-center gap-3 md:gap-4 max-w-full md:max-w-[340px] mx-auto md:mx-0">
           <div className="w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-amber-500/20 shrink-0 shadow-sm">
             <img 
               src={currentNotification.image} 
